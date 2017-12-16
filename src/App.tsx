@@ -1,6 +1,7 @@
 import * as React from 'react';
 import './App.css';
-import { Navbar, NavbarBrand } from 'reactstrap';
+import { Navbar, NavbarBrand, Container, Row, Col  } from 'reactstrap';
+import MainMapComponent from './Map';
 
 class App extends React.Component {
   render() {
@@ -9,9 +10,13 @@ class App extends React.Component {
           <Navbar color="faded" light expand="md">
               <NavbarBrand href="/">Newton Wins</NavbarBrand>
           </Navbar>
-        <p className="App-intro">
-          To get started, edit <code>src/App.tsx</code> and save to reload.
-        </p>
+              <Row>
+                  <Col xs="12">
+                      <MainMapComponent/>
+                  </Col>
+              </Row>
+          <Container>
+          </Container>
       </div>
     );
   }
