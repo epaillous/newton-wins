@@ -4,12 +4,17 @@
   "private": true,
   "dependencies": {
     "bootstrap": "^4.0.0-beta.2",
+    "moment": "^2.20.1",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-google-maps": "^9.4.3",
+    "react-redux": "^5.0.6",
     "react-scripts-ts": "2.8.0",
     "reactstrap": "^5.0.0-alpha.4",
-    "recompose": "^0.26.0"
+    "redux": "^3.7.2",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.2.0",
+    "wretch": "^1.1.0"
   },
   "scripts": {
     "start": "react-scripts-ts start",
@@ -21,10 +26,13 @@
     "@types/googlemaps": "^3.30.2",
     "@types/jest": "^21.1.8",
     "@types/markerclustererplus": "^2.1.33",
+    "@types/moment": "^2.13.0",
     "@types/node": "^8.5.1",
     "@types/react": "^16.0.31",
     "@types/react-dom": "^16.0.3",
+    "@types/react-redux": "^5.0.14",
     "@types/reactstrap": "^5.0.6",
-    "@types/recompose": "^0.24.4"
+    "@types/redux-logger": "^3.0.5",
+    "redux-devtools": "^3.4.1"
   }
 }

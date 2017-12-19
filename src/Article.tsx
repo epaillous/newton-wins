@@ -3,16 +3,22 @@ import { Row, Col  } from 'reactstrap';
 import { Card, CardText, CardBody,
     CardTitle, CardSubtitle } from 'reactstrap';
 
-class Article extends React.Component {
+interface ArticleProps {
+  title:  string;
+  subtitle: string;
+  text: string;
+}
+
+class Article extends React.Component<ArticleProps> {
     render() {
         return (
                 <Row>
                     <Col xs="12">
                         <Card>
                             <CardBody>
-                                <CardTitle>Card title</CardTitle>
-                                <CardSubtitle>Card subtitle</CardSubtitle>
-                                <CardText>Some quick example text to build on the card title and make up the bulk of the card's content.</CardText>
+                                <CardTitle>{this.props.title}</CardTitle>
+                                <CardSubtitle>{this.props.subtitle}</CardSubtitle>
+                                <CardText>{this.props.text}</CardText>
                             </CardBody>
                         </Card>
                     </Col>
