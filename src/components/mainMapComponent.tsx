@@ -2,11 +2,13 @@ import * as React from 'react';
 import { withScriptjs, withGoogleMap, GoogleMap, Polyline, Marker } from 'react-google-maps';
 import { Trip } from '../models/trip';
 import * as moment from 'moment';
+import { Point } from '../models/point';
 
 const GOOGLE_URL = 'https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyD6U6m8yNBaX1O3tN_USErl1v-i_8pPibU';
 
 interface GoogleMapProps {
   trips: Trip[];
+  onMarkerClick(point: Point): any;
 }
 
 interface TripsProps {
@@ -18,6 +20,7 @@ interface TripsProps {
 interface Props {
   tripsList: TripsProps;
   fetchTrips(): void;
+  selectPoint(point: Point): void;
 }
 
 const GoogleMapComponent = withScriptjs(withGoogleMap((props: GoogleMapProps) =>
@@ -29,7 +32,7 @@ const GoogleMapComponent = withScriptjs(withGoogleMap((props: GoogleMapProps) =>
       {
         props.trips.filter(trip => trip.date.isSameOrBefore(moment())).map((trip) =>
           <div key={trip.id}>
-          <Marker position={trip.arrival.googleMapPoint}/>
+          <Marker position={trip.arrival.googleMapPoint} onClick={() => props.onMarkerClick(trip.arrival)}/>
           <Polyline path={trip.path}/>
           </div>
         )
@@ -64,6 +67,7 @@ class MainMap extends React.Component<Props> {
         containerElement={<div style={{height: `400px`}}/>}
         mapElement={<div style={{height: `100%`}}/>}
         trips={trips}
+        onMarkerClick={(point: Point) => this.props.selectPoint(point)}
       />
     );
   }

@@ -1,11 +1,10 @@
 import { Trip, TripInterface } from '../models/trip';
 import wretch from 'wretch';
+import { ROOT_URL } from './utils';
 
 export const FETCH_TRIPS = 'FETCH_TRIPS';
 export const FETCH_TRIPS_SUCCESS = 'FETCH_TRIPS_SUCCESS';
 export const FETCH_TRIPS_FAILURE = 'FETCH_TRIPS_FAILURE';
-
-const ROOT_URL = 'http://newton-wins-api.herokuapp.com';
 
 function fetchTripsSuccess(trips: Trip[]) {
   return {
@@ -33,7 +32,7 @@ export function fetchTrips() {
     dispatch(requestTrips());
     return wretch(ROOT_URL + '/trips').get()
       .json(json => {
-        let trips = json.map((item: TripInterface) => new Trip(item));
+        let trips = json.trips.map((item: TripInterface) => new Trip(item));
         dispatch(fetchTripsSuccess(trips));
   })
       .catch((error: any) => {
