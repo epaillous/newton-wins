@@ -8,3 +8,5 @@ export function selectPoint(point: Point) {
     payload: point
   };
 }
+
+

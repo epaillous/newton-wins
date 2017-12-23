@@ -1,23 +1,18 @@
 import * as React from 'react';
 import './App.css';
-import { Navbar, NavbarBrand, Container, Row, Col  } from 'reactstrap';
+import { Container } from 'reactstrap';
 import MainMapComponent from './containers/mapContainer';
 import ArticleComponent from './containers/articleContainer';
+import NavBarComponent from './containers/navbarContainer';
 
 class App extends React.Component {
 
   render() {
-      return (
+    return (
       <div>
-          <Navbar color="faded" light={true} expand="md">
-              <NavbarBrand href="/">Le tour du monde de Ludo & Emilie</NavbarBrand>
-          </Navbar>
-              <Row>
-                  <Col xs="12">
-                      <MainMapComponent />
-                  </Col>
-              </Row>
-          <Container className="Container"/>
+        <NavBarComponent/>
+        <MainMapComponent/>
+        <Container className="Container"/>
         <ArticleComponent/>
       </div>
     );

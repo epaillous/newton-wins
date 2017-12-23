@@ -8,17 +8,17 @@ export interface PointInterface {
 }
 
 export class Point {
-    latitude: number;
-    longitude: number;
-    id: number;
-    articles: Article[];
+  latitude: number;
+  longitude: number;
+  id: number;
+  articles: Article[];
 
   constructor(json: PointInterface) {
     this.latitude = +json.latitude;
     this.longitude = +json.longitude;
     this.id = json.id;
-    this.articles = json.articles
-      .map(article => new Article(article));
+    this.articles = json.articles ? json.articles
+      .map(article => new Article(article)) : [];
     this.articles.map(article => article.point = this);
   }
 

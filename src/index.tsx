@@ -3,16 +3,16 @@ import * as ReactDOM from 'react-dom';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import './index.css';
-import 'bootstrap/dist/css/bootstrap.css';
 import { Provider } from 'react-redux';
 import configureStore from './store/configureStore';
+import 'bootstrap/dist/css/bootstrap.css';
 
 const store = configureStore();
 
 ReactDOM.render(
-    <Provider store={store}>
-        <App />
-    </Provider>,
-    document.getElementById('root') as HTMLElement
+  <Provider store={store}>
+    <App/>
+  </Provider>,
+  document.getElementById('root') as HTMLElement
 );
 registerServiceWorker();

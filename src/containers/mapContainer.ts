@@ -6,7 +6,8 @@ import { fetchArticle } from '../actions/articles';
 
 const mapStateToProps = (state: any) => {
   return {
-    tripsList: state.trips.tripsList
+    tripsList: state.trips.tripsList,
+    center: state.map.center
   };
 };
 

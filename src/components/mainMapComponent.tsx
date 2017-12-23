@@ -8,6 +8,8 @@ const GOOGLE_URL = 'https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=ge
 
 interface GoogleMapProps {
   trips: Trip[];
+  center: Point;
+
   onMarkerClick(point: Point): any;
 }
 
@@ -19,7 +21,10 @@ interface TripsProps {
 
 interface Props {
   tripsList: TripsProps;
+  center: Point;
+
   fetchTrips(): void;
+
   selectPoint(point: Point): void;
 }
 
@@ -27,13 +32,13 @@ const GoogleMapComponent = withScriptjs(withGoogleMap((props: GoogleMapProps) =>
   (
     <GoogleMap
       defaultZoom={8}
-      defaultCenter={props.trips.filter(trip => trip.date.isSameOrBefore(moment()))[0].arrival.googleMapPoint}
+      center={props.center.googleMapPoint}
     >
       {
         props.trips.filter(trip => trip.date.isSameOrBefore(moment())).map((trip) =>
           <div key={trip.id}>
-          <Marker position={trip.arrival.googleMapPoint} onClick={() => props.onMarkerClick(trip.arrival)}/>
-          <Polyline path={trip.path}/>
+            <Marker position={trip.arrival.googleMapPoint} onClick={() => props.onMarkerClick(trip.arrival)}/>
+            <Polyline path={trip.path} options={{strokeWeight: 1}}/>
           </div>
         )
       }
@@ -48,8 +53,8 @@ class MainMap extends React.Component<Props> {
   }
 
   render() {
-    const { trips, loading, error } = this.props.tripsList;
-
+    const {trips, loading, error} = this.props.tripsList;
+    console.log(this.props);
     if (loading) {
       return (
         <h1>Chargement</h1>
@@ -68,6 +73,7 @@ class MainMap extends React.Component<Props> {
         mapElement={<div style={{height: `100%`}}/>}
         trips={trips}
         onMarkerClick={(point: Point) => this.props.selectPoint(point)}
+        center={this.props.center}
       />
     );
   }
