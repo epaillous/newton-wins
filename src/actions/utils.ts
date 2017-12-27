@@ -1,1 +1,1 @@
-export const ROOT_URL = 'http://newton-wins-api.herokuapp.com';
+export const ROOT_URL = 'https://newton-wins-api.herokuapp.com';
