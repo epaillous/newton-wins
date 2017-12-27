@@ -4,6 +4,7 @@ import { Container } from 'reactstrap';
 import MainMapComponent from './containers/mapContainer';
 import ArticleComponent from './containers/articleContainer';
 import NavBarComponent from './containers/navbarContainer';
+import HeaderComponent from './containers/headerContainer';
 
 class App extends React.Component {
 
@@ -13,6 +14,7 @@ class App extends React.Component {
         <NavBarComponent/>
         <MainMapComponent/>
         <Container className="Container"/>
+        <HeaderComponent/>
         <ArticleComponent/>
       </div>
     );
