@@ -9,8 +9,11 @@ const GOOGLE_URL = 'https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=ge
 interface GoogleMapProps {
   trips: Trip[];
   center: Point;
+  zoom: number;
 
-  onMarkerClick(point: Point): any;
+  onMarkerClick(point: Point): void;
+
+  onMarkerDblClick(point: Point): void;
 }
 
 interface TripsProps {
@@ -22,22 +25,30 @@ interface TripsProps {
 interface Props {
   tripsList: TripsProps;
   center: Point;
+  zoom: number;
 
   fetchTrips(): void;
 
-  selectPoint(point: Point): void;
+  fetchArticle(point: Point): void;
+
+  zoomOnPoint(point: Point): void;
 }
 
 const GoogleMapComponent = withScriptjs(withGoogleMap((props: GoogleMapProps) =>
   (
     <GoogleMap
-      defaultZoom={8}
+      zoom={props.zoom}
       center={props.center.googleMapPoint}
     >
       {
         props.trips.filter(trip => trip.date.isSameOrBefore(moment())).map((trip) =>
           <div key={trip.id}>
-            <Marker position={trip.arrival.googleMapPoint} onClick={() => props.onMarkerClick(trip.arrival)}/>
+            <Marker
+              position={trip.arrival.googleMapPoint}
+              onClick={() => props.onMarkerClick(trip.arrival)}
+              onDblClick={() => props.onMarkerDblClick(trip.arrival)}
+
+            />
             <Polyline path={trip.path} options={{strokeWeight: 1}}/>
           </div>
         )
@@ -72,8 +83,10 @@ class MainMap extends React.Component<Props> {
         containerElement={<div style={{height: `400px`}}/>}
         mapElement={<div style={{height: `100%`}}/>}
         trips={trips}
-        onMarkerClick={(point: Point) => this.props.selectPoint(point)}
+        onMarkerClick={(point: Point) => this.props.fetchArticle(point)}
+        onMarkerDblClick={(point: Point) => this.props.zoomOnPoint(point)}
         center={this.props.center}
+        zoom={this.props.zoom}
       />
     );
   }
