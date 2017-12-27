@@ -1,5 +1,6 @@
 import { FETCH_MENU, FETCH_MENU_SUCCESS } from '../actions/menu';
 import { MenuItem } from '../models/menuItem';
+import { TOGGLE_NAVBAR } from '../actions/navbar';
 
 interface MenuStateInterface {
   menuItems: MenuItem[];
@@ -9,12 +10,15 @@ interface MenuStateInterface {
 
 interface StateInterface {
   menu: MenuStateInterface;
+  collapsed: boolean;
 }
 
-const INITIAL_STATE = {menu: {menuItems: [], error: null, loading: false}};
+const INITIAL_STATE = {menu: {menuItems: [], error: null, loading: false}, collapsed: true};
 
 export default function tripsReducer(state: StateInterface = INITIAL_STATE, action: any) {
   switch (action.type) {
+    case TOGGLE_NAVBAR:
+      return {...state, collapsed: !state.collapsed};
     case FETCH_MENU:
       return {...state, menu: {menuItems: [], error: null, loading: true}};
     case FETCH_MENU_SUCCESS:

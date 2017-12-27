@@ -1,0 +1,32 @@
+/*ul > li {
+    border-bottom: 4px solid #fff;
+}
+
+li:hover > a.navbar-light .navbar-nav .nav-link {
+    color: #dc3545;
+}*/
+
+li:hover > a.menu-item.nav-link {
+    color: #dc3545;
+}
+
+.navbar-light .navbar-nav .nav-link.menu-item:hover {
+    color: #dc3545;
+}
+
+ul > li {
+    border-bottom: 2px solid #fff;
+    padding-bottom: 4px;
+}
+
+ul > li:hover {
+    border-bottom: 2px solid #dc3545;
+}
+
+nav.main-navbar {
+    padding-bottom: 0px;
+}
+
+nav.main-navbar > .navbar-brand {
+    padding-bottom: 10px;
+}

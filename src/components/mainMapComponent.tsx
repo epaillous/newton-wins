@@ -3,6 +3,7 @@ import { withScriptjs, withGoogleMap, GoogleMap, Polyline, Marker } from 'react-
 import { Trip } from '../models/trip';
 import * as moment from 'moment';
 import { Point } from '../models/point';
+import './mainMapComponent.css';
 
 const GOOGLE_URL = 'https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyD6U6m8yNBaX1O3tN_USErl1v-i_8pPibU';
 
@@ -39,6 +40,100 @@ const GoogleMapComponent = withScriptjs(withGoogleMap((props: GoogleMapProps) =>
     <GoogleMap
       zoom={props.zoom}
       center={props.center.googleMapPoint}
+      defaultOptions={{
+        styles: [
+          {
+            'stylers': [
+              {
+                'hue': '#bbff00'
+              },
+              {
+                'gamma': 0.5
+              },
+              {
+                'weight': 0.5
+              }
+            ]
+          },
+          {
+            'elementType': 'labels',
+            'stylers': [
+              {
+                'visibility': 'off'
+              }
+            ]
+          },
+          {
+            'featureType': 'administrative',
+            'elementType': 'labels',
+            'stylers': [
+              {
+                'visibility': 'on'
+              }
+            ]
+          },
+          {
+            'featureType': 'administrative.locality',
+            'elementType': 'labels.text.stroke',
+            'stylers': [
+              {
+                'color': '#f4f9e8'
+              },
+              {
+                'weight': 2.7
+              }
+            ]
+          },
+          {
+            'featureType': 'administrative.province',
+            'stylers': [
+              {
+                'visibility': 'off'
+              }
+            ]
+          },
+          {
+            'featureType': 'landscape.man_made',
+            'stylers': [
+              {
+                'color': '#718e32'
+              }
+            ]
+          },
+          {
+            'featureType': 'landscape.natural',
+            'stylers': [
+              {
+                'color': '#a4cc48'
+              }
+            ]
+          },
+          {
+            'featureType': 'poi',
+            'stylers': [
+              {
+                'visibility': 'off'
+              }
+            ]
+          },
+          {
+            'featureType': 'road',
+            'stylers': [
+              {
+                'visibility': 'off'
+              }
+            ]
+          },
+          {
+            'featureType': 'water',
+            'stylers': [
+              {
+                'color': '#4aaecc'
+              }
+            ]
+          }
+        ]
+      }}
     >
       {
         props.trips.filter(trip => trip.date.isSameOrBefore(moment())).map((trip) =>
@@ -80,7 +175,7 @@ class MainMap extends React.Component<Props> {
       <GoogleMapComponent
         googleMapURL={GOOGLE_URL}
         loadingElement={<div style={{height: `100%`}}/>}
-        containerElement={<div style={{height: `400px`}}/>}
+        containerElement={<div className="map-container"/>}
         mapElement={<div style={{height: `100%`}}/>}
         trips={trips}
         onMarkerClick={(point: Point) => this.props.fetchArticle(point)}
