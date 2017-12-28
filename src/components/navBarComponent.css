@@ -7,20 +7,20 @@ li:hover > a.navbar-light .navbar-nav .nav-link {
 }*/
 
 li:hover > a.menu-item.nav-link {
-    color: #dc3545;
+    color: var(--secondary);
 }
 
 .navbar-light .navbar-nav .nav-link.menu-item:hover {
-    color: #dc3545;
+    color: var(--secondary);
 }
 
 ul > li {
-    border-bottom: 2px solid #fff;
+    border-bottom: 2px solid var(--light);
     padding-bottom: 4px;
 }
 
 ul > li:hover {
-    border-bottom: 2px solid #dc3545;
+    border-bottom: 2px solid var(--secondary);
 }
 
 nav.main-navbar {
