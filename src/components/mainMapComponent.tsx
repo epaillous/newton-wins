@@ -4,6 +4,7 @@ import { Trip, TypeTrip } from '../models/trip';
 import * as moment from 'moment';
 import { Point } from '../models/point';
 import './mainMapComponent.css';
+import PolylineOptions = google.maps.PolylineOptions;
 
 const GOOGLE_URL = 'https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyD6U6m8yNBaX1O3tN_USErl1v-i_8pPibU';
 
@@ -33,6 +34,19 @@ interface Props {
   fetchArticle(point: Point): void;
 
   zoomOnPoint(point: Point): void;
+}
+
+class PolylineViewModel {
+  path: any[];
+  options: PolylineOptions;
+
+  constructor(trip: Trip) {
+    this.path = [trip.departure.googleMapPoint, trip.arrival.googleMapPoint];
+    this.options = {
+      strokeWeight: trip.mode === TypeTrip.plane ? 2 : 1,
+      geodesic: trip.mode === TypeTrip.plane
+    };
+  }
 }
 
 const GoogleMapComponent = withScriptjs(withGoogleMap((props: GoogleMapProps) =>
@@ -136,17 +150,21 @@ const GoogleMapComponent = withScriptjs(withGoogleMap((props: GoogleMapProps) =>
       }}
     >
       {
-        props.trips.filter(trip => trip.date.isSameOrBefore(moment())).map((trip) =>
-          <div key={trip.id}>
-            <Marker
-              position={trip.arrival.googleMapPoint}
-              onClick={() => props.onMarkerClick(trip.arrival)}
-              onDblClick={() => props.onMarkerDblClick(trip.arrival)}
-
-            />
-            <Polyline path={trip.path} options={{strokeWeight: 1, geodesic: trip.mode === TypeTrip.plane}}/>
-          </div>
-        )
+        props.trips.filter(trip => trip.date.isSameOrBefore(moment()))
+          .map((trip) => {
+              let viewModel = new PolylineViewModel(trip);
+              return (
+                <div key={trip.id}>
+                  <Marker
+                    position={trip.arrival.googleMapPoint}
+                    onClick={() => props.onMarkerClick(trip.arrival)}
+                    onDblClick={() => props.onMarkerDblClick(trip.arrival)}
+                  />
+                  <Polyline path={viewModel.path} options={viewModel.options}/>
+                </div>
+              );
+            }
+          )
       }
     </GoogleMap>
   )

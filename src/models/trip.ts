@@ -36,9 +36,4 @@ export class Trip {
     this.mode = json.transport_mode;
   }
 
-  get path() {
-    return [
-      this.departure.googleMapPoint, this.arrival.googleMapPoint
-    ];
-  }
 }
