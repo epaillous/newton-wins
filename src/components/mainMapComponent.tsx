@@ -5,8 +5,9 @@ import * as moment from 'moment';
 import { Point } from '../models/point';
 import './mainMapComponent.css';
 import PolylineOptions = google.maps.PolylineOptions;
+import { GOOGLE_API_KEY } from '../actions/utils';
 
-const GOOGLE_URL = 'https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyD6U6m8yNBaX1O3tN_USErl1v-i_8pPibU';
+const GOOGLE_URL = 'https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=' + GOOGLE_API_KEY;
 
 interface GoogleMapProps {
   trips: Trip[];
@@ -42,10 +43,29 @@ class PolylineViewModel {
 
   constructor(trip: Trip) {
     this.path = [trip.departure.googleMapPoint, trip.arrival.googleMapPoint];
-    this.options = {
-      strokeWeight: trip.mode === TypeTrip.plane ? 2 : 1,
-      geodesic: trip.mode === TypeTrip.plane
+    let options: PolylineOptions = {};
+    if (trip.mode === TypeTrip.plane) {
+      options.icons = this.computeIcons(trip);
+      options.geodesic = true;
+      options.strokeOpacity = 0;
+      options.strokeWeight = 2;
+    } else {
+      options.strokeWeight = 1;
+    }
+    this.options = options;
+  }
+
+  computeIcons(trip: Trip) {
+    let lineSymbol = {
+      path: 'M 0,-1 0,1',
+      strokeOpacity: 1,
+      scale: 4
     };
+    return [{
+      icon: lineSymbol,
+      offset: '0',
+      repeat: '20px'
+    }];
   }
 }
 
