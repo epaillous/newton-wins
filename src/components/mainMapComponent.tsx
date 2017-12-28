@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { withScriptjs, withGoogleMap, GoogleMap, Polyline, Marker } from 'react-google-maps';
-import { Trip } from '../models/trip';
+import { Trip, TypeTrip } from '../models/trip';
 import * as moment from 'moment';
 import { Point } from '../models/point';
 import './mainMapComponent.css';
@@ -144,7 +144,7 @@ const GoogleMapComponent = withScriptjs(withGoogleMap((props: GoogleMapProps) =>
               onDblClick={() => props.onMarkerDblClick(trip.arrival)}
 
             />
-            <Polyline path={trip.path} options={{strokeWeight: 1}}/>
+            <Polyline path={trip.path} options={{strokeWeight: 1, geodesic: trip.mode === TypeTrip.plane}}/>
           </div>
         )
       }
