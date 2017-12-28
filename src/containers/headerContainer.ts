@@ -4,7 +4,8 @@ import HeaderComponent from '../components/headerComponent';
 const mapStateToProps = (state: any) => {
   return {
     title: state.header.title,
-    subtitle: state.header.subtitle
+    subtitle: state.header.subtitle,
+    flagCode: state.header.flagCode
   };
 };
 
