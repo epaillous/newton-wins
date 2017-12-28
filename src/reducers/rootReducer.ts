@@ -4,6 +4,7 @@ import articles from './articlesReducer';
 import navbar from './navBarReducer';
 import map from './mapReducer';
 import header from './headerReducer';
+import medias from './mediasReducer';
 
 const rootReducer = combineReducers({
   // short hand property names
@@ -11,7 +12,8 @@ const rootReducer = combineReducers({
   articles,
   navbar,
   map,
-  header
+  header,
+  medias
 });
 
 export default rootReducer;

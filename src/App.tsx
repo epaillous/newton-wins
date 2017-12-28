@@ -10,6 +10,7 @@ import MainMapComponent from './containers/mapContainer';
 import ArticleComponent from './containers/articleContainer';
 import NavBarComponent from './containers/navbarContainer';
 import HeaderComponent from './containers/headerContainer';
+import PhotosComponent from './containers/photosContainer';
 
 class App extends React.Component {
 
@@ -21,6 +22,7 @@ class App extends React.Component {
         <Container className="Container"/>
         <HeaderComponent/>
         <ArticleComponent/>
+        <PhotosComponent/>
       </div>
     );
   }

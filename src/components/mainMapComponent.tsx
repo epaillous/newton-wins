@@ -32,7 +32,7 @@ interface Props {
 
   fetchTrips(): void;
 
-  fetchArticle(point: Point): void;
+  fetchArticleAndMedias(point: Point): void;
 
   zoomOnPoint(point: Point): void;
 }
@@ -216,7 +216,7 @@ class MainMap extends React.Component<Props> {
         containerElement={<div className="map-container"/>}
         mapElement={<div style={{height: `100%`}}/>}
         trips={trips}
-        onMarkerClick={(point: Point) => this.props.fetchArticle(point)}
+        onMarkerClick={(point: Point) => this.props.fetchArticleAndMedias(point)}
         onMarkerDblClick={(point: Point) => this.props.zoomOnPoint(point)}
         center={this.props.center}
         zoom={this.props.zoom}

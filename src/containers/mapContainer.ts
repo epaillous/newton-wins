@@ -4,6 +4,7 @@ import MainMap from '../components/mainMapComponent';
 import { Point } from '../models/point';
 import { fetchArticle } from '../actions/articles';
 import { selectPoint, zoomOnPoint } from '../actions/points';
+import { fetchMedias } from '../actions/medias';
 
 const mapStateToProps = (state: any) => {
   return {
@@ -18,11 +19,12 @@ const mapDispatchToProps = (dispatch: any) => {
     fetchTrips: () => {
       dispatch(fetchTrips());
     },
-    fetchArticle: (point: Point) => {
+    fetchArticleAndMedias: (point: Point) => {
       dispatch(selectPoint(point));
       if (point.articles.length > 0) {
         dispatch(fetchArticle(point.articles[0].id));
       }
+      dispatch(fetchMedias(point));
     },
     zoomOnPoint: (point: Point) => {
       dispatch(zoomOnPoint(point));
