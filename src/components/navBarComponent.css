@@ -12,6 +12,22 @@ li:hover > a.menu-item.nav-link {
 
 .navbar-light .navbar-nav .nav-link.menu-item:hover {
     color: var(--secondary);
+    fill: var(--secondary);
+}
+
+.menu-item SVG {
+    width: 26px;
+    height: 26px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.nav-link.menu-item {
+    display: flex;
+}
+
+.nav-link.menu-item > * {
+    margin: auto;
 }
 
 ul > li {

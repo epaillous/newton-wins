@@ -9,6 +9,7 @@
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-google-maps": "^9.4.3",
+    "react-inlinesvg": "^0.7.4",
     "react-redux": "^5.0.6",
     "react-scripts-ts": "2.8.0",
     "reactstrap": "^5.0.0-alpha.4",

@@ -1,8 +1,8 @@
 import * as React from 'react';
 import './navBarComponent.css';
-import { Navbar, NavbarBrand, Nav, NavItem, NavLink, Collapse, NavbarToggler } from 'reactstrap';
+import { Navbar, NavbarBrand, Nav, NavItem, NavLink, NavbarToggler, Collapse } from 'reactstrap';
 import { MenuItem } from '../models/menuItem';
-
+import SVG from 'react-inlinesvg';
 
 interface Props {
   menuItems: MenuItem[];
@@ -36,7 +36,10 @@ class NavBarComponent extends React.Component<Props> {
               this.props.menuItems.map(item => (
                 <NavItem key={item.name}>
                   <NavLink className="menu-item" href="#"
-                           onClick={() => this.props.selectMenuItem(item)}>{item.name}</NavLink>
+                           onClick={() => this.props.selectMenuItem(item)}>
+                    <SVG src={item.pictoUrl}></SVG>
+                    <span>{item.name}</span>
+                  </NavLink>
                 </NavItem>
               ))
             }
