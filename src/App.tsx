@@ -1,4 +1,9 @@
 import * as React from 'react';
+import './fonts/Archive.eot';
+import './fonts/Archive.otf';
+import './fonts/Archive.svg';
+import './fonts/Archive.ttf';
+import './fonts/Archive.woff';
 import './App.css';
 import { Container } from 'reactstrap';
 import MainMapComponent from './containers/mapContainer';

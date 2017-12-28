@@ -1,3 +1,19 @@
 .Container {
-  margin-top: 20px;
+    margin-top: 20px;
+}
+
+@font-face {
+    font-family: "Archive";
+    src: url("./fonts/Archive.eot?") format("eot"),
+    url("./fonts/Archive.woff") format("woff"),
+    url("./fonts/Archive.ttf") format("truetype"),
+    url("./fonts/Archive.svg#Archive") format("svg");
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    font-family: 'Archive' !important;
+    background: var(--light) !important;
+    --secondary: var(--red) !important;
 }
