@@ -75,6 +75,10 @@ const GoogleMapComponent = withScriptjs(withGoogleMap((props: GoogleMapProps) =>
       zoom={props.zoom}
       center={props.center.googleMapPoint}
       defaultOptions={{
+        minZoom: 2,
+        mapTypeControl: false,
+        fullscreenControl: false,
+        streetViewControl: false,
         styles: [
           {
             'stylers': [
