@@ -1,11 +1,3 @@
-/*ul > li {
-    border-bottom: 4px solid #fff;
-}
-
-li:hover > a.navbar-light .navbar-nav .nav-link {
-    color: #dc3545;
-}*/
-
 li:hover > a.menu-item.nav-link {
     color: var(--secondary);
 }
@@ -39,10 +31,18 @@ ul > li:hover {
     border-bottom: 2px solid var(--secondary);
 }
 
-nav.main-navbar {
-    padding-bottom: 0px;
+@media (max-width: 767px) {
+    .main-navbar > .navbar-brand {
+        font-size: 12px;
+    }
 }
 
-nav.main-navbar > .navbar-brand {
-    padding-bottom: 10px;
+@media (min-width: 768px) {
+    nav.main-navbar {
+        padding-bottom: 0;
+    }
+
+    nav.main-navbar > .navbar-brand {
+        padding-bottom: 10px;
+    }
 }
