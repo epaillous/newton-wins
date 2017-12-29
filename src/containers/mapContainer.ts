@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { fetchTrips } from '../actions/trips';
 import MainMap from '../components/mainMapComponent';
 import { Point } from '../models/point';
-import { fetchArticle } from '../actions/articles';
+import { fetchArticle, resetArticle } from '../actions/articles';
 import { selectPoint, zoomOnPoint } from '../actions/points';
 import { fetchMedias } from '../actions/medias';
 
@@ -23,6 +23,8 @@ const mapDispatchToProps = (dispatch: any) => {
       dispatch(selectPoint(point));
       if (point.articles.length > 0) {
         dispatch(fetchArticle(point.articles[0].id));
+      } else {
+        dispatch(resetArticle());
       }
       dispatch(fetchMedias(point));
     },
