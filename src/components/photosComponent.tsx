@@ -11,6 +11,9 @@ interface Props {
 class PhotosComponent extends React.Component<Props> {
 
   render() {
+    if (!this.props.medias || this.props.medias.length === 0) {
+      return null;
+    }
     return (
       <Container>
         <Row>

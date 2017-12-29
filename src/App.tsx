@@ -11,6 +11,7 @@ import ArticleComponent from './containers/articleContainer';
 import NavBarComponent from './containers/navbarContainer';
 import HeaderComponent from './containers/headerContainer';
 import PhotosComponent from './containers/photosContainer';
+import { FooterComponent } from './components/footerComponent';
 
 class App extends React.Component {
 
@@ -23,6 +24,7 @@ class App extends React.Component {
         <HeaderComponent/>
         <ArticleComponent/>
         <PhotosComponent/>
+        <FooterComponent/>
       </div>
     );
   }
