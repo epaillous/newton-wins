@@ -38,6 +38,23 @@ interface Props {
   zoomOnPoint(point: Point): void;
 }
 
+class MarkerViewModel {
+  icon: any;
+
+  constructor(point: Point) {
+    this.icon = {
+      path: 'M 32.50,12.50 C 32.50,14.54 32.01,16.47 31.14,18.17 31.14,18.17 20.00,40.00 20.00,40.00\n' +
+      '20.00,40.00 8.77,17.99 8.72,17.90 7.94,16.27 7.50,14.43 7.50,12.50 7.50,5.60 13.10,0.00 20.00,0.00\n' +
+      '26.90,0.00 32.50,5.60 32.50,12.50 Z M 27.50,12.50 C 27.50,8.36 24.14,5.00 20.00,5.00\n' +
+      '15.86,5.00 12.50,8.36 12.50,12.50 12.50,16.64 15.86,20.00 20.00,20.00 24.14,20.00 27.50,16.64 27.50,12.50 Z',
+      fillColor: point.articles.length > 0 ? '#dc3545' : '#ffc107',
+      fillOpacity: 1,
+      anchor: {x: 20, y: 40},
+      strokeWeight: 2
+    };
+  }
+}
+
 class PolylineViewModel {
   path: any[];
   options: PolylineOptions;
@@ -178,12 +195,14 @@ const GoogleMapComponent = withScriptjs(withGoogleMap((props: GoogleMapProps) =>
         props.trips.filter(trip => trip.date.isSameOrBefore(moment()))
           .map((trip) => {
               let viewModel = new PolylineViewModel(trip);
+              let markerViewModel = new MarkerViewModel(trip.arrival);
               return (
                 <div key={trip.id}>
                   <Marker
                     position={trip.arrival.googleMapPoint}
                     onClick={() => props.onMarkerClick(trip.arrival)}
                     onDblClick={() => props.onMarkerDblClick(trip.arrival)}
+                    icon={markerViewModel.icon}
                   />
                   <Polyline path={viewModel.path} options={viewModel.options}/>
                 </div>
