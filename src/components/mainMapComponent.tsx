@@ -6,6 +6,7 @@ import { Point } from '../models/point';
 import './mainMapComponent.css';
 import PolylineOptions = google.maps.PolylineOptions;
 import { GOOGLE_API_KEY } from '../actions/utils';
+import { LoaderComponent } from './loaderComponent';
 
 const GOOGLE_URL = 'https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=' + GOOGLE_API_KEY;
 
@@ -205,7 +206,7 @@ class MainMap extends React.Component<Props> {
     console.log(this.props);
     if (loading) {
       return (
-        <h1>Chargement</h1>
+        <LoaderComponent/>
       );
     }
     if (error) {
