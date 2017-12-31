@@ -1,8 +1,8 @@
 import * as React from 'react';
 import './navBarComponent.css';
-import { Navbar, NavbarBrand, Nav, NavItem, NavLink, NavbarToggler, Collapse } from 'reactstrap';
+import { Navbar, NavbarBrand, Nav } from 'reactstrap';
 import { MenuItem } from '../models/menuItem';
-import SVG from 'react-inlinesvg';
+import SearchBarComponent from './../containers/searchBarContainer';
 
 interface Props {
   menuItems: MenuItem[];
@@ -29,22 +29,9 @@ class NavBarComponent extends React.Component<Props> {
     return (
       <Navbar color="faded" light={true} expand="md" className="main-navbar">
         <NavbarBrand href="/">Le tour du monde de Ludo & Emilie</NavbarBrand>
-        <NavbarToggler onClick={() => this.toggleNavbar()}/>
-        <Collapse isOpen={!this.props.collapsed} navbar>
-          <Nav className="ml-auto" navbar={true}>
-            {
-              this.props.menuItems.map(item => (
-                <NavItem key={item.name}>
-                  <NavLink className="menu-item" href="#"
-                           onClick={() => this.props.selectMenuItem(item)}>
-                    <SVG src={item.pictoUrl}></SVG>
-                    <span>{item.name}</span>
-                  </NavLink>
-                </NavItem>
-              ))
-            }
-          </Nav>
-        </Collapse>
+        <Nav className="ml-auto" navbar={true}>
+          <SearchBarComponent/>
+        </Nav>
       </Navbar>
     );
   }
