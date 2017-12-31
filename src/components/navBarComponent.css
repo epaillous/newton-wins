@@ -7,6 +7,10 @@ li:hover > a.menu-item.nav-link {
     fill: var(--secondary);
 }
 
+nav.main-navbar > .navbar-brand {
+    font-family: 'Archive';
+}
+
 .menu-item SVG {
     width: 26px;
     height: 26px;

@@ -12,8 +12,15 @@
     font-style: normal;
 }
 
+@font-face {
+    font-family: "Avenir";
+    src: url("./fonts/AvenirLTStd-Book.otf") format("otf");
+    font-weight: normal;
+    font-style: normal;
+}
+
 body {
-    font-family: 'Archive' !important;
+    font-family: 'Avenir' !important;
     background: var(--light) !important;
     --secondary: var(--red) !important;
 }
