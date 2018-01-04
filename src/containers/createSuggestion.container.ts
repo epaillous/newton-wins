@@ -1,11 +1,11 @@
 import { connect } from 'react-redux';
 import { fetchSuggestionTypes } from '../actions/suggestions';
-import { CreateSuggestionComponent } from '../components/createSuggestionComponent';
+import { CreateSuggestionComponent } from '../components/suggestionForm/suggestionFormComponent';
 
 const mapStateToProps = (state: any) => {
   return {
     types: state.suggestions.types,
-    suggestion: state.suggestions.activeSuggestion
+    suggestion: state.suggestions.activeSuggestion,
   };
 };
 
@@ -13,7 +13,7 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     fetchSuggestionTypes: () => {
       dispatch(fetchSuggestionTypes());
-    }
+    },
   };
 };
 

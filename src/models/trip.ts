@@ -10,7 +10,7 @@ export enum TypeTrip {
   hiking = 'hiking',
   boat = 'boat',
   'hitchHiking' = 'hitch_hiking',
-  'motorbike' = 'motorbike'
+  'motorbike' = 'motorbike',
 }
 
 export interface TripInterface {

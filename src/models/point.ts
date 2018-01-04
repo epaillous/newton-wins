@@ -29,6 +29,6 @@ export class Point {
   }
 
   get googleMapPoint() {
-    return {'lat': this.latitude, 'lng': this.longitude};
+    return { lat: this.latitude, lng: this.longitude };
   }
 }

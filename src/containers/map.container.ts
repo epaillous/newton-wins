@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { fetchTrips } from '../actions/trips';
-import MainMap from '../components/mainMapComponent';
+import mainMapComponent from '../components/map/mainMapComponent';
 import { Point } from '../models/point';
 import { fetchArticle, resetArticle } from '../actions/articles';
 import { selectPoint, zoomOnPoint } from '../actions/points';
@@ -15,7 +15,7 @@ const mapStateToProps = (state: any) => {
     center: state.map.center,
     zoom: state.map.zoom,
     place: state.map.place,
-    activeSuggestion: state.suggestions.activeSuggestion
+    activeSuggestion: state.suggestions.activeSuggestion,
   };
 };
 
@@ -41,8 +41,8 @@ const mapDispatchToProps = (dispatch: any) => {
     },
     initSuggestion: (place: PlaceResult) => {
       dispatch(initSuggestion(place));
-    }
+    },
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(MainMap);
+export default connect(mapStateToProps, mapDispatchToProps)(mainMapComponent);

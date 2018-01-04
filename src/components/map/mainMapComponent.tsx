@@ -1,17 +1,20 @@
 import * as React from 'react';
-import { withScriptjs, withGoogleMap, GoogleMap, Polyline, Marker, InfoWindow } from 'react-google-maps';
-import { Trip, TypeTrip } from '../models/trip';
+import {
+  withScriptjs, withGoogleMap, GoogleMap,
+  Polyline, Marker, InfoWindow,
+} from 'react-google-maps';
+import { Trip, TypeTrip } from '../../models/trip';
 import * as moment from 'moment';
-import { Point } from '../models/point';
+import { Point } from '../../models/point';
 import './mainMapComponent.css';
 import PolylineOptions = google.maps.PolylineOptions;
-import { GOOGLE_URL } from '../actions/utils';
-import { LoaderComponent } from './loaderComponent';
+import { GOOGLE_URL } from '../../actions/utils';
+import { LoaderComponent } from '../loader/loaderComponent';
 import LatLng = google.maps.LatLng;
 import PlaceResult = google.maps.places.PlaceResult;
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import CreateSuggestionComponent from './../containers/createSuggestionContainer';
-import { Suggestion } from '../models/suggestion';
+import CreateSuggestionComponent from '../../containers/createSuggestion.container';
+import { Suggestion } from '../../models/suggestion';
 
 interface GoogleMapProps {
   trips: Trip[];
@@ -57,7 +60,7 @@ interface State {
 enum MarkerType {
   WithArticles,
   Suggestion,
-  Normal
+  Normal,
 }
 
 class MarkerViewModel {
@@ -65,18 +68,21 @@ class MarkerViewModel {
 
   constructor(markerType: MarkerType) {
     this.icon = {
+      // tslint:disable-next-line:max-line-length
       path: 'M 32.50,12.50 C 32.50,14.54 32.01,16.47 31.14,18.17 31.14,18.17 20.00,40.00 20.00,40.00\n' +
+      // tslint:disable-next-line:max-line-length
       '20.00,40.00 8.77,17.99 8.72,17.90 7.94,16.27 7.50,14.43 7.50,12.50 7.50,5.60 13.10,0.00 20.00,0.00\n' +
       '26.90,0.00 32.50,5.60 32.50,12.50 Z M 27.50,12.50 C 27.50,8.36 24.14,5.00 20.00,5.00\n' +
+      // tslint:disable-next-line:max-line-length
       '15.86,5.00 12.50,8.36 12.50,12.50 12.50,16.64 15.86,20.00 20.00,20.00 24.14,20.00 27.50,16.64 27.50,12.50 Z',
-      fillColor: this.colorForType(markerType),
+      fillColor: MarkerViewModel.colorForType(markerType),
       fillOpacity: 1,
-      anchor: {x: 20, y: 40},
-      strokeWeight: 2
+      anchor: { x: 20, y: 40 },
+      strokeWeight: 2,
     };
   }
 
-  colorForType(type: MarkerType) {
+  private static colorForType(type: MarkerType) {
     switch (type) {
       case MarkerType.Suggestion:
         return '#f8f9fa';
@@ -95,9 +101,9 @@ class PolylineViewModel {
 
   constructor(trip: Trip) {
     this.path = [trip.departure.googleMapPoint, trip.arrival.googleMapPoint];
-    let options: PolylineOptions = {};
+    const options: PolylineOptions = {};
     if (trip.mode === TypeTrip.plane) {
-      options.icons = this.computeIcons(trip);
+      options.icons = PolylineViewModel.computeIcons(trip);
       options.geodesic = true;
       options.strokeOpacity = 0;
       options.strokeWeight = 2;
@@ -107,16 +113,16 @@ class PolylineViewModel {
     this.options = options;
   }
 
-  computeIcons(trip: Trip) {
-    let lineSymbol = {
+  private static computeIcons(trip: Trip) {
+    const lineSymbol = {
       path: 'M 0,-1 0,1',
       strokeOpacity: 1,
-      scale: 4
+      scale: 4,
     };
     return [{
       icon: lineSymbol,
       offset: '0',
-      repeat: '20px'
+      repeat: '20px',
     }];
   }
 }
@@ -133,105 +139,106 @@ const GoogleMapComponent = withScriptjs(withGoogleMap((props: GoogleMapProps) =>
         streetViewControl: false,
         styles: [
           {
-            'stylers': [
+            stylers: [
               {
-                'hue': '#bbff00'
+                hue: '#bbff00',
               },
               {
-                'gamma': 0.5
+                gamma: 0.5,
               },
               {
-                'weight': 0.5
-              }
-            ]
+                weight: 0.5,
+              },
+            ],
           },
           {
-            'elementType': 'labels',
-            'stylers': [
+            elementType: 'labels',
+            stylers: [
               {
-                'visibility': 'off'
-              }
-            ]
+                visibility: 'off',
+              },
+            ],
           },
           {
-            'featureType': 'administrative',
-            'elementType': 'labels',
-            'stylers': [
+            featureType: 'administrative',
+            elementType: 'labels',
+            stylers: [
               {
-                'visibility': 'on'
-              }
-            ]
+                visibility: 'on',
+              },
+            ],
           },
           {
-            'featureType': 'administrative.locality',
-            'elementType': 'labels.text.stroke',
-            'stylers': [
+            featureType: 'administrative.locality',
+            elementType: 'labels.text.stroke',
+            stylers: [
               {
-                'color': '#f4f9e8'
+                color: '#f4f9e8',
               },
               {
-                'weight': 2.7
-              }
-            ]
+                weight: 2.7,
+              },
+            ],
           },
           {
-            'featureType': 'administrative.province',
-            'stylers': [
+            featureType: 'administrative.province',
+            stylers: [
               {
-                'visibility': 'off'
-              }
-            ]
+                visibility: 'off',
+              },
+            ],
           },
           {
-            'featureType': 'landscape.man_made',
-            'stylers': [
+            featureType: 'landscape.man_made',
+            stylers: [
               {
-                'color': '#718e32'
-              }
-            ]
+                color: '#718e32',
+              },
+            ],
           },
           {
-            'featureType': 'landscape.natural',
-            'stylers': [
+            featureType: 'landscape.natural',
+            stylers: [
               {
-                'color': '#a4cc48'
-              }
-            ]
+                color: '#a4cc48',
+              },
+            ],
           },
           {
-            'featureType': 'poi',
-            'stylers': [
+            featureType: 'poi',
+            stylers: [
               {
-                'visibility': 'off'
-              }
-            ]
+                visibility: 'off',
+              },
+            ],
           },
           {
-            'featureType': 'road',
-            'stylers': [
+            featureType: 'road',
+            stylers: [
               {
-                'visibility': 'off'
-              }
-            ]
+                visibility: 'off',
+              },
+            ],
           },
           {
-            'featureType': 'water',
-            'stylers': [
+            featureType: 'water',
+            stylers: [
               {
-                'color': '#4aaecc'
-              }
-            ]
-          }
-        ]
+                color: '#4aaecc',
+              },
+            ],
+          },
+        ],
       }}
     >
       {
         props.trips.filter(trip => trip.date.isSameOrBefore(moment()))
           .map((trip) => {
-              let viewModel = new PolylineViewModel(trip);
-              let markerViewModel =
-                new MarkerViewModel(trip.arrival.articles.length > 0 ? MarkerType.WithArticles : MarkerType.Normal);
-              return (
+            const viewModel = new PolylineViewModel(trip);
+            const markerViewModel =
+                new MarkerViewModel(trip.arrival.articles.length > 0 ?
+                  MarkerType.WithArticles : MarkerType.Normal);
+            return (
                 <div key={trip.id}>
                   <Marker
                     position={trip.arrival.googleMapPoint}
@@ -241,8 +248,8 @@ const GoogleMapComponent = withScriptjs(withGoogleMap((props: GoogleMapProps) =>
                   />
                   <Polyline path={viewModel.path} options={viewModel.options}/>
                 </div>
-              );
-            }
+            );
+          },
           )
       }
       {props.place &&
@@ -255,13 +262,17 @@ const GoogleMapComponent = withScriptjs(withGoogleMap((props: GoogleMapProps) =>
           <div className="info-window">
             <h6>{props.place.name}</h6>
             <p>{props.place.formatted_address}</p>
-            <Button color="danger" onClick={() => props.onSuggestionPlaceClick(props.place)}>Suggérer ce lieu !</Button>
+            <Button
+              color="danger"
+              onClick={() => props.onSuggestionPlaceClick(props.place)}>
+              Suggérer ce lieu !
+            </Button>
           </div>
         </InfoWindow>
       </Marker>
       }
     </GoogleMap>
-  )
+  ),
 ));
 
 class MainMap extends React.Component<Props, State> {
@@ -269,7 +280,7 @@ class MainMap extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      modalOpened: false
+      modalOpened: false,
     };
 
     this.toggle = this.toggle.bind(this);
@@ -280,7 +291,7 @@ class MainMap extends React.Component<Props, State> {
   }
 
   render() {
-    const {trips, loading, error} = this.props.tripsList;
+    const { trips, loading, error } = this.props.tripsList;
     if (loading) {
       return (
         <LoaderComponent/>
@@ -295,9 +306,9 @@ class MainMap extends React.Component<Props, State> {
       <div>
         <GoogleMapComponent
           googleMapURL={GOOGLE_URL}
-          loadingElement={<div style={{height: `100%`}}/>}
+          loadingElement={<div style={{ height: `100%` }}/>}
           containerElement={<div className="map-container"/>}
-          mapElement={<div style={{height: `100%`}}/>}
+          mapElement={<div style={{ height: `100%` }}/>}
           trips={trips}
           onMarkerClick={(point: Point) => this.props.fetchArticleAndMedias(point)}
           onMarkerDblClick={(point: Point) => this.props.zoomOnPoint(point)}
@@ -338,7 +349,7 @@ class MainMap extends React.Component<Props, State> {
 
   private toggle() {
     this.setState({
-      modalOpened: !this.state.modalOpened
+      modalOpened: !this.state.modalOpened,
     });
   }
 }

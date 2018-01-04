@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import NavBarComponent from '../components/navBarComponent';
+import NavBarComponent from '../components/navBar/navBarComponent';
 import { fetchMenu, selectMenuItem } from '../actions/menu';
 import { MenuItem } from '../models/menuItem';
 import { toggleNavbar } from '../actions/navbar';
@@ -7,7 +7,7 @@ import { toggleNavbar } from '../actions/navbar';
 const mapStateToProps = (state: any) => {
   return {
     menuItems: state.navbar.menu.menuItems,
-    collapsed: state.navbar.collapsed
+    collapsed: state.navbar.collapsed,
   };
 };
 
@@ -21,7 +21,7 @@ const mapDispatchToProps = (dispatch: any) => {
     },
     toggleNavbar: () => {
       dispatch(toggleNavbar());
-    }
+    },
   };
 };
 

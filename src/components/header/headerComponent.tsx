@@ -1,11 +1,5 @@
 import * as React from 'react';
-import { Row, Col } from 'reactstrap';
-import {
-  Card, CardBody,
-  CardTitle
-} from 'reactstrap';
-import Container from 'reactstrap/lib/Container';
-import CardSubtitle from 'reactstrap/lib/CardSubtitle';
+import { Row, Col, Card, CardBody, CardTitle, Container, CardSubtitle } from 'reactstrap';
 import 'flag-icon-css/css/flag-icon.css';
 import './headerComponent.css';
 

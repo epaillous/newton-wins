@@ -11,16 +11,16 @@ interface StateInterface {
   tripsList: TripsStateInterface;
 }
 
-const INITIAL_STATE = {tripsList: {trips: [], error: null, loading: false}};
+const INITIAL_STATE = { tripsList: { trips: [], error: null, loading: false } };
 
-export default function tripsReducer(state: StateInterface = INITIAL_STATE, action: any) {
+export default function trips(state: StateInterface = INITIAL_STATE, action: any) {
   switch (action.type) {
     case FETCH_TRIPS:
-      return {...state, tripsList: {trips: [], error: null, loading: true}};
+      return { ...state, tripsList: { trips: [], error: null, loading: true } };
     case FETCH_TRIPS_SUCCESS:
-      let trips = action.payload;
+      const trips = action.payload;
       return {
-        ...state, tripsList: {trips: trips, error: null, loading: false}
+        ...state, tripsList: { trips, error: null, loading: false },
       };
     default:
       return state;

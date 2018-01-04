@@ -5,14 +5,14 @@ interface StateInterface {
   alertMessage: string | null;
 }
 
-const INITIAL_STATE = {alertMessage: null};
+const INITIAL_STATE = { alertMessage: null };
 
-export default function appReducer(state: StateInterface = INITIAL_STATE, action: any) {
+export default function app(state: StateInterface = INITIAL_STATE, action: any) {
   switch (action.type) {
     case CREATE_SUGGESTION_SUCCESS:
-      return {...state, alertMessage: 'Merci pour votre suggestion !'};
+      return { ...state, alertMessage: 'Merci pour votre suggestion !' };
     case RESET_MAIN_ALERT:
-      return {...state, alertMessage: null};
+      return { ...state, alertMessage: null };
     default:
       return state;
   }

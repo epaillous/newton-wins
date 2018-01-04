@@ -1,8 +1,7 @@
 import * as React from 'react';
-import { Card, CardImg } from 'reactstrap';
+import { Card, CardImg, Col, Container, Row } from 'reactstrap';
 import './photosComponent.css';
-import { Media } from '../models/media';
-import { Col, Container, Row } from 'reactstrap';
+import { Media } from '../../models/media';
 
 interface Props {
   medias: Media[];

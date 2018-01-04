@@ -4,7 +4,7 @@ import { resetMainAlert } from '../actions/alerts';
 
 const mapStateToProps = (state: any) => {
   return {
-    alertMessage: state.app.alertMessage
+    alertMessage: state.app.alertMessage,
   };
 };
 

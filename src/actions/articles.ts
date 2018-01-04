@@ -9,37 +9,37 @@ export const RESET_ARTICLE = 'RESET_ARTICLE';
 
 export function resetArticle() {
   return {
-    type: RESET_ARTICLE
+    type: RESET_ARTICLE,
   };
 }
 
 function fetchArticleSuccess(article: Article) {
   return {
     type: FETCH_ARTICLE_SUCCESS,
-    payload: article
+    payload: article,
   };
 }
 
 function fetchArticleFailure(error: any) {
   return {
     type: FETCH_ARTICLE_FAILURE,
-    payload: error
+    payload: error,
   };
 }
 
-function requestArticle(id: number) {
+function requestArticle() {
   return {
     type: FETCH_ARTICLE,
-    payload: {}
+    payload: {},
   };
 }
 
 export function fetchArticle(id: number) {
   return (dispatch: any) => {
-    dispatch(requestArticle(id));
+    dispatch(requestArticle());
     return wretch(ROOT_URL + '/articles/' + id).get()
-      .json(json => {
-        let article = new Article(json.article as ArticleInterface);
+      .json((json: any) => {
+        const article = new Article(json.article as ArticleInterface);
         dispatch(fetchArticleSuccess(article));
       })
       .catch((error: any) => {

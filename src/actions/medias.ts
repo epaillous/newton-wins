@@ -10,21 +10,21 @@ export const FETCH_MEDIAS_FAILURE = 'FETCH_MEDIAS_FAILURE';
 function fetchMediasSuccess(medias: Media[]) {
   return {
     type: FETCH_MEDIAS_SUCCESS,
-    payload: medias
+    payload: medias,
   };
 }
 
 function fetchMediasFailure(error: any) {
   return {
     type: FETCH_MEDIAS_FAILURE,
-    payload: error
+    payload: error,
   };
 }
 
 function requestMedias(point: Point) {
   return {
     type: FETCH_MEDIAS,
-    payload: {}
+    payload: {},
   };
 }
 
@@ -32,8 +32,8 @@ export function fetchMedias(point: Point) {
   return (dispatch: any) => {
     dispatch(requestMedias(point));
     return wretch(ROOT_URL + '/points/' + point.id + '/media').get()
-      .json(json => {
-        let medias = json.media.map((media: MediaInterface) => new Media(media));
+      .json((json: any) => {
+        const medias = json.media.map((media: MediaInterface) => new Media(media));
         dispatch(fetchMediasSuccess(medias));
       })
       .catch((error: any) => {

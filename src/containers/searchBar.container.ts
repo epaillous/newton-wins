@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import SearchBarComponent from '../components/searchBarComponent';
+import SearchBarComponent from '../components/searchBar/searchBarComponent';
 import PlaceResult = google.maps.places.PlaceResult;
 import { selectPlace } from '../actions/search';
 
@@ -11,7 +11,7 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     handlePlaceSelected: (place: PlaceResult) => {
       dispatch(selectPlace(place));
-    }
+    },
   };
 };
 

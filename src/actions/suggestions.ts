@@ -16,54 +16,54 @@ export const INIT_SUGGESTION = 'INIT_SUGGESTION';
 export function initSuggestion(place: PlaceResult) {
   return {
     type: INIT_SUGGESTION,
-    payload: place
+    payload: place,
   };
 }
 
 function createSuggestionSuccess() {
   return {
-    type: CREATE_SUGGESTION_SUCCESS
+    type: CREATE_SUGGESTION_SUCCESS,
   };
 }
 
 function resetActiveSuggestion() {
   return {
-    type: RESET_ACTIVE_SUGGESTION
+    type: RESET_ACTIVE_SUGGESTION,
   };
 }
 
 function createSuggestionFailure(error: any) {
   return {
     type: CREATE_SUGGESTION_FAILURE,
-    payload: error
+    payload: error,
   };
 }
 
 function fetchSuggestionTypesSuccess(suggestionsTypes: SuggestionType[]) {
   return {
     type: FETCH_SUGGESTION_TYPES_SUCCESS,
-    payload: suggestionsTypes
+    payload: suggestionsTypes,
   };
 }
 
 function fetchSuggestionTypesFailure(error: any) {
   return {
     type: FETCH_SUGGESTION_TYPES_FAILURE,
-    payload: error
+    payload: error,
   };
 }
 
 function requestSuggestionTypes() {
   return {
     type: FETCH_SUGGESTION_TYPES,
-    payload: {}
+    payload: {},
   };
 }
 
 function tryToCreateSuggestion() {
   return {
     type: CREATE_SUGGESTION,
-    payload: {}
+    payload: {},
   };
 }
 
@@ -71,8 +71,9 @@ export function fetchSuggestionTypes() {
   return (dispatch: any) => {
     dispatch(requestSuggestionTypes());
     return wretch(ROOT_URL + '/suggestion_types').get()
-      .json(json => {
-        let types = json.suggestion_types.map((item: SuggestionTypeInterface) => new SuggestionType(item));
+      .json((json: any) => {
+        const types = json.suggestion_types
+          .map((item: SuggestionTypeInterface) => new SuggestionType(item));
         dispatch(fetchSuggestionTypesSuccess(types));
       })
       .catch((error: any) => {
@@ -91,13 +92,13 @@ export function createSuggestion(suggestion: Suggestion) {
         comment: suggestion.comment,
         point_attributes: {
           latitude: suggestion.place.geometry.location.lat(),
-          longitude: suggestion.place.geometry.location.lng()
+          longitude: suggestion.place.geometry.location.lng(),
         },
-        suggestion_type_id: suggestion.suggestionType ? suggestion.suggestionType.id : ''
-      }
+        suggestion_type_id: suggestion.suggestionType ? suggestion.suggestionType.id : '',
+      },
     })
       .post()
-      .json(json => {
+      .json((json: any) => {
         dispatch(createSuggestionSuccess());
         dispatch(resetActiveSuggestion());
       })

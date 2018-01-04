@@ -1,8 +1,8 @@
 import * as React from 'react';
 import './navBarComponent.css';
 import { Navbar, NavbarBrand, Nav } from 'reactstrap';
-import { MenuItem } from '../models/menuItem';
-import SearchBarComponent from './../containers/searchBarContainer';
+import { MenuItem } from '../../models/menuItem';
+import SearchBarComponent from '../../containers/searchBar.container';
 
 interface Props {
   menuItems: MenuItem[];
@@ -28,7 +28,7 @@ class NavBarComponent extends React.Component<Props> {
   render() {
     return (
       <Navbar color="faded" light={true} expand="md" className="main-navbar">
-        <NavbarBrand href="/">Le tour du monde de Ludo & Emilie</NavbarBrand>
+        <NavbarBrand href="/">Le tour du monde de Ludo et Emilie</NavbarBrand>
         <Nav className="ml-auto" navbar={true}>
           <SearchBarComponent/>
         </Nav>

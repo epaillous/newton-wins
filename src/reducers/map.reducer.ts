@@ -16,23 +16,25 @@ interface StateInterface {
 const INITIAL_STATE = {
   center: null,
   zoom: 8,
-  place: null
+  place: null,
 };
 
-export default function mapReducer(state: StateInterface = INITIAL_STATE, action: any) {
+export default function map(state: StateInterface = INITIAL_STATE, action: any) {
   switch (action.type) {
     case FETCH_TRIPS_SUCCESS:
-      let center = action.payload.filter((trip: Trip) => trip.date.isSameOrBefore(moment()))[0].arrival;
-      return {...state, center: center.googleMapPoint, zoom: 8};
+      const center = action.payload
+        .filter((trip: Trip) => trip.date.isSameOrBefore(moment()))[0].arrival;
+      return { ...state, center: center.googleMapPoint, zoom: 8 };
     case SELECT_MENU_ITEM:
-      return {...state, center: action.payload.point.googleMapPoint, zoom: 3};
+      return { ...state, center: action.payload.point.googleMapPoint, zoom: 3 };
     case ZOOM_ON_POINT:
-      return {...state, center: action.payload.googleMapPoint, zoom: 8};
+      return { ...state, center: action.payload.googleMapPoint, zoom: 8 };
     case SELECT_PLACE:
-      let place: PlaceResult = action.payload;
+      const place: PlaceResult = action.payload;
       return {
-        ...state, center: place.geometry.location.toJSON(), zoom: 17, place: place
-      };
+        ...state, place, center: place.geometry.location.toJSON(), zoom: 17,
+      }
+        ;
     default:
       return state;
   }

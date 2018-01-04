@@ -7,14 +7,14 @@ interface MediasStateInterface {
   error: any;
 }
 
-const INITIAL_STATE = {mediasList: [], error: null, loading: false};
+const INITIAL_STATE = { mediasList: [], error: null, loading: false };
 
-export default function mediasReducer(state: MediasStateInterface = INITIAL_STATE, action: any) {
+export default function medias(state: MediasStateInterface = INITIAL_STATE, action: any) {
   switch (action.type) {
     case FETCH_MEDIAS:
-      return {...state, mediasList: [], loading: true, error: null};
+      return { ...state, mediasList: [], loading: true, error: null };
     case FETCH_MEDIAS_SUCCESS:
-      return {...state, mediasList: action.payload, loading: false, error: null};
+      return { ...state, mediasList: action.payload, loading: false, error: null };
     default:
       return state;
   }

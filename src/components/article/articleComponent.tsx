@@ -1,9 +1,8 @@
-import { Article } from '../models/article';
+import { Article } from '../../models/article';
 import * as React from 'react';
-import { Row, Col } from 'reactstrap';
 import {
-  Card, CardText, CardBody,
-  CardTitle, CardSubtitle
+  Row, Col, Card, CardText, CardBody,
+  CardTitle, CardSubtitle,
 } from 'reactstrap';
 import Container from 'reactstrap/lib/Container';
 

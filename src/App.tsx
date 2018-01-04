@@ -5,14 +5,14 @@ import './fonts/Archive.svg';
 import './fonts/Archive.ttf';
 import './fonts/Archive.woff';
 import './App.css';
-import { Container } from 'reactstrap';
-import MainMapComponent from './containers/mapContainer';
-import ArticleComponent from './containers/articleContainer';
-import NavBarComponent from './containers/navbarContainer';
-import HeaderComponent from './containers/headerContainer';
-import PhotosComponent from './containers/photosContainer';
-import { FooterComponent } from './components/footerComponent';
-import { Alert } from 'reactstrap';
+import { Container, Alert } from 'reactstrap';
+import MainMapComponent from './containers/map.container';
+import ArticleComponent from './containers/article.container';
+import NavBarComponent from './containers/navbar.container';
+import HeaderComponent from './containers/header.container';
+import PhotosComponent from './containers/photos.container';
+import { FooterComponent } from './components/footer/footerComponent';
+
 
 interface Props {
   alertMessage: string;
@@ -25,7 +25,10 @@ class App extends React.Component<Props> {
     return (
       <div>
         <NavBarComponent/>
-        <Alert color="success" isOpen={!!this.props.alertMessage} toggle={() => this.onAlertDismiss()}>
+        <Alert
+          color="success"
+          isOpen={!!this.props.alertMessage}
+          toggle={() => this.onAlertDismiss()}>
           {this.props.alertMessage}
         </Alert>
         <MainMapComponent/>

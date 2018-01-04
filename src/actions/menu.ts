@@ -10,28 +10,28 @@ export const SELECT_MENU_ITEM = 'SELECT_MENU_ITEM';
 function fetchMenuSuccess(menuItems: MenuItem[]) {
   return {
     type: FETCH_MENU_SUCCESS,
-    payload: menuItems
+    payload: menuItems,
   };
 }
 
 function fetchMenuFailure(error: any) {
   return {
     type: FETCH_MENU_FAILURE,
-    payload: error
+    payload: error,
   };
 }
 
 function requestMenu() {
   return {
     type: FETCH_MENU,
-    payload: {}
+    payload: {},
   };
 }
 
 export function selectMenuItem(menuItem: MenuItem) {
   return {
     type: SELECT_MENU_ITEM,
-    payload: menuItem
+    payload: menuItem,
   };
 }
 
@@ -39,8 +39,8 @@ export function fetchMenu() {
   return (dispatch: any) => {
     dispatch(requestMenu);
     return wretch(ROOT_URL + '/menu').get()
-      .json(json => {
-        let menuItems = json.menu.map((item: MenuItemInterface) => new MenuItem(item));
+      .json((json: any) => {
+        const menuItems = json.menu.map((item: MenuItemInterface) => new MenuItem(item));
         console.log(menuItems);
         dispatch(fetchMenuSuccess(menuItems));
       })
