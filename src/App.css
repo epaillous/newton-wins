@@ -23,4 +23,9 @@ body {
     font-family: 'Avenir' !important;
     background: var(--light) !important;
     --secondary: var(--red) !important;
+    --divider: #e9ecef;
+}
+
+.alert {
+    margin: 10px 20px 10px 20px;
 }

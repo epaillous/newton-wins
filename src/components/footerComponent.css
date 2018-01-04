@@ -22,7 +22,7 @@ footer.main-footer {
 }
 
 .heart {
-    fill: red;
+    fill: var(--secondary);
     position: relative;
     top: 5px;
     width: 20px;

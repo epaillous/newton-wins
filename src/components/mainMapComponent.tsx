@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { withScriptjs, withGoogleMap, GoogleMap, Polyline, Marker } from 'react-google-maps';
+import { withScriptjs, withGoogleMap, GoogleMap, Polyline, Marker, InfoWindow } from 'react-google-maps';
 import { Trip, TypeTrip } from '../models/trip';
 import * as moment from 'moment';
 import { Point } from '../models/point';
@@ -8,15 +8,22 @@ import PolylineOptions = google.maps.PolylineOptions;
 import { GOOGLE_URL } from '../actions/utils';
 import { LoaderComponent } from './loaderComponent';
 import LatLng = google.maps.LatLng;
+import PlaceResult = google.maps.places.PlaceResult;
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import CreateSuggestionComponent from './../containers/createSuggestionContainer';
+import { Suggestion } from '../models/suggestion';
 
 interface GoogleMapProps {
   trips: Trip[];
   center: LatLng;
   zoom: number;
+  place: PlaceResult;
 
   onMarkerClick(point: Point): void;
 
   onMarkerDblClick(point: Point): void;
+
+  onSuggestionPlaceClick(place: PlaceResult): void;
 }
 
 interface TripsProps {
@@ -29,28 +36,56 @@ interface Props {
   tripsList: TripsProps;
   center: LatLng;
   zoom: number;
+  place: PlaceResult;
+  activeSuggestion: Suggestion;
 
   fetchTrips(): void;
 
   fetchArticleAndMedias(point: Point): void;
 
   zoomOnPoint(point: Point): void;
+
+  createSuggestion(suggestion: Suggestion): void;
+
+  initSuggestion(place: PlaceResult): void;
+}
+
+interface State {
+  modalOpened: boolean;
+}
+
+enum MarkerType {
+  WithArticles,
+  Suggestion,
+  Normal
 }
 
 class MarkerViewModel {
   icon: any;
 
-  constructor(point: Point) {
+  constructor(markerType: MarkerType) {
     this.icon = {
       path: 'M 32.50,12.50 C 32.50,14.54 32.01,16.47 31.14,18.17 31.14,18.17 20.00,40.00 20.00,40.00\n' +
       '20.00,40.00 8.77,17.99 8.72,17.90 7.94,16.27 7.50,14.43 7.50,12.50 7.50,5.60 13.10,0.00 20.00,0.00\n' +
       '26.90,0.00 32.50,5.60 32.50,12.50 Z M 27.50,12.50 C 27.50,8.36 24.14,5.00 20.00,5.00\n' +
       '15.86,5.00 12.50,8.36 12.50,12.50 12.50,16.64 15.86,20.00 20.00,20.00 24.14,20.00 27.50,16.64 27.50,12.50 Z',
-      fillColor: point.articles.length > 0 ? '#dc3545' : '#ffc107',
+      fillColor: this.colorForType(markerType),
       fillOpacity: 1,
       anchor: {x: 20, y: 40},
       strokeWeight: 2
     };
+  }
+
+  colorForType(type: MarkerType) {
+    switch (type) {
+      case MarkerType.Suggestion:
+        return '#f8f9fa';
+      case MarkerType.WithArticles:
+        return '#dc3545';
+      case MarkerType.Normal:
+      default:
+        return '#ffc107';
+    }
   }
 }
 
@@ -194,7 +229,8 @@ const GoogleMapComponent = withScriptjs(withGoogleMap((props: GoogleMapProps) =>
         props.trips.filter(trip => trip.date.isSameOrBefore(moment()))
           .map((trip) => {
               let viewModel = new PolylineViewModel(trip);
-              let markerViewModel = new MarkerViewModel(trip.arrival);
+              let markerViewModel =
+                new MarkerViewModel(trip.arrival.articles.length > 0 ? MarkerType.WithArticles : MarkerType.Normal);
               return (
                 <div key={trip.id}>
                   <Marker
@@ -209,11 +245,35 @@ const GoogleMapComponent = withScriptjs(withGoogleMap((props: GoogleMapProps) =>
             }
           )
       }
+      {props.place &&
+      <Marker
+        position={props.place.geometry.location}
+        icon={new MarkerViewModel(MarkerType.Suggestion).icon}
+        title={props.place.name}
+      >
+        <InfoWindow>
+          <div className="info-window">
+            <h6>{props.place.name}</h6>
+            <p>{props.place.formatted_address}</p>
+            <Button color="danger" onClick={() => props.onSuggestionPlaceClick(props.place)}>Suggérer ce lieu !</Button>
+          </div>
+        </InfoWindow>
+      </Marker>
+      }
     </GoogleMap>
   )
 ));
 
-class MainMap extends React.Component<Props> {
+class MainMap extends React.Component<Props, State> {
+
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      modalOpened: false
+    };
+
+    this.toggle = this.toggle.bind(this);
+  }
 
   componentWillMount() {
     this.props.fetchTrips();
@@ -221,7 +281,6 @@ class MainMap extends React.Component<Props> {
 
   render() {
     const {trips, loading, error} = this.props.tripsList;
-    console.log(this.props);
     if (loading) {
       return (
         <LoaderComponent/>
@@ -233,18 +292,54 @@ class MainMap extends React.Component<Props> {
       );
     }
     return (
-      <GoogleMapComponent
-        googleMapURL={GOOGLE_URL}
-        loadingElement={<div style={{height: `100%`}}/>}
-        containerElement={<div className="map-container"/>}
-        mapElement={<div style={{height: `100%`}}/>}
-        trips={trips}
-        onMarkerClick={(point: Point) => this.props.fetchArticleAndMedias(point)}
-        onMarkerDblClick={(point: Point) => this.props.zoomOnPoint(point)}
-        center={this.props.center}
-        zoom={this.props.zoom}
-      />
+      <div>
+        <GoogleMapComponent
+          googleMapURL={GOOGLE_URL}
+          loadingElement={<div style={{height: `100%`}}/>}
+          containerElement={<div className="map-container"/>}
+          mapElement={<div style={{height: `100%`}}/>}
+          trips={trips}
+          onMarkerClick={(point: Point) => this.props.fetchArticleAndMedias(point)}
+          onMarkerDblClick={(point: Point) => this.props.zoomOnPoint(point)}
+          center={this.props.center}
+          zoom={this.props.zoom}
+          place={this.props.place}
+          onSuggestionPlaceClick={() => this.initSuggestionAndToggle()}
+        />
+        <Modal isOpen={this.state.modalOpened} toggle={this.toggle}>
+          <ModalHeader toggle={this.toggle}>Suggérez ce lieu</ModalHeader>
+          <ModalBody>
+            {this.state.modalOpened &&
+            <CreateSuggestionComponent/>
+            }
+          </ModalBody>
+          <ModalFooter>
+            <Button
+              color="primary"
+              onClick={() => this.createSuggestionAndCloseModal()}
+              type="submit">Suggérer
+            </Button>{' '}
+            <Button color="secondary" onClick={this.toggle}>Annuler</Button>
+          </ModalFooter>
+        </Modal>
+      </div>
     );
+  }
+
+  private initSuggestionAndToggle() {
+    this.props.initSuggestion(this.props.place);
+    this.toggle();
+  }
+
+  private createSuggestionAndCloseModal() {
+    this.props.createSuggestion(this.props.activeSuggestion);
+    this.toggle();
+  }
+
+  private toggle() {
+    this.setState({
+      modalOpened: !this.state.modalOpened
+    });
   }
 }
 

@@ -5,6 +5,8 @@ import navbar from './navBarReducer';
 import map from './mapReducer';
 import header from './headerReducer';
 import medias from './mediasReducer';
+import suggestions from './suggestionsReducer';
+import app from './appReducer';
 
 const rootReducer = combineReducers({
   // short hand property names
@@ -13,7 +15,9 @@ const rootReducer = combineReducers({
   navbar,
   map,
   header,
-  medias
+  medias,
+  suggestions,
+  app
 });
 
 export default rootReducer;

@@ -12,13 +12,22 @@ import NavBarComponent from './containers/navbarContainer';
 import HeaderComponent from './containers/headerContainer';
 import PhotosComponent from './containers/photosContainer';
 import { FooterComponent } from './components/footerComponent';
+import { Alert } from 'reactstrap';
 
-class App extends React.Component {
+interface Props {
+  alertMessage: string;
+  resetAlert: () => void;
+}
+
+class App extends React.Component<Props> {
 
   render() {
     return (
       <div>
         <NavBarComponent/>
+        <Alert color="success" isOpen={!!this.props.alertMessage} toggle={() => this.onAlertDismiss()}>
+          {this.props.alertMessage}
+        </Alert>
         <MainMapComponent/>
         <Container className="Container"/>
         <HeaderComponent/>
@@ -27,6 +36,10 @@ class App extends React.Component {
         <FooterComponent/>
       </div>
     );
+  }
+
+  private onAlertDismiss() {
+    this.props.resetAlert();
   }
 }
 
