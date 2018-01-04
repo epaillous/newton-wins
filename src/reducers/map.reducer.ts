@@ -1,9 +1,9 @@
-import { FETCH_TRIPS_SUCCESS } from '../actions/trips';
+import { FETCH_TRIPS_SUCCESS } from '../actions/trips.actions';
 import { Trip } from '../models/trip';
 import * as moment from 'moment';
-import { SELECT_MENU_ITEM } from '../actions/menu';
-import { ZOOM_ON_POINT } from '../actions/points';
-import { SELECT_PLACE } from '../actions/search';
+import { SELECT_MENU_ITEM } from '../actions/menu.actions';
+import { ZOOM_ON_POINT } from '../actions/points.actions';
+import { SELECT_PLACE } from '../actions/search.actions';
 import PlaceResult = google.maps.places.PlaceResult;
 import LatLng = google.maps.LatLng;
 

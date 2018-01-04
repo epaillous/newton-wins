@@ -1,4 +1,4 @@
-import { FETCH_ARTICLE, FETCH_ARTICLE_SUCCESS, RESET_ARTICLE } from '../actions/articles';
+import { FETCH_ARTICLE, FETCH_ARTICLE_SUCCESS, RESET_ARTICLE } from '../actions/articles.actions';
 import { Article } from '../models/article';
 
 interface ArticleStateInterface {

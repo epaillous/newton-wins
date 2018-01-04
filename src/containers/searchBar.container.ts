@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import SearchBarComponent from '../components/searchBar/searchBarComponent';
 import PlaceResult = google.maps.places.PlaceResult;
-import { selectPlace } from '../actions/search';
+import { selectPlace } from '../actions/search.actions';
 
 const mapStateToProps = (state: any) => {
   return {};

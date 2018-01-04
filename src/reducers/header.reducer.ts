@@ -1,4 +1,4 @@
-import { SELECT_POINT } from '../actions/points';
+import { SELECT_POINT } from '../actions/points.actions';
 
 interface HeaderStateInterface {
   title: string;

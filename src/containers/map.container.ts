@@ -1,12 +1,12 @@
 import { connect } from 'react-redux';
-import { fetchTrips } from '../actions/trips';
+import { fetchTrips } from '../actions/trips.actions';
 import mainMapComponent from '../components/map/mainMapComponent';
 import { Point } from '../models/point';
-import { fetchArticle, resetArticle } from '../actions/articles';
-import { selectPoint, zoomOnPoint } from '../actions/points';
-import { fetchMedias } from '../actions/medias';
+import { fetchArticle, resetArticle } from '../actions/articles.actions';
+import { selectPoint, zoomOnPoint } from '../actions/points.actions';
+import { fetchMedias } from '../actions/medias.actions';
 import { Suggestion } from '../models/suggestion';
-import { createSuggestion, initSuggestion } from '../actions/suggestions';
+import { createSuggestion, initSuggestion } from '../actions/suggestions.actions';
 import PlaceResult = google.maps.places.PlaceResult;
 
 const mapStateToProps = (state: any) => {

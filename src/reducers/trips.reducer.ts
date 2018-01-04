@@ -1,4 +1,4 @@
-import { FETCH_TRIPS, FETCH_TRIPS_SUCCESS } from '../actions/trips';
+import { FETCH_TRIPS, FETCH_TRIPS_SUCCESS } from '../actions/trips.actions';
 import { Trip } from '../models/trip';
 
 interface TripsStateInterface {

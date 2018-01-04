@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { fetchSuggestionTypes } from '../actions/suggestions';
+import { fetchSuggestionTypes } from '../actions/suggestions.actions';
 import { CreateSuggestionComponent } from '../components/suggestionForm/suggestionFormComponent';
 
 const mapStateToProps = (state: any) => {

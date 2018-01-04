@@ -1,4 +1,4 @@
-import { FETCH_MEDIAS, FETCH_MEDIAS_SUCCESS } from '../actions/medias';
+import { FETCH_MEDIAS, FETCH_MEDIAS_SUCCESS } from '../actions/medias.actions';
 import { Media } from '../models/media';
 
 interface MediasStateInterface {

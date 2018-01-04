@@ -2,7 +2,7 @@ import { SuggestionType } from '../models/suggestionType';
 import {
   FETCH_SUGGESTION_TYPES_SUCCESS,
   INIT_SUGGESTION, RESET_ACTIVE_SUGGESTION,
-} from '../actions/suggestions';
+} from '../actions/suggestions.actions';
 import { Suggestion } from '../models/suggestion';
 
 interface StateInterface {
