@@ -2,7 +2,6 @@ import wretch from 'wretch';
 import { ROOT_URL } from './utils';
 import { SuggestionType, SuggestionTypeInterface } from '../models/suggestionType';
 import { Suggestion } from '../models/suggestion';
-import PlaceResult = google.maps.places.PlaceResult;
 
 export const FETCH_SUGGESTION_TYPES = 'FETCH_SUGGESTION_TYPES';
 export const FETCH_SUGGESTION_TYPES_SUCCESS = 'FETCH_SUGGESTION_TYPES_SUCCESS';
@@ -12,13 +11,6 @@ export const CREATE_SUGGESTION_SUCCESS = 'CREATE_SUGGESTION_SUCCESS';
 export const CREATE_SUGGESTION_FAILURE = 'CREATE_SUGGESTION_FAILURE';
 export const RESET_ACTIVE_SUGGESTION = 'RESET_ACTIVE_SUGGESTION';
 export const INIT_SUGGESTION = 'INIT_SUGGESTION';
-
-export function initSuggestion(place: PlaceResult) {
-  return {
-    type: INIT_SUGGESTION,
-    payload: place,
-  };
-}
 
 function createSuggestionSuccess() {
   return {

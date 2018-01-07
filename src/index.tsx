@@ -5,8 +5,10 @@ import './index.css';
 import { Provider } from 'react-redux';
 import configureStore from './store/configureStore';
 import 'bootstrap/dist/css/bootstrap.css';
+import { verifyCredentials } from './actions/users.actions';
 
 const store = configureStore();
+verifyCredentials(store);
 
 ReactDOM.render(
   <Provider store={store}>

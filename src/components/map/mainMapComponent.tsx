@@ -12,9 +12,8 @@ import { GOOGLE_URL } from '../../actions/utils';
 import { LoaderComponent } from '../loader/loaderComponent';
 import LatLng = google.maps.LatLng;
 import PlaceResult = google.maps.places.PlaceResult;
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import CreateSuggestionComponent from '../../containers/createSuggestion.container';
-import { Suggestion } from '../../models/suggestion';
+import { Button } from 'reactstrap';
+import { RouteComponentProps, withRouter } from 'react-router';
 
 interface GoogleMapProps {
   trips: Trip[];
@@ -25,8 +24,6 @@ interface GoogleMapProps {
   onMarkerClick(point: Point): void;
 
   onMarkerDblClick(point: Point): void;
-
-  onSuggestionPlaceClick(place: PlaceResult): void;
 }
 
 interface TripsProps {
@@ -40,17 +37,12 @@ interface Props {
   center: LatLng;
   zoom: number;
   place: PlaceResult;
-  activeSuggestion: Suggestion;
 
   fetchTrips(): void;
 
   fetchArticleAndMedias(point: Point): void;
 
   zoomOnPoint(point: Point): void;
-
-  createSuggestion(suggestion: Suggestion): void;
-
-  initSuggestion(place: PlaceResult): void;
 }
 
 interface State {
@@ -127,164 +119,154 @@ class PolylineViewModel {
   }
 }
 
-const GoogleMapComponent = withScriptjs(withGoogleMap((props: GoogleMapProps) =>
-  (
-    <GoogleMap
-      zoom={props.zoom}
-      center={props.center}
-      defaultOptions={{
-        minZoom: 2,
-        mapTypeControl: false,
-        fullscreenControl: false,
-        streetViewControl: false,
-        styles: [
-          {
-            stylers: [
-              {
-                hue: '#bbff00',
-              },
-              {
-                gamma: 0.5,
-              },
-              {
-                weight: 0.5,
-              },
-            ],
-          },
-          {
-            elementType: 'labels',
-            stylers: [
-              {
-                visibility: 'off',
-              },
-            ],
-          },
-          {
-            featureType: 'administrative',
-            elementType: 'labels',
-            stylers: [
-              {
-                visibility: 'on',
-              },
-            ],
-          },
-          {
-            featureType: 'administrative.locality',
-            elementType: 'labels.text.stroke',
-            stylers: [
-              {
-                color: '#f4f9e8',
-              },
-              {
-                weight: 2.7,
-              },
-            ],
-          },
-          {
-            featureType: 'administrative.province',
-            stylers: [
-              {
-                visibility: 'off',
-              },
-            ],
-          },
-          {
-            featureType: 'landscape.man_made',
-            stylers: [
-              {
-                color: '#718e32',
-              },
-            ],
-          },
-          {
-            featureType: 'landscape.natural',
-            stylers: [
-              {
-                color: '#a4cc48',
-              },
-            ],
-          },
-          {
-            featureType: 'poi',
-            stylers: [
-              {
-                visibility: 'off',
-              },
-            ],
-          },
-          {
-            featureType: 'road',
-            stylers: [
-              {
-                visibility: 'off',
-              },
-            ],
-          },
-          {
-            featureType: 'water',
-            stylers: [
-              {
-                color: '#4aaecc',
-              },
-            ],
-          },
-        ],
-      }}
-    >
-      {
-        props.trips.filter(trip => trip.date.isSameOrBefore(moment()))
-          .map((trip) => {
-            const viewModel = new PolylineViewModel(trip);
-            const markerViewModel =
-                new MarkerViewModel(trip.arrival.articles.length > 0 ?
-                  MarkerType.WithArticles : MarkerType.Normal);
-            return (
-                <div key={trip.id}>
-                  <Marker
-                    position={trip.arrival.googleMapPoint}
-                    onClick={() => props.onMarkerClick(trip.arrival)}
-                    onDblClick={() => props.onMarkerDblClick(trip.arrival)}
-                    icon={markerViewModel.icon}
-                  />
-                  <Polyline path={viewModel.path} options={viewModel.options}/>
-                </div>
-            );
-          },
-          )
-      }
-      {props.place &&
-      <Marker
-        position={props.place.geometry.location}
-        icon={new MarkerViewModel(MarkerType.Suggestion).icon}
-        title={props.place.name}
+const GoogleMapComponent = withRouter(withScriptjs(withGoogleMap(
+  (props: GoogleMapProps & RouteComponentProps<any>) =>
+    (
+      <GoogleMap
+        zoom={props.zoom}
+        center={props.center}
+        defaultOptions={{
+          minZoom: 2,
+          mapTypeControl: false,
+          fullscreenControl: false,
+          streetViewControl: false,
+          styles: [
+            {
+              stylers: [
+                {
+                  hue: '#bbff00',
+                },
+                {
+                  gamma: 0.5,
+                },
+                {
+                  weight: 0.5,
+                },
+              ],
+            },
+            {
+              elementType: 'labels',
+              stylers: [
+                {
+                  visibility: 'off',
+                },
+              ],
+            },
+            {
+              featureType: 'administrative',
+              elementType: 'labels',
+              stylers: [
+                {
+                  visibility: 'on',
+                },
+              ],
+            },
+            {
+              featureType: 'administrative.locality',
+              elementType: 'labels.text.stroke',
+              stylers: [
+                {
+                  color: '#f4f9e8',
+                },
+                {
+                  weight: 2.7,
+                },
+              ],
+            },
+            {
+              featureType: 'administrative.province',
+              stylers: [
+                {
+                  visibility: 'off',
+                },
+              ],
+            },
+            {
+              featureType: 'landscape.man_made',
+              stylers: [
+                {
+                  color: '#718e32',
+                },
+              ],
+            },
+            {
+              featureType: 'landscape.natural',
+              stylers: [
+                {
+                  color: '#a4cc48',
+                },
+              ],
+            },
+            {
+              featureType: 'poi',
+              stylers: [
+                {
+                  visibility: 'off',
+                },
+              ],
+            },
+            {
+              featureType: 'road',
+              stylers: [
+                {
+                  visibility: 'off',
+                },
+              ],
+            },
+            {
+              featureType: 'water',
+              stylers: [
+                {
+                  color: '#4aaecc',
+                },
+              ],
+            },
+          ],
+        }}
       >
-        <InfoWindow>
-          <div className="info-window">
-            <h6>{props.place.name}</h6>
-            <p>{props.place.formatted_address}</p>
-            <Button
-              color="danger"
-              onClick={() => props.onSuggestionPlaceClick(props.place)}>
-              Suggérer ce lieu !
-            </Button>
-          </div>
-        </InfoWindow>
-      </Marker>
-      }
-    </GoogleMap>
-  ),
-));
+        {
+          props.trips.filter(trip => trip.date.isSameOrBefore(moment()))
+            .map((trip) => {
+                const viewModel = new PolylineViewModel(trip);
+                const markerViewModel =
+                  new MarkerViewModel(trip.arrival.articles.length > 0 ?
+                    MarkerType.WithArticles : MarkerType.Normal);
+                return (
+                  <div key={trip.id}>
+                    <Marker
+                      position={trip.arrival.googleMapPoint}
+                      onClick={() => props.onMarkerClick(trip.arrival)}
+                      onDblClick={() => props.onMarkerDblClick(trip.arrival)}
+                      icon={markerViewModel.icon}
+                    />
+                    <Polyline path={viewModel.path} options={viewModel.options}/>
+                  </div>
+                );
+              },
+            )
+        }
+        {props.place &&
+        <Marker
+          position={props.place.geometry.location}
+          icon={new MarkerViewModel(MarkerType.Suggestion).icon}
+          title={props.place.name}
+        >
+          <InfoWindow>
+            <div className="info-window">
+              <h6>{props.place.name}</h6>
+              <p>{props.place.formatted_address}</p>
+              <Button color="danger" onClick={() => props.history.push('/suggestions/new')}>
+                Suggérer ce lieu !
+              </Button>
+            </div>
+          </InfoWindow>
+        </Marker>
+        }
+      </GoogleMap>
+    ),
+)));
 
 class MainMap extends React.Component<Props, State> {
-
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      modalOpened: false,
-    };
-
-    this.toggle = this.toggle.bind(this);
-  }
 
   componentWillMount() {
     this.props.fetchTrips();
@@ -315,43 +297,11 @@ class MainMap extends React.Component<Props, State> {
           center={this.props.center}
           zoom={this.props.zoom}
           place={this.props.place}
-          onSuggestionPlaceClick={() => this.initSuggestionAndToggle()}
         />
-        <Modal isOpen={this.state.modalOpened} toggle={this.toggle}>
-          <ModalHeader toggle={this.toggle}>Suggérez ce lieu</ModalHeader>
-          <ModalBody>
-            {this.state.modalOpened &&
-            <CreateSuggestionComponent/>
-            }
-          </ModalBody>
-          <ModalFooter>
-            <Button
-              color="primary"
-              onClick={() => this.createSuggestionAndCloseModal()}
-              type="submit">Suggérer
-            </Button>{' '}
-            <Button color="secondary" onClick={this.toggle}>Annuler</Button>
-          </ModalFooter>
-        </Modal>
       </div>
     );
   }
 
-  private initSuggestionAndToggle() {
-    this.props.initSuggestion(this.props.place);
-    this.toggle();
-  }
-
-  private createSuggestionAndCloseModal() {
-    this.props.createSuggestion(this.props.activeSuggestion);
-    this.toggle();
-  }
-
-  private toggle() {
-    this.setState({
-      modalOpened: !this.state.modalOpened,
-    });
-  }
 }
 
 export default MainMap;

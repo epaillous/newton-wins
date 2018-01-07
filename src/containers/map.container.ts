@@ -5,25 +5,19 @@ import { Point } from '../models/point';
 import { fetchArticle, resetArticle } from '../actions/articles.actions';
 import { selectPoint, zoomOnPoint } from '../actions/points.actions';
 import { fetchMedias } from '../actions/medias.actions';
-import { Suggestion } from '../models/suggestion';
-import { createSuggestion, initSuggestion } from '../actions/suggestions.actions';
-import PlaceResult = google.maps.places.PlaceResult;
 
 const mapStateToProps = (state: any) => {
+  console.log(state);
   return {
     tripsList: state.trips.tripsList,
     center: state.map.center,
     zoom: state.map.zoom,
     place: state.map.place,
-    activeSuggestion: state.suggestions.activeSuggestion,
   };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    createSuggestion: (suggestion: Suggestion) => {
-      dispatch(createSuggestion(suggestion));
-    },
     fetchTrips: () => {
       dispatch(fetchTrips());
     },
@@ -38,9 +32,6 @@ const mapDispatchToProps = (dispatch: any) => {
     },
     zoomOnPoint: (point: Point) => {
       dispatch(zoomOnPoint(point));
-    },
-    initSuggestion: (place: PlaceResult) => {
-      dispatch(initSuggestion(place));
     },
   };
 };
