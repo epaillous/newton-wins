@@ -3,7 +3,6 @@ import { reduxTokenAuthReducer } from 'redux-token-auth';
 interface UserAttributesInterface {
   firstName: string | null;
   lastName: string | null;
-  email: string | null;
 }
 
 
@@ -24,7 +23,6 @@ const INITIAL_STATE = {
       isSignedIn: false,
       attributes: {
         firstName: null,
-        email: null,
         lastName: null,
       },
     },
@@ -33,6 +31,5 @@ const INITIAL_STATE = {
 
 export default function reduxTokenAuth(state: AuthInterface = INITIAL_STATE.reduxTokenAuth,
                                        action: any) {
-  console.log(state, action);
   return reduxTokenAuthReducer(state, action);
 }

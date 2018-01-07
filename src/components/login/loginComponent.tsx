@@ -8,17 +8,29 @@ import {
 import { RouteComponentProps, withRouter } from 'react-router';
 
 interface Props {
-  login: (email: string, password: string) => void;
+  login: (email: string, password: string) => Promise<any>;
 }
 
-class LoginComponent extends React.Component<Props & RouteComponentProps<any>> {
+interface State {
+  modalOpened: boolean;
+}
+
+class LoginComponent extends React.Component<Props & RouteComponentProps<any>, State> {
   email: string;
   password: string;
 
+
+  constructor(props: Props & RouteComponentProps<any>) {
+    super(props);
+    this.state = {
+      modalOpened: true,
+    };
+  }
+
   render() {
     return (
-      <Modal isOpen={true}>
-        <ModalHeader toggle={() => this.props.history.goBack()}>Connectez-vous !</ModalHeader>
+      <Modal isOpen={this.state.modalOpened} toggle={() => this.closeModal()}>
+        <ModalHeader toggle={() => this.closeModal()}>Connectez-vous !</ModalHeader>
         <ModalBody>
           <Form>
             <FormGroup>
@@ -43,10 +55,10 @@ class LoginComponent extends React.Component<Props & RouteComponentProps<any>> {
           <Button
             color="primary"
             type="submit"
-            onClick={() => this.props.login(this.email, this.password)}>Se connecter
+            onClick={() => this.login()}>Se connecter
           </Button>{' '}
           <Button outline color="primary"
-                  onClick={() => this.props.history.push('/signup')}>S'inscrire</Button>
+                  onClick={() => this.register()}>S'inscrire</Button>
         </ModalFooter>
       </Modal>
     );
@@ -54,6 +66,37 @@ class LoginComponent extends React.Component<Props & RouteComponentProps<any>> {
 
   private handleChange(property: string, value: string) {
     this[property] = value;
+  }
+
+  private toggle() {
+    this.setState({
+      modalOpened: false,
+    });
+  }
+
+  private closeModal() {
+    this.redirectTo('/');
+    this.toggle();
+  }
+
+  private register() {
+    this.redirectTo('/signup');
+    this.toggle();
+  }
+
+  private login() {
+    this.props.login(this.email, this.password)
+      .then(() => {
+        this.redirectTo('/');
+        this.toggle();
+      });
+  }
+
+  private redirectTo(path: string) {
+    // FIXME : should use onClosed of Modal but not in types
+    setTimeout(() => {
+      this.props.history.push(path);
+    }, 200);
   }
 }
 

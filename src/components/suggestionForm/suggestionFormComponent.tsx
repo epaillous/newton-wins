@@ -48,7 +48,6 @@ class CreateSuggestionComponent extends React.Component<Props & RouteComponentPr
               />
             </FormGroup>
           </Form>
-          }
         </ModalBody>
         <ModalFooter>
           <Button

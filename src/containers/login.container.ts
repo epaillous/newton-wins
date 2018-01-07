@@ -6,10 +6,11 @@ const mapStateToProps = (state: any) => {
   return {};
 };
 
-const mapDispatchToProps = (dispatch: any) => {
+const mapDispatchToProps = (dispatch: any, ownProps: any) => {
   return {
     login: (email: string, password: string) => {
-      dispatch(signInUser({ email, password }));
+      const response = dispatch(signInUser({ email, password }));
+      return response;
     },
   };
 };
