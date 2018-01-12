@@ -48,9 +48,16 @@ class NoRouterModalWithFormComponent
     };
   }
 
+  componentWillReceiveProps(nextProps: Props & RouteComponentProps<any>) {
+    if (!this.props.closeModalNeeded && nextProps.closeModalNeeded) {
+      this.toggle();
+    }
+  }
+
   render() {
     return (
-      <Modal isOpen={this.state.modalOpened} toggle={() => this.closeModal()}>
+      <Modal isOpen={this.state.modalOpened}
+             toggle={() => this.closeModal()}>
         <ModalHeader toggle={() => this.closeModal()}>{this.props.title}</ModalHeader>
         <ModalBody>
           <Form className={this.state.wasValidated ? 'was-validated' : ''}>

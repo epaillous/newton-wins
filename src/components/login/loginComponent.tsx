@@ -3,16 +3,17 @@ import { FormGroup, Label, Input, } from 'reactstrap';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { OAuthSignInButton } from 'redux-auth/bootstrap-theme';
 import './loginComponent.css';
-import { FormButton, ModalWithFormComponent } from '../modalWithForm/modalWithForm.component';
+import { FormButton } from '../modalWithForm/modalWithForm.component';
+import ModalWithFormComponent from '../../containers/modalWithForm.container';
 
 interface Props {
   login: (email: string, password: string) => Promise<any>;
+  closeModal: () => void;
 }
 
 class LoginComponent extends React.Component<Props & RouteComponentProps<any>> {
   email: string;
   password: string;
-  closeModalNeeded = false;
 
   render() {
     const buttons = [
@@ -22,13 +23,13 @@ class LoginComponent extends React.Component<Props & RouteComponentProps<any>> {
     return (
       <ModalWithFormComponent title="Connectez-vous"
                               buttons={buttons}
-                              formValid={!!(this.email && this.password)}
-                              closeModalNeeded={this.closeModalNeeded}>
+                              formValid={!!(this.email && this.password)}>
         <div className="oauth-container">
           <OAuthSignInButton
             provider={'facebook'}
             className="btn-primary facebook-button"
-            next={() => this.closeModalNeeded = true}
+            next={() => this.props.closeModal()
+            }
           >
             Connectez-vous avec Facebook !
           </OAuthSignInButton>

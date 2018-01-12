@@ -8,6 +8,7 @@ import medias from './medias.reducer';
 import suggestions from './suggestions.reducer';
 import app from './app.reducer';
 import { authStateReducer } from 'redux-auth';
+import modal from './modalWithForm.reducer';
 
 const rootReducer = combineReducers({
   // short hand property names
@@ -20,6 +21,7 @@ const rootReducer = combineReducers({
   suggestions,
   app,
   auth: authStateReducer,
+  modal,
 });
 
 export default rootReducer;
