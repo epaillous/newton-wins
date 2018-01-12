@@ -18,7 +18,8 @@ import CreateSuggestionComponent from './containers/createSuggestion.container';
 import { Switch } from 'react-router';
 import { createBrowserHistory } from 'history';
 import LoginComponent from './containers/login.container';
-
+import { AuthGlobals } from 'redux-auth/bootstrap-theme';
+import ProtectedRoute from './containers/protectedRoute.container';
 
 interface Props {
   alertMessage: string;
@@ -26,8 +27,8 @@ interface Props {
 }
 
 const history = createBrowserHistory({});
+
 // bootstrap theme
-import { AuthGlobals } from 'redux-auth/bootstrap-theme';
 
 class App extends React.Component<Props> {
 
@@ -53,7 +54,7 @@ class App extends React.Component<Props> {
             <Switch>
               <Route path="/signup" component={RegisterComponent}/>
               <Route path="/login" component={LoginComponent}/>
-              <Route path="/suggestions/new" component={CreateSuggestionComponent}/>
+              <ProtectedRoute path="/suggestions/new" component={CreateSuggestionComponent}/>
             </Switch>
           </div>
         </Router>
