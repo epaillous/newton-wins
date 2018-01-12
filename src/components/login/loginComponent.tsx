@@ -20,11 +20,11 @@ class LoginComponent extends React.Component<Props & RouteComponentProps<any>> {
       new FormButton('primary', '', () => Promise.resolve({}), 'S\'inscrire', true, '/signup'),
     ];
     return (
-      <ModalWithFormComponent title="Connectez vous"
+      <ModalWithFormComponent title="Connectez-vous"
                               buttons={buttons}
                               formValid={!!(this.email && this.password)}
                               closeModalNeeded={this.closeModalNeeded}>
-        <div>
+        <div className="oauth-container">
           <OAuthSignInButton
             provider={'facebook'}
             className="btn-primary facebook-button"
@@ -32,6 +32,7 @@ class LoginComponent extends React.Component<Props & RouteComponentProps<any>> {
           >
             Connectez-vous avec Facebook !
           </OAuthSignInButton>
+          <p className="sentence-divider"> ou utilisez vos identifiants : </p>
         </div>
         <FormGroup>
           <Label for="placeType">e-mail</Label>

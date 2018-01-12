@@ -2,3 +2,14 @@
     margin: auto;
     display: flex;
 }
+
+.sentence-divider {
+    margin: 20px auto 10px auto;
+    color: gray;
+    font-size: 12px;
+}
+
+.oauth-container {
+    display: flex;
+    flex-direction: column;
+}
