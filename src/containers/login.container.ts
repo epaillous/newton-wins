@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import loginComponent from '../components/login/loginComponent';
+import loginComponent from '../components/login/login.component';
 import { emailSignIn } from 'redux-auth';
 import { closeModal } from '../actions/modal.actions';
 

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Row, Col, Card, CardBody, CardTitle, Container, CardSubtitle } from 'reactstrap';
 import 'flag-icon-css/css/flag-icon.css';
-import './headerComponent.css';
+import './header.component.css';
 
 interface Props {
   title: string;

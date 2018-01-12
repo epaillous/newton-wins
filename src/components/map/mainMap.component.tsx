@@ -6,10 +6,10 @@ import {
 import { Trip, TypeTrip } from '../../models/trip';
 import * as moment from 'moment';
 import { Point } from '../../models/point';
-import './mainMapComponent.css';
+import './mainMap.component.css';
 import PolylineOptions = google.maps.PolylineOptions;
 import { GOOGLE_URL } from '../../actions/utils';
-import { LoaderComponent } from '../loader/loaderComponent';
+import { LoaderComponent } from '../loader/loader.component';
 import LatLng = google.maps.LatLng;
 import PlaceResult = google.maps.places.PlaceResult;
 import { Button } from 'reactstrap';

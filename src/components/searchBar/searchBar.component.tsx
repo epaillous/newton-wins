@@ -1,5 +1,5 @@
 import * as React from 'react';
-import './searchBarComponent.css';
+import './searchBar.component.css';
 import StandaloneSearchBox from 'react-google-maps/lib/components/places/StandaloneSearchBox';
 import { GOOGLE_URL } from '../../actions/utils';
 import { withScriptjs } from 'react-google-maps';

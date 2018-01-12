@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import registerComponent from '../components/register/registerComponent';
+import registerComponent from '../components/register/register.component';
 import { User } from '../models/user';
 import { emailSignUp } from 'redux-auth';
 

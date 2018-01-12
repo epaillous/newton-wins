@@ -1,4 +1,4 @@
-import './loaderComponent.css';
+import './loader.component.css';
 import * as React from 'react';
 
 export class LoaderComponent extends React.Component {

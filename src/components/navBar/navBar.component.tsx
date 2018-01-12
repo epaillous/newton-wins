@@ -1,5 +1,5 @@
 import * as React from 'react';
-import './navBarComponent.css';
+import './navBar.component.css';
 import { Navbar, NavbarBrand, Nav } from 'reactstrap';
 import { MenuItem } from '../../models/menuItem';
 import SearchBarComponent from '../../containers/searchBar.container';

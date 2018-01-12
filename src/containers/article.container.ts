@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import ArticleComponent from '../components/article/articleComponent';
+import ArticleComponent from '../components/article/article.component';
 
 const mapStateToProps = (state: any) => {
   return {

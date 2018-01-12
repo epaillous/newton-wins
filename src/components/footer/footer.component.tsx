@@ -1,4 +1,4 @@
-import './footerComponent.css';
+import './footer.component.css';
 import * as React from 'react';
 
 // tslint:disable-next-line:max-line-length

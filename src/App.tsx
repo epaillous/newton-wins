@@ -11,7 +11,7 @@ import ArticleComponent from './containers/article.container';
 import NavBarComponent from './containers/navbar.container';
 import HeaderComponent from './containers/header.container';
 import PhotosComponent from './containers/photos.container';
-import { FooterComponent } from './components/footer/footerComponent';
+import { FooterComponent } from './components/footer/footer.component';
 import RegisterComponent from './containers/register.container';
 import { Router, Route } from 'react-router-dom';
 import CreateSuggestionComponent from './containers/createSuggestion.container';

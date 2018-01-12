@@ -2,7 +2,7 @@ import * as React from 'react';
 import { FormGroup, Label, Input, } from 'reactstrap';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { OAuthSignInButton } from 'redux-auth/bootstrap-theme';
-import './loginComponent.css';
+import './login.component.css';
 import { FormButton } from '../modalWithForm/modalWithForm.component';
 import ModalWithFormComponent from '../../containers/modalWithForm.container';
 

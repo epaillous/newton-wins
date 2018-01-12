@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import photosComponent from '../components/photosGalery/photosComponent';
+import photosComponent from '../components/photosGalery/photos.component';
 
 const mapStateToProps = (state: any) => {
   return {

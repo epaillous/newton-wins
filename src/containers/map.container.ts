@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { fetchTrips } from '../actions/trips.actions';
-import mainMapComponent from '../components/map/mainMapComponent';
+import mainMapComponent from '../components/map/mainMap.component';
 import { Point } from '../models/point';
 import { fetchArticle, resetArticle } from '../actions/articles.actions';
 import { selectPoint, zoomOnPoint } from '../actions/points.actions';
