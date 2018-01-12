@@ -7,7 +7,6 @@ import { selectPoint, zoomOnPoint } from '../actions/points.actions';
 import { fetchMedias } from '../actions/medias.actions';
 
 const mapStateToProps = (state: any) => {
-  console.log(state);
   return {
     tripsList: state.trips.tripsList,
     center: state.map.center,

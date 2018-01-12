@@ -1,5 +1,4 @@
 .search-bar {
-    margin-bottom: 10px;
     padding: 0 12px;
     box-sizing: border-box;
     border: 1px solid transparent;
@@ -8,6 +7,6 @@
     outline: none;
     text-overflow: ellipsis;
     width: 340px;
-    height: 32px;
+    height: 40px;
     font-size: 14px;
 }

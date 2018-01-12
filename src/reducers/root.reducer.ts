@@ -7,7 +7,7 @@ import header from './header.reducer';
 import medias from './medias.reducer';
 import suggestions from './suggestions.reducer';
 import app from './app.reducer';
-import reduxTokenAuthReducer from './auth.reducer';
+import { authStateReducer } from 'redux-auth';
 
 const rootReducer = combineReducers({
   // short hand property names
@@ -19,7 +19,7 @@ const rootReducer = combineReducers({
   medias,
   suggestions,
   app,
-  reduxTokenAuth: reduxTokenAuthReducer,
+  auth: authStateReducer,
 });
 
 export default rootReducer;

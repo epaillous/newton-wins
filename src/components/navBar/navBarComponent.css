@@ -7,8 +7,44 @@ li:hover > a.menu-item.nav-link {
     fill: var(--secondary);
 }
 
+.signed-in-nav {
+    display: flex;
+}
+
+.signed-in-nav > a {
+    margin: auto;
+}
+
 nav.main-navbar > .navbar-brand {
     font-family: 'Archive';
+}
+
+.navbar-nav.right-nav {
+    margin-bottom: 10px;
+}
+
+.search-bar {
+    margin: auto;
+    min-height: 40px;
+}
+
+.account-info {
+    padding-left: 16px;
+    padding-right: 16px;
+    border-left: 1px solid var(--divider);
+    border-right: 1px solid var(--divider);
+    margin-left: 16px;
+    margin-right: 16px;
+    display: flex;
+}
+
+.account-info > * {
+    margin: auto;
+}
+
+.account-info > img {
+    border-radius: 50%;
+    margin-right: 10px;
 }
 
 .menu-item SVG {

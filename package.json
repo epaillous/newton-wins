@@ -18,9 +18,9 @@
     "reactstrap": "^5.0.0-alpha.4",
     "recompose": "^0.26.0",
     "redux": "^3.7.2",
+    "redux-auth": "git+https://github.com/carolhealth/redux-auth.git",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0",
-    "redux-token-auth": "^0.19.0",
     "tslint-config-airbnb": "^5.4.2",
     "wretch": "^1.1.0"
   },
