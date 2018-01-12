@@ -3,7 +3,7 @@ import './navBarComponent.css';
 import { Navbar, NavbarBrand, Nav } from 'reactstrap';
 import { MenuItem } from '../../models/menuItem';
 import SearchBarComponent from '../../containers/searchBar.container';
-import { Button } from 'reactstrap';
+import { DropdownItem, UncontrolledDropdown, DropdownToggle, DropdownMenu } from 'reactstrap';
 
 interface Props {
   menuItems: MenuItem[];
@@ -39,13 +39,23 @@ class NavBarComponent extends React.Component<Props> {
           <SearchBarComponent/>
           {this.props.signedIn &&
           <div className="signed-in-nav">
-            <div className="account-info">
-              {this.props.userPicture &&
-              <img src={this.props.userPicture} className="img-responsive"/>
-              }
-              <span>Bienvenue {this.props.username} !</span>
-            </div>
-            <Button onClick={() => this.props.logout()}>Se déconnecter</Button>
+            <UncontrolledDropdown>
+              <DropdownToggle nav className="account-info">
+                <span>Bienvenue {this.props.username} !</span>
+                {this.props.userPicture &&
+                <img src={this.props.userPicture} className="img-responsive"/>
+                }
+              </DropdownToggle>
+              <DropdownMenu right>
+                <DropdownItem>
+                  Mon profil
+                </DropdownItem>
+                <DropdownItem divider/>
+                <DropdownItem onClick={() => this.props.logout()}>
+                  Se déconnecter
+                </DropdownItem>
+              </DropdownMenu>
+            </UncontrolledDropdown>
           </div>
           }
         </Nav>
