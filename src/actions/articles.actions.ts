@@ -1,5 +1,6 @@
+import { Action, ActionCreator, Dispatch } from 'redux';
+import { ThunkAction } from 'redux-thunk';
 import { Article, ArticleInterface } from '../models/article';
-import wretch from 'wretch';
 import { ROOT_URL } from './utils';
 
 export const FETCH_ARTICLE = 'FETCH_ARTICLE';
@@ -7,43 +8,48 @@ export const FETCH_ARTICLE_SUCCESS = 'FETCH_ARTICLE_SUCCESS';
 export const FETCH_ARTICLE_FAILURE = 'FETCH_ARTICLE_FAILURE';
 export const RESET_ARTICLE = 'RESET_ARTICLE';
 
-export function resetArticle() {
+interface ArticleContainerInterface {
+  article: ArticleInterface;
+}
+
+export const resetArticle: ActionCreator<Action> = () => {
   return {
     type: RESET_ARTICLE,
   };
-}
+};
 
-function fetchArticleSuccess(article: Article) {
+const fetchArticleSuccess: ActionCreator<Action> = (article: Article) => {
   return {
-    type: FETCH_ARTICLE_SUCCESS,
     payload: article,
+    type: FETCH_ARTICLE_SUCCESS,
   };
-}
+};
 
-function fetchArticleFailure(error: any) {
+const fetchArticleFailure: ActionCreator<Action> = (error: Error) => {
   return {
-    type: FETCH_ARTICLE_FAILURE,
     payload: error,
+    type: FETCH_ARTICLE_FAILURE,
   };
-}
+};
 
-function requestArticle() {
+const requestArticle: ActionCreator<Action> = () => {
   return {
-    type: FETCH_ARTICLE,
     payload: {},
+    type: FETCH_ARTICLE,
   };
-}
+};
 
-export function fetchArticle(id: number) {
-  return (dispatch: any) => {
+export const fetchArticle: ActionCreator<ThunkAction<Promise<void>, any, void>> = (id: number) => {
+  return (dispatch: Dispatch<Promise<void>>) => {
     dispatch(requestArticle());
-    return wretch(ROOT_URL + '/articles/' + id).get()
-      .json((json: any) => {
+    return fetch(ROOT_URL + '/articles/' + id)
+      .then((response: Response) => response.json())
+      .then((json: ArticleContainerInterface) => {
         const article = new Article(json.article as ArticleInterface);
         dispatch(fetchArticleSuccess(article));
       })
-      .catch((error: any) => {
+      .catch((error: Error) => {
         dispatch(fetchArticleFailure(error));
       });
   };
-}
+};

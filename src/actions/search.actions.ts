@@ -1,10 +1,11 @@
 import PlaceResult = google.maps.places.PlaceResult;
+import { Action, ActionCreator } from 'redux';
 
 export const SELECT_PLACE = 'SELECT_PLACE';
 
-export function selectPlace(place: PlaceResult) {
+export const selectPlace: ActionCreator<Action> = (place: PlaceResult) => {
   return {
-    type: SELECT_PLACE,
     payload: place,
+    type: SELECT_PLACE,
   };
-}
+};

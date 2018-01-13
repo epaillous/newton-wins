@@ -1,29 +1,7 @@
 import * as React from 'react';
-import { Modal, ModalHeader, ModalBody, ModalFooter, Button, Form } from 'reactstrap';
 import { RouteComponentProps, withRouter } from 'react-router';
-
-
-export class FormButton {
-  color: string;
-  type: string;
-  action: () => Promise<any>;
-  title: string;
-  outline: boolean;
-  closeModalAfterAction: boolean;
-  redirectPath: string;
-
-  constructor(color: string, type: string, action: () => Promise<any>, title: string,
-              outline = false, redirectPath = '/', closeModalAfterAction = true) {
-    this.color = color;
-    this.type = type;
-    this.action = action;
-    this.title = title;
-    this.outline = outline;
-    this.closeModalAfterAction = closeModalAfterAction;
-    this.redirectPath = redirectPath;
-  }
-
-}
+import { Button, Form, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
+import { FormButton } from './formButton';
 
 interface State {
   wasValidated: boolean;
@@ -43,42 +21,37 @@ class NoRouterModalWithFormComponent
   constructor(props: Props & RouteComponentProps<any>) {
     super(props);
     this.state = {
-      wasValidated: false,
       modalOpened: true,
+      wasValidated: false,
     };
+    this.closeModal = this.closeModal.bind(this);
+    this.renderButton = this.renderButton.bind(this);
   }
 
-  componentWillReceiveProps(nextProps: Props & RouteComponentProps<any>) {
+  public componentWillReceiveProps(nextProps: Props & RouteComponentProps<any>) {
     if (!this.props.closeModalNeeded && nextProps.closeModalNeeded) {
       this.toggle();
     }
   }
 
-  render() {
+  public render() {
     return (
-      <Modal isOpen={this.state.modalOpened}
-             toggle={() => this.closeModal()}>
-        <ModalHeader toggle={() => this.closeModal()}>{this.props.title}</ModalHeader>
+      <Modal
+        isOpen={this.state.modalOpened}
+        toggle={this.closeModal}
+      >
+        <ModalHeader toggle={this.closeModal}>{this.props.title}</ModalHeader>
         <ModalBody>
           <Form className={this.state.wasValidated ? 'was-validated' : ''}>
             {this.props.children}
           </Form>
         </ModalBody>
         <ModalFooter>
-          {
-            this.props.buttons.map(button =>
-              <Button color={button.color}
-                      onClick={() => this.handleButtonAction(button)}
-                      key={button.title}
-                      outline={button.outline}>{button.title}
-              </Button>,
-            )
-          }
+          {this.props.buttons.map(this.renderButton)}
         </ModalFooter>
       </Modal>
     );
   }
-
 
   private handleButtonAction(button: FormButton) {
     if (button.type === 'submit') {
@@ -114,9 +87,21 @@ class NoRouterModalWithFormComponent
 
   private redirectTo(path: string) {
     // FIXME : should use onClosed of Modal but not in types
-    setTimeout(() => {
-      this.props.history.push(path);
-    }, 200);
+    setTimeout(() => this.props.history.push(path), 200);
+  }
+
+  private renderButton(button: FormButton) {
+    const onClick = () => this.handleButtonAction(button);
+    return (
+      <Button
+        color={button.color}
+        onClick={onClick}
+        key={button.title}
+        outline={button.outline}
+      >
+        {button.title}
+      </Button>
+    );
   }
 }
 

@@ -1,5 +1,6 @@
+import { Action, ActionCreator, Dispatch } from 'redux';
+import { ThunkAction } from 'redux-thunk';
 import { MenuItem, MenuItemInterface } from '../models/menuItem';
-import wretch from 'wretch';
 import { ROOT_URL } from './utils';
 
 export const FETCH_MENU = 'FETCH_MENU';
@@ -7,45 +8,49 @@ export const FETCH_MENU_SUCCESS = 'FETCH_MENU_SUCCESS';
 export const FETCH_MENU_FAILURE = 'FETCH_MENU_FAILURE';
 export const SELECT_MENU_ITEM = 'SELECT_MENU_ITEM';
 
-function fetchMenuSuccess(menuItems: MenuItem[]) {
+interface MenuInterface {
+  menu: MenuItemInterface[];
+}
+
+const fetchMenuSuccess: ActionCreator<Action> = (menuItems: MenuItem[]) => {
   return {
-    type: FETCH_MENU_SUCCESS,
     payload: menuItems,
+    type: FETCH_MENU_SUCCESS,
   };
-}
+};
 
-function fetchMenuFailure(error: any) {
+const fetchMenuFailure: ActionCreator<Action> = (error: Error) => {
   return {
-    type: FETCH_MENU_FAILURE,
     payload: error,
+    type: FETCH_MENU_FAILURE,
   };
-}
+};
 
-function requestMenu() {
+const requestMenu: ActionCreator<Action> = () => {
   return {
-    type: FETCH_MENU,
     payload: {},
+    type: FETCH_MENU,
   };
-}
+};
 
-export function selectMenuItem(menuItem: MenuItem) {
+export const selectMenuItem: ActionCreator<Action> = (menuItem: MenuItem) => {
   return {
-    type: SELECT_MENU_ITEM,
     payload: menuItem,
+    type: SELECT_MENU_ITEM,
   };
-}
+};
 
-export function fetchMenu() {
-  return (dispatch: any) => {
+export const fetchMenu: ActionCreator<ThunkAction<Promise<void>, any, void>> = () => {
+  return (dispatch: Dispatch<Promise<void>>) => {
     dispatch(requestMenu);
-    return wretch(ROOT_URL + '/menu').get()
-      .json((json: any) => {
+    return fetch(ROOT_URL + '/menu')
+      .then((response: Response) => response.json())
+      .then((json: MenuInterface) => {
         const menuItems = json.menu.map((item: MenuItemInterface) => new MenuItem(item));
-        console.log(menuItems);
         dispatch(fetchMenuSuccess(menuItems));
       })
-      .catch((error: any) => {
+      .catch((error: Error) => {
         dispatch(fetchMenuFailure(error));
       });
   };
-}
+};

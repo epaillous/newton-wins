@@ -18,9 +18,9 @@ export default function trips(state: StateInterface = INITIAL_STATE, action: any
     case FETCH_TRIPS:
       return { ...state, tripsList: { trips: [], error: null, loading: true } };
     case FETCH_TRIPS_SUCCESS:
-      const trips = action.payload;
+      const currentTrips = action.payload;
       return {
-        ...state, tripsList: { trips, error: null, loading: false },
+        ...state, tripsList: { trips: currentTrips, error: null, loading: false },
       };
     default:
       return state;

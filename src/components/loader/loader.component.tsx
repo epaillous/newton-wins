@@ -1,9 +1,9 @@
-import './loader.component.css';
 import * as React from 'react';
+import './loader.component.css';
 
 export class LoaderComponent extends React.Component {
 
-  render() {
+  public render() {
     return (
       <div className="sk-folding-cube">
         <div className="sk-cube1 sk-cube"/>

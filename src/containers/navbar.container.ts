@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
-import NavBarComponent from '../components/navBar/navBar.component';
-import { fetchMenu, selectMenuItem } from '../actions/menu.actions';
-import { MenuItem } from '../models/menuItem';
-import { toggleNavbar } from '../actions/navbar.actions';
 import { signOut } from 'redux-auth';
+import { fetchMenu, selectMenuItem } from '../actions/menu.actions';
+import { toggleNavbar } from '../actions/navbar.actions';
+import NavBarComponent from '../components/navBar/navBar.component';
+import { MenuItem } from '../models/menuItem';
 
 const mapStateToProps = (state: any) => {
   const isSignedIn = state.auth.getIn(['user', 'isSignedIn']);
@@ -14,12 +14,12 @@ const mapStateToProps = (state: any) => {
       state.auth.getIn(['user', 'attributes', 'last_name']);
   }
   return {
-    username,
-    menuItems: state.navbar.menu.menuItems,
     collapsed: state.navbar.collapsed,
+    menuItems: state.navbar.menu.menuItems,
     signedIn: isSignedIn,
     userPicture: isSignedIn ?
       state.auth.getIn(['user', 'attributes', 'image']) : null,
+    username,
   };
 };
 
@@ -28,14 +28,14 @@ const mapDispatchToProps = (dispatch: any) => {
     fetchMenu: () => {
       dispatch(fetchMenu());
     },
+    logout: () => {
+      dispatch(signOut());
+    },
     selectMenuItem: (item: MenuItem) => {
       dispatch(selectMenuItem(item));
     },
     toggleNavbar: () => {
       dispatch(toggleNavbar());
-    },
-    logout: () => {
-      dispatch(signOut());
     },
   };
 };

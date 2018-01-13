@@ -8,11 +8,11 @@ export interface MediaInterface {
 }
 
 export class Media {
-  id: number;
-  title: string;
-  url: string;
-  comment: string;
-  point: Point;
+  public id: number;
+  public title: string;
+  public url: string;
+  public comment: string;
+  public point: Point;
 
   constructor(jsonMedia: MediaInterface) {
     this.id = jsonMedia.id;

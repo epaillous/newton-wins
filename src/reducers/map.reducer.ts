@@ -1,22 +1,22 @@
-import { FETCH_TRIPS_SUCCESS } from '../actions/trips.actions';
-import { Trip } from '../models/trip';
 import * as moment from 'moment';
 import { SELECT_MENU_ITEM } from '../actions/menu.actions';
 import { ZOOM_ON_POINT } from '../actions/points.actions';
 import { SELECT_PLACE } from '../actions/search.actions';
+import { FETCH_TRIPS_SUCCESS } from '../actions/trips.actions';
+import { Trip } from '../models/trip';
 import PlaceResult = google.maps.places.PlaceResult;
 import LatLng = google.maps.LatLng;
 
 interface StateInterface {
   center: LatLng | null;
-  zoom: number;
   place: PlaceResult | null;
+  zoom: number;
 }
 
 const INITIAL_STATE = {
   center: null,
-  zoom: 8,
   place: null,
+  zoom: 8,
 };
 
 export default function map(state: StateInterface = INITIAL_STATE, action: any) {
@@ -32,7 +32,7 @@ export default function map(state: StateInterface = INITIAL_STATE, action: any) 
     case SELECT_PLACE:
       const place: PlaceResult = action.payload;
       return {
-        ...state, place, center: place.geometry.location.toJSON(), zoom: 17,
+        ...state, center: place.geometry.location.toJSON(), place, zoom: 17,
       }
         ;
     default:

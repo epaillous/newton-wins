@@ -10,13 +10,13 @@ export interface ArticleInterface {
 }
 
 export class Article {
-  id: number;
-  content: string;
-  title: string;
-  subtitle: string;
-  date: string;
-  mainImageUrl: string;
-  point: Point;
+  public id: number;
+  public content: string;
+  public title: string;
+  public subtitle: string;
+  public date: string;
+  public mainImageUrl: string;
+  public point: Point;
 
   constructor(jsonArticle: ArticleInterface) {
     this.id = jsonArticle.id;

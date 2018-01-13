@@ -5,9 +5,9 @@ export interface CountryInterface {
 }
 
 export class Country {
-  id: number;
-  name: string;
-  code: string;
+  public id: number;
+  public name: string;
+  public code: string;
 
   constructor(jsonCountry: CountryInterface) {
     this.id = jsonCountry.id;

@@ -1,12 +1,12 @@
+import 'bootstrap/dist/css/bootstrap.css';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import { configure } from 'redux-auth';
+import { ROOT_URL } from './actions/utils';
 import App from './containers/app.container';
 import './index.css';
-import { Provider } from 'react-redux';
 import configureStore from './store/configureStore';
-import 'bootstrap/dist/css/bootstrap.css';
-import { ROOT_URL } from './actions/utils';
-import { configure } from 'redux-auth';
 
 const store = configureStore();
 
@@ -24,7 +24,6 @@ function renderApp() {
     );
   });
 }
-
 
 const reactRoot = window.document.getElementById('root');
 renderApp().then((appComponent: any) => {

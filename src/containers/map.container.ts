@@ -1,30 +1,24 @@
 import { connect } from 'react-redux';
+import { fetchArticle, resetArticle } from '../actions/articles.actions';
+import { fetchMedias } from '../actions/medias.actions';
+import { selectPoint, zoomOnPoint } from '../actions/points.actions';
+import { fetchSuggestions } from '../actions/suggestions.actions';
 import { fetchTrips } from '../actions/trips.actions';
 import mainMapComponent from '../components/map/mainMap.component';
 import { Point } from '../models/point';
-import { fetchArticle, resetArticle } from '../actions/articles.actions';
-import { selectPoint, zoomOnPoint } from '../actions/points.actions';
-import { fetchMedias } from '../actions/medias.actions';
-import { fetchSuggestions } from '../actions/suggestions.actions';
 
 const mapStateToProps = (state: any) => {
   return {
-    tripsList: state.trips.tripsList,
     center: state.map.center,
-    zoom: state.map.zoom,
     place: state.map.place,
     suggestions: state.suggestions.suggestions,
+    tripsList: state.trips.tripsList,
+    zoom: state.map.zoom,
   };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    fetchTrips: () => {
-      dispatch(fetchTrips());
-    },
-    fetchSuggestions: () => {
-      dispatch(fetchSuggestions());
-    },
     fetchArticleAndMedias: (point: Point) => {
       dispatch(selectPoint(point));
       if (point.articles.length > 0) {
@@ -33,6 +27,12 @@ const mapDispatchToProps = (dispatch: any) => {
         dispatch(resetArticle());
       }
       dispatch(fetchMedias(point));
+    },
+    fetchSuggestions: () => {
+      dispatch(fetchSuggestions());
+    },
+    fetchTrips: () => {
+      dispatch(fetchTrips());
     },
     zoomOnPoint: (point: Point) => {
       dispatch(zoomOnPoint(point));

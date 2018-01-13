@@ -1,5 +1,5 @@
-import { SuggestionType, SuggestionTypeInterface } from './suggestionType';
 import { Point, PointInterface } from './point';
+import { SuggestionType, SuggestionTypeInterface } from './suggestionType';
 import PlaceResult = google.maps.places.PlaceResult;
 
 export interface SuggestionInterface {
@@ -12,13 +12,13 @@ export interface SuggestionInterface {
 }
 
 export class Suggestion {
-  id: number;
-  suggestionType: SuggestionType | undefined;
-  comment: string;
-  point: Point;
-  place: PlaceResult;
-  name: string;
-  address: string;
+  public id: number;
+  public suggestionType: SuggestionType | undefined;
+  public comment: string;
+  public point: Point;
+  public place: PlaceResult;
+  public name: string;
+  public address: string;
 
   constructor(json: SuggestionInterface | null = null) {
     if (!json) {

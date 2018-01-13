@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
+import { emailSignUp } from 'redux-auth';
 import registerComponent from '../components/register/register.component';
 import { User } from '../models/user';
-import { emailSignUp } from 'redux-auth';
 
 const mapStateToProps = (state: any) => {
   return {};
@@ -11,9 +11,9 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     register: (user: User) => {
       const body = {
+        email: user.email,
         first_name: user.firstName,
         last_name: user.lastName,
-        email: user.email,
         password: user.password,
       };
       const response = dispatch(emailSignUp(body));

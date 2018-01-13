@@ -1,18 +1,19 @@
+import { Action, ActionCreator } from 'redux';
 import { Point } from '../models/point';
 
 export const SELECT_POINT = 'SELECT_POINT';
 export const ZOOM_ON_POINT = 'ZOOM_ON_POINT';
 
-export function selectPoint(point: Point) {
+export const selectPoint: ActionCreator<Action> = (point: Point) => {
   return {
+    payload: point,
     type: SELECT_POINT,
-    payload: point,
   };
-}
+};
 
-export function zoomOnPoint(point: Point) {
+export const zoomOnPoint: ActionCreator<Action> = (point: Point) => {
   return {
-    type: ZOOM_ON_POINT,
     payload: point,
+    type: ZOOM_ON_POINT,
   };
-}
+};

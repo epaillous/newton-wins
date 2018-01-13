@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { MarkerType, MarkerViewModel } from './marker.viewModel';
-import { Marker, InfoWindow } from 'react-google-maps';
+import { InfoWindow, Marker } from 'react-google-maps';
 import { Point } from '../../models/point';
 import { Suggestion } from '../../models/suggestion';
+import { MarkerType, MarkerViewModel } from './marker.viewModel';
 
 interface Props {
   suggestion: Suggestion;
@@ -10,24 +10,34 @@ interface Props {
 }
 
 export const MarkerForSuggestion = (props: Props) => {
-  const markerViewModel =
-    new MarkerViewModel(MarkerType.Suggestion);
+  const markerViewModel = new MarkerViewModel(MarkerType.Suggestion);
+  const onClick = () => markerViewModel.infoWindowOpened = true;
+  const onDoubleClick = () => props.onMarkerDblClick(props.suggestion.point);
+  const onCloseClick = () => markerViewModel.infoWindowOpened = false;
+
+  const renderInfoWindow = () => {
+    if (markerViewModel.infoWindowOpened) {
+      return (
+        <InfoWindow onCloseClick={onCloseClick}>
+          <div className="info-window">
+            <h6>{props.suggestion.name}</h6>
+            <p>{props.suggestion.address}</p>
+          </div>
+        </InfoWindow>
+      );
+    }
+    return null;
+  };
+
   return (
     <Marker
       position={props.suggestion.point.googleMapPoint}
       icon={markerViewModel.icon}
       key={props.suggestion.id}
-      onClick={() => markerViewModel.infoWindowOpened = true}
-      onDblClick={() => props.onMarkerDblClick(props.suggestion.point)}
+      onClick={onClick}
+      onDblClick={onDoubleClick}
     >
-      {markerViewModel.infoWindowOpened &&
-      <InfoWindow onCloseClick={() => markerViewModel.infoWindowOpened = false}>
-        <div className="info-window">
-          <h6>{props.suggestion.name}</h6>
-          <p>{props.suggestion.address}</p>
-        </div>
-      </InfoWindow>
-      }
+      {renderInfoWindow()}
     </Marker>
   );
 };

@@ -5,9 +5,9 @@ export interface SuggestionTypeInterface {
 }
 
 export class SuggestionType {
-  id: number;
-  title: string;
-  description: string;
+  public id: number;
+  public title: string;
+  public description: string;
 
   constructor(json: SuggestionTypeInterface) {
     this.id = json.id;

@@ -7,9 +7,9 @@ export interface MenuItemInterface {
 }
 
 export class MenuItem {
-  name: string;
-  pictoUrl: string;
-  point: Point;
+  public name: string;
+  public pictoUrl: string;
+  public point: Point;
 
   constructor(jsonMenuItem: MenuItemInterface) {
     this.name = jsonMenuItem.name;

@@ -1,10 +1,9 @@
-import { Article } from '../../models/article';
 import * as React from 'react';
 import {
-  Row, Col, Card, CardText, CardBody,
-  CardTitle, CardSubtitle,
+  Card, CardBody, CardSubtitle, CardText, CardTitle,
+  Col, Container, Row
 } from 'reactstrap';
-import Container from 'reactstrap/lib/Container';
+import { Article } from '../../models/article';
 
 interface Props {
   selectedArticle: Article;
@@ -12,7 +11,7 @@ interface Props {
 
 class ArticleComponent extends React.Component<Props> {
 
-  render() {
+  public render() {
     const article = this.props.selectedArticle;
     if (!article) {
       return (

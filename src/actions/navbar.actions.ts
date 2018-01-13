@@ -1,7 +1,9 @@
+import { Action, ActionCreator } from 'redux';
+
 export const TOGGLE_NAVBAR = 'TOGGLE_NAVBAR';
 
-export function toggleNavbar() {
+export const toggleNavbar: ActionCreator<Action> = () => {
   return {
     type: TOGGLE_NAVBAR,
   };
-}
+};

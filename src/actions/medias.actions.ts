@@ -1,43 +1,49 @@
+import { Action, ActionCreator, Dispatch } from 'redux';
+import { ThunkAction } from 'redux-thunk';
 import { Media, MediaInterface } from '../models/media';
-import wretch from 'wretch';
-import { ROOT_URL } from './utils';
 import { Point } from '../models/point';
+import { ROOT_URL } from './utils';
 
 export const FETCH_MEDIAS = 'FETCH_MEDIAS';
 export const FETCH_MEDIAS_SUCCESS = 'FETCH_MEDIAS_SUCCESS';
 export const FETCH_MEDIAS_FAILURE = 'FETCH_MEDIAS_FAILURE';
 
-function fetchMediasSuccess(medias: Media[]) {
+interface MediasInterface {
+  media: Media[];
+}
+
+const fetchMediasSuccess: ActionCreator<Action> = (medias: Media[]) => {
   return {
-    type: FETCH_MEDIAS_SUCCESS,
     payload: medias,
+    type: FETCH_MEDIAS_SUCCESS,
   };
-}
+};
 
-function fetchMediasFailure(error: any) {
+const fetchMediasFailure: ActionCreator<Action> = (error: Error) => {
   return {
-    type: FETCH_MEDIAS_FAILURE,
     payload: error,
+    type: FETCH_MEDIAS_FAILURE,
   };
-}
+};
 
-function requestMedias(point: Point) {
+const requestMedias: ActionCreator<Action> = (point: Point) => {
   return {
-    type: FETCH_MEDIAS,
     payload: {},
+    type: FETCH_MEDIAS,
   };
-}
+};
 
-export function fetchMedias(point: Point) {
-  return (dispatch: any) => {
+export const fetchMedias: ActionCreator<ThunkAction<Promise<void>, any, void>> = (point: Point) => {
+  return (dispatch: Dispatch<any>) => {
     dispatch(requestMedias(point));
-    return wretch(ROOT_URL + '/points/' + point.id + '/media').get()
-      .json((json: any) => {
+    return fetch(ROOT_URL + '/points/' + point.id + '/media')
+      .then((response: Response) => response.json())
+      .then((json: MediasInterface) => {
         const medias = json.media.map((media: MediaInterface) => new Media(media));
         dispatch(fetchMediasSuccess(medias));
       })
-      .catch((error: any) => {
+      .catch((error: Error) => {
         dispatch(fetchMediasFailure(error));
       });
   };
-}
+};

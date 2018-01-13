@@ -1,5 +1,5 @@
-import { Point, PointInterface } from './point';
 import * as moment from 'moment';
+import { Point, PointInterface } from './point';
 
 export enum TypeTrip {
   car = 'car',
@@ -22,11 +22,11 @@ export interface TripInterface {
 }
 
 export class Trip {
-  departure: Point;
-  arrival: Point;
-  id: number;
-  date: moment.Moment;
-  mode: TypeTrip;
+  public departure: Point;
+  public arrival: Point;
+  public id: number;
+  public date: moment.Moment;
+  public mode: TypeTrip;
 
   constructor(json: TripInterface) {
     this.departure = new Point(json.departure);

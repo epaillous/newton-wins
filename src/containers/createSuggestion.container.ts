@@ -5,18 +5,18 @@ import { Suggestion } from '../models/suggestion';
 
 const mapStateToProps = (state: any) => {
   return {
-    types: state.suggestions.types,
     place: state.map.place,
+    types: state.suggestions.types,
   };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    fetchSuggestionTypes: () => {
-      dispatch(fetchSuggestionTypes());
-    },
     createSuggestion: (suggestion: Suggestion) => {
       return dispatch(createSuggestion(suggestion));
+    },
+    fetchSuggestionTypes: () => {
+      dispatch(fetchSuggestionTypes());
     },
   };
 };

@@ -1,10 +1,11 @@
 import * as React from 'react';
-import { FormGroup, Label, Input, } from 'reactstrap';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { OAuthSignInButton } from 'redux-auth/bootstrap-theme';
-import './login.component.css';
-import { FormButton } from '../modalWithForm/modalWithForm.component';
 import ModalWithFormComponent from '../../containers/modalWithForm.container';
+import { User } from '../../models/user';
+import { FormGroupInputComponent } from '../formGroupInput/formGroupInput.component';
+import { FormButton } from '../modalWithForm/formButton';
+import './login.component.css';
 
 interface Props {
   login: (email: string, password: string) => Promise<any>;
@@ -13,65 +14,54 @@ interface Props {
 }
 
 class LoginComponent extends React.Component<Props & RouteComponentProps<any>> {
-  email: string;
-  password: string;
+  public user = new User();
 
-  render() {
+  constructor(props: Props & RouteComponentProps<any>) {
+    super(props);
+    this.fetchSuggestionsAndCloseModal = this.fetchSuggestionsAndCloseModal.bind(this);
+  }
+
+  public render() {
     const buttons = [
       new FormButton('primary', 'submit', () => this.login(), 'Se connecter'),
       new FormButton('primary', '', () => Promise.resolve({}), 'S\'inscrire', true, '/signup'),
     ];
     return (
-      <ModalWithFormComponent title="Connectez-vous"
-                              buttons={buttons}
-                              formValid={!!(this.email && this.password)}>
+      <ModalWithFormComponent
+        title="Connectez-vous"
+        buttons={buttons}
+        formValid={!!(this.user.email && this.user.password)}
+      >
         <div className="oauth-container">
           <OAuthSignInButton
             provider={'facebook'}
             className="btn-primary facebook-button"
-            next={() => {
-              this.props.fetchSuggestions();
-              this.props.closeModal();
-            }
-            }
+            next={this.fetchSuggestionsAndCloseModal}
           >
             Connectez-vous avec Facebook !
           </OAuthSignInButton>
           <p className="sentence-divider"> ou utilisez vos identifiants : </p>
         </div>
-        <FormGroup>
-          <Label for="placeType">e-mail</Label>
-          <Input
-            required
-            type="email"
-            onChange={event => this.handleChange('email', event.target.value)}
-          />
-          <div className="invalid-feedback">
-            L'email est obligatoire
-          </div>
-        </FormGroup>
-        <FormGroup>
-          <Label for="placeType">Mot de passe</Label>
-          <Input
-            required
-            type="password"
-            onChange={event => this.handleChange('password', event.target.value)}
-          />
-          <div className="invalid-feedback">
-            Le mot de passe est obligatoire
-          </div>
-        </FormGroup>
+        <FormGroupInputComponent property="email" label="e-mail" object={this.user} errorMessage="L'email est obligatoire" type="email"/>
+        <FormGroupInputComponent
+          property="password"
+          label="Mot de passe"
+          object={this.user}
+          errorMessage="Le mot de passe est obligatoire"
+          type="password"
+        />
       </ModalWithFormComponent>
     );
   }
 
-  private handleChange(property: string, value: string) {
-    this[property] = value;
+  private login() {
+    return this.props.login(this.user.email, this.user.password).then(() =>
+      this.props.fetchSuggestions());
   }
 
-  private login() {
-    return this.props.login(this.email, this.password).then(() =>
-      this.props.fetchSuggestions());
+  private fetchSuggestionsAndCloseModal() {
+    this.props.fetchSuggestions();
+    this.props.closeModal();
   }
 
 }

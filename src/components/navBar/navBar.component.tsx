@@ -1,10 +1,12 @@
 import * as React from 'react';
-import './navBar.component.css';
-import { Navbar, NavbarBrand, Nav } from 'reactstrap';
-import { MenuItem } from '../../models/menuItem';
-import SearchBarComponent from '../../containers/searchBar.container';
-import { DropdownItem, UncontrolledDropdown, DropdownToggle, DropdownMenu } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import {
+  DropdownItem, DropdownMenu, DropdownToggle,
+  Nav, Navbar, NavbarBrand, UncontrolledDropdown,
+} from 'reactstrap';
+import SearchBarComponent from '../../containers/searchBar.container';
+import { MenuItem } from '../../models/menuItem';
+import './navBar.component.css';
 
 interface Props {
   menuItems: MenuItem[];
@@ -22,48 +24,52 @@ interface Props {
   logout(): void;
 }
 
+const AuthStatusComponent = (props: Props) => {
+  const logout = () => props.logout();
+  if (props.signedIn) {
+    return (
+      <div className="signed-in-nav">
+        <UncontrolledDropdown>
+          <DropdownToggle nav={true} className="account-info">
+            <span>Bienvenue {props.username} !</span>
+            {props.userPicture && <img src={props.userPicture} className="img-responsive"/>}
+          </DropdownToggle>
+          <DropdownMenu right={true}>
+            <DropdownItem>
+              Mon profil
+            </DropdownItem>
+            <DropdownItem divider={true}/>
+            <DropdownItem onClick={logout}>
+              Se déconnecter
+            </DropdownItem>
+          </DropdownMenu>
+        </UncontrolledDropdown>
+      </div>
+    );
+  } else {
+    return (
+      <div className="signed-in-nav">
+        <div className="account-info">
+          <Link to="/login" className="connect-link">Se connecter</Link>
+        </div>
+      </div>
+    );
+  }
+};
+
 class NavBarComponent extends React.Component<Props> {
 
-  componentWillMount() {
+  public componentWillMount() {
     this.props.fetchMenu();
   }
 
-  toggleNavbar() {
-    this.props.toggleNavbar();
-  }
-
-  render() {
+  public render() {
     return (
       <Navbar color="faded" light={true} expand="md" className="main-navbar">
         <NavbarBrand href="/">Le tour du monde de Ludo et Emilie</NavbarBrand>
         <Nav className="ml-auto right-nav" navbar={true}>
           <SearchBarComponent/>
-          {this.props.signedIn ?
-            <div className="signed-in-nav">
-              <UncontrolledDropdown>
-                <DropdownToggle nav className="account-info">
-                  <span>Bienvenue {this.props.username} !</span>
-                  {this.props.userPicture &&
-                  <img src={this.props.userPicture} className="img-responsive"/>
-                  }
-                </DropdownToggle>
-                <DropdownMenu right>
-                  <DropdownItem>
-                    Mon profil
-                  </DropdownItem>
-                  <DropdownItem divider/>
-                  <DropdownItem onClick={() => this.props.logout()}>
-                    Se déconnecter
-                  </DropdownItem>
-                </DropdownMenu>
-              </UncontrolledDropdown>
-            </div> :
-            <div className="signed-in-nav">
-              <div className="account-info">
-                <Link to="/login" className="connect-link">Se connecter</Link>
-              </div>
-            </div>
-          }
+          <AuthStatusComponent {...this.props}/>
         </Nav>
       </Navbar>
     );

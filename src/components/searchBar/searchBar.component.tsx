@@ -1,9 +1,9 @@
 import * as React from 'react';
-import './searchBar.component.css';
-import StandaloneSearchBox from 'react-google-maps/lib/components/places/StandaloneSearchBox';
-import { GOOGLE_URL } from '../../actions/utils';
 import { withScriptjs } from 'react-google-maps';
+import StandaloneSearchBox from 'react-google-maps/lib/components/places/StandaloneSearchBox';
 import { compose, lifecycle, withProps } from 'recompose';
+import { GOOGLE_URL } from '../../actions/utils';
+import './searchBar.component.css';
 import PlaceResult = google.maps.places.PlaceResult;
 
 interface Props {
@@ -25,10 +25,6 @@ const PlacesWithStandaloneSearchBox =
         let searchBox: StandaloneSearchBox;
 
         this.setState({
-          places: [],
-          onSearchBoxMounted: (ref: StandaloneSearchBox) => {
-            searchBox = ref;
-          },
           onPlacesChanged: () => {
             const places = searchBox.getPlaces();
             this.setState({
@@ -36,6 +32,10 @@ const PlacesWithStandaloneSearchBox =
             });
             (this.props as PlacesWithStandaloneSearchBoxProps).onSelectPlace(places[0]);
           },
+          onSearchBoxMounted: (ref: StandaloneSearchBox) => {
+            searchBox = ref;
+          },
+          places: [],
         });
       },
     }),
@@ -59,7 +59,7 @@ const PlacesWithStandaloneSearchBox =
 
 class SearchBarComponent extends React.Component<Props> {
 
-  render() {
+  public render() {
     return <PlacesWithStandaloneSearchBox onSelectPlace={this.props.handlePlaceSelected}/>;
   }
 

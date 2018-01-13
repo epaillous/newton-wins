@@ -1,7 +1,9 @@
+import { Action, ActionCreator, Dispatch } from 'redux';
 import { fetch } from 'redux-auth';
-import { ROOT_URL } from './utils';
-import { SuggestionType, SuggestionTypeInterface } from '../models/suggestionType';
+import { ThunkAction } from 'redux-thunk';
 import { Suggestion, SuggestionInterface } from '../models/suggestion';
+import { SuggestionType, SuggestionTypeInterface } from '../models/suggestionType';
+import { ROOT_URL } from './utils';
 
 export const FETCH_SUGGESTION_TYPES = 'FETCH_SUGGESTION_TYPES';
 export const FETCH_SUGGESTION_TYPES_SUCCESS = 'FETCH_SUGGESTION_TYPES_SUCCESS';
@@ -14,134 +16,145 @@ export const FETCH_SUGGESTIONS = 'FETCH_SUGGESTIONS';
 export const FETCH_SUGGESTIONS_SUCCESS = 'FETCH_SUGGESTIONS_SUCCESS';
 export const FETCH_SUGGESTIONS_FAILURE = 'FETCH_SUGGESTIONS_FAILURE';
 
-function createSuggestionSuccess() {
+interface SuggestionContainerInterface {
+  suggestion: SuggestionInterface;
+}
+
+interface SuggestionTypesInterface {
+  suggestion_types: SuggestionTypeInterface[];
+}
+
+interface SuggestionsInterface {
+  suggestions: SuggestionInterface[];
+}
+
+const createSuggestionSuccess: ActionCreator<Action> = () => {
   return {
     type: CREATE_SUGGESTION_SUCCESS,
   };
-}
+};
 
-function resetActiveSuggestion() {
+const resetActiveSuggestion: ActionCreator<Action> = () => {
   return {
     type: RESET_ACTIVE_SUGGESTION,
   };
-}
+};
 
-function createSuggestionFailure(error: any) {
+const createSuggestionFailure: ActionCreator<Action> = (error: Error) => {
   return {
+    payload: error,
     type: CREATE_SUGGESTION_FAILURE,
-    payload: error,
   };
-}
+};
 
-function fetchSuggestionTypesSuccess(suggestionsTypes: SuggestionType[]) {
+const fetchSuggestionTypesSuccess: ActionCreator<Action> = (suggestionsTypes: SuggestionType[]) => {
   return {
-    type: FETCH_SUGGESTION_TYPES_SUCCESS,
     payload: suggestionsTypes,
+    type: FETCH_SUGGESTION_TYPES_SUCCESS,
   };
-}
+};
 
-function fetchSuggestionTypesFailure(error: any) {
+const fetchSuggestionTypesFailure: ActionCreator<Action> = (error: Error) => {
   return {
-    type: FETCH_SUGGESTION_TYPES_FAILURE,
     payload: error,
+    type: FETCH_SUGGESTION_TYPES_FAILURE,
   };
-}
+};
 
-function requestSuggestionTypes() {
+const requestSuggestionTypes: ActionCreator<Action> = () => {
   return {
     type: FETCH_SUGGESTION_TYPES,
-    payload: {},
   };
-}
+};
 
-function tryToCreateSuggestion() {
+const tryToCreateSuggestion: ActionCreator<Action> = () => {
   return {
     type: CREATE_SUGGESTION,
-    payload: {},
   };
-}
+};
 
-function fetchSuggestionsSuccess(suggestions: Suggestion[]) {
+const fetchSuggestionsSuccess: ActionCreator<Action> = (suggestions: Suggestion[]) => {
   return {
-    type: FETCH_SUGGESTIONS_SUCCESS,
     payload: suggestions,
+    type: FETCH_SUGGESTIONS_SUCCESS,
   };
-}
+};
 
-function fetchSuggestionsFailure(error: any) {
+const fetchSuggestionsFailure: ActionCreator<Action> = (error: Error) => {
   return {
-    type: FETCH_SUGGESTIONS_FAILURE,
     payload: error,
+    type: FETCH_SUGGESTIONS_FAILURE,
   };
-}
+};
 
-function requestSuggestions() {
+const requestSuggestions: ActionCreator<Action> = () => {
   return {
-    type: FETCH_SUGGESTIONS,
     payload: {},
+    type: FETCH_SUGGESTIONS,
   };
-}
+};
 
-export function fetchSuggestionTypes() {
-  return (dispatch: any) => {
+export const fetchSuggestionTypes: ActionCreator<ThunkAction<Promise<void>, any, void>> = () => {
+  return (dispatch: Dispatch<any>) => {
     dispatch(requestSuggestionTypes());
     return fetch(ROOT_URL + '/suggestion_types')
       .then((response: Response) => response.json())
-      .then((json: any) => {
+      .then((json: SuggestionTypesInterface) => {
         const types = json.suggestion_types
           .map((item: SuggestionTypeInterface) => new SuggestionType(item));
         dispatch(fetchSuggestionTypesSuccess(types));
       })
-      .catch((error: any) => {
+      .catch((error: Error) => {
         dispatch(fetchSuggestionTypesFailure(error));
       });
   };
-}
+};
 
-export function fetchSuggestions() {
-  return (dispatch: any) => {
+export const fetchSuggestions: ActionCreator<ThunkAction<Promise<void>, any, void>> = () => {
+  return (dispatch: Dispatch<any>) => {
     dispatch(requestSuggestions());
     return fetch(ROOT_URL + '/suggestions')
       .then((response: Response) => response.json())
-      .then((json: any) => {
+      .then((json: SuggestionsInterface) => {
         const suggestions = json.suggestions
           .map((item: SuggestionInterface) => new Suggestion(item));
         dispatch(fetchSuggestionsSuccess(suggestions));
       })
-      .catch((error: any) => {
+      .catch((error: Error) => {
         dispatch(fetchSuggestionsFailure(error));
       });
   };
-}
+};
 
-export function createSuggestion(suggestion: Suggestion) {
-  return (dispatch: any) => {
-    dispatch(tryToCreateSuggestion());
-    const body = {
-      suggestion: {
-        name: suggestion.place.name,
-        address: suggestion.place.formatted_address,
-        comment: suggestion.comment,
-        point_attributes: {
-          latitude: suggestion.place.geometry.location.lat(),
-          longitude: suggestion.place.geometry.location.lng(),
+export const createSuggestion: ActionCreator<ThunkAction<Promise<void>, any, void>> =
+  (suggestion: Suggestion) => {
+    return (dispatch: Dispatch<any>) => {
+      dispatch(tryToCreateSuggestion());
+      const body = {
+        suggestion: {
+          address: suggestion.place.formatted_address,
+          comment: suggestion.comment,
+          name: suggestion.place.name,
+          point_attributes: {
+            latitude: suggestion.place.geometry.location.lat(),
+            longitude: suggestion.place.geometry.location.lng(),
+          },
+          suggestion_type_id: suggestion.suggestionType ? suggestion.suggestionType.id : '',
         },
-        suggestion_type_id: suggestion.suggestionType ? suggestion.suggestionType.id : '',
-      },
+      };
+      return fetch(
+        ROOT_URL + '/suggestions',
+        {
+          body: JSON.stringify(body),
+          headers: { 'Content-Type': 'application/json' },
+          method: 'POST',
+        }).then((response: Response) => response.json())
+        .then((json: SuggestionContainerInterface) => {
+          dispatch(createSuggestionSuccess());
+          dispatch(resetActiveSuggestion());
+        })
+        .catch((error: Error) => {
+          dispatch(createSuggestionFailure(error));
+        });
     };
-    return fetch(
-      ROOT_URL + '/suggestions',
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
-      }).then((response: Response) => response.json())
-      .then((json: any) => {
-        dispatch(createSuggestionSuccess());
-        dispatch(resetActiveSuggestion());
-      })
-      .catch((error: any) => {
-        dispatch(createSuggestionFailure(error));
-      });
   };
-}

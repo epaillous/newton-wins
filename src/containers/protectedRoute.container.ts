@@ -3,8 +3,8 @@ import { ProtectedRoute } from '../components/protectedRoute/protectedRoute.comp
 
 const mapStateToProps = (state: any) => {
   return {
-    isAuthenticated: state.auth.getIn(['user', 'isSignedIn']),
     authenticationPath: '/login',
+    isAuthenticated: state.auth.getIn(['user', 'isSignedIn']),
   };
 };
 

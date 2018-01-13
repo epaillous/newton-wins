@@ -1,9 +1,8 @@
-import { SuggestionType } from '../models/suggestionType';
 import {
   FETCH_SUGGESTION_TYPES_SUCCESS, FETCH_SUGGESTIONS_SUCCESS,
 } from '../actions/suggestions.actions';
 import { Suggestion } from '../models/suggestion';
-
+import { SuggestionType } from '../models/suggestionType';
 
 interface StateInterface {
   types: SuggestionType[];

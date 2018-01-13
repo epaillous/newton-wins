@@ -1,7 +1,7 @@
 import { CLOSE_MODAL } from '../actions/modal.actions';
 
 interface StateInterface {
-  closeModalNeeded: boolean
+  closeModalNeeded: boolean;
 }
 
 const INITIAL_STATE = { closeModalNeeded: false };

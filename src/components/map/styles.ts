@@ -23,8 +23,8 @@ export const styles: MapTypeStyle[] = [
     ],
   },
   {
-    featureType: 'administrative',
     elementType: 'labels',
+    featureType: 'administrative',
     stylers: [
       {
         visibility: 'on',
@@ -32,8 +32,8 @@ export const styles: MapTypeStyle[] = [
     ],
   },
   {
-    featureType: 'administrative.locality',
     elementType: 'labels.text.stroke',
+    featureType: 'administrative.locality',
     stylers: [
       {
         color: '#f4f9e8',

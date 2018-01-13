@@ -1,5 +1,5 @@
-import { CREATE_SUGGESTION_SUCCESS } from '../actions/suggestions.actions';
 import { RESET_MAIN_ALERT } from '../actions/alerts.actions';
+import { CREATE_SUGGESTION_SUCCESS } from '../actions/suggestions.actions';
 
 interface StateInterface {
   alertMessage: string | null;

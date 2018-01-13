@@ -2,8 +2,21 @@ import PolylineOptions = google.maps.PolylineOptions;
 import { Trip, TypeTrip } from '../../models/trip';
 
 export class PolylineViewModel {
-  path: any[];
-  options: PolylineOptions;
+  public path: any[];
+  public options: PolylineOptions;
+
+  private static computeIcons(trip: Trip) {
+    const lineSymbol = {
+      path: 'M 0,-1 0,1',
+      scale: 4,
+      strokeOpacity: 1,
+    };
+    return [{
+      icon: lineSymbol,
+      offset: '0',
+      repeat: '20px',
+    }];
+  }
 
   constructor(trip: Trip) {
     this.path = [trip.departure.googleMapPoint, trip.arrival.googleMapPoint];
@@ -19,16 +32,4 @@ export class PolylineViewModel {
     this.options = options;
   }
 
-  private static computeIcons(trip: Trip) {
-    const lineSymbol = {
-      path: 'M 0,-1 0,1',
-      strokeOpacity: 1,
-      scale: 4,
-    };
-    return [{
-      icon: lineSymbol,
-      offset: '0',
-      repeat: '20px',
-    }];
-  }
 }

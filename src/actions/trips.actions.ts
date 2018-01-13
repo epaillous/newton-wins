@@ -1,43 +1,48 @@
+import { Action, ActionCreator, Dispatch } from 'redux';
+import { fetch } from 'redux-auth';
+import { ThunkAction } from 'redux-thunk';
 import { Trip, TripInterface } from '../models/trip';
 import { ROOT_URL } from './utils';
-import { fetch } from 'redux-auth';
 
 export const FETCH_TRIPS = 'FETCH_TRIPS';
 export const FETCH_TRIPS_SUCCESS = 'FETCH_TRIPS_SUCCESS';
 export const FETCH_TRIPS_FAILURE = 'FETCH_TRIPS_FAILURE';
 
-function fetchTripsSuccess(trips: Trip[]) {
+interface TripsInterface {
+  trips: TripInterface[];
+}
+
+const fetchTripsSuccess: ActionCreator<Action> = (trips: Trip[]) => {
   return {
-    type: FETCH_TRIPS_SUCCESS,
     payload: trips,
+    type: FETCH_TRIPS_SUCCESS,
   };
-}
+};
 
-function fetchTripsFailure(error: any) {
+const fetchTripsFailure: ActionCreator<Action> = (error: Error) => {
   return {
-    type: FETCH_TRIPS_FAILURE,
     payload: error,
+    type: FETCH_TRIPS_FAILURE,
   };
-}
+};
 
-function requestTrips() {
+const requestTrips: ActionCreator<Action> = () => {
   return {
     type: FETCH_TRIPS,
-    payload: {},
   };
-}
+};
 
-export function fetchTrips() {
-  return (dispatch: any) => {
+export const fetchTrips: ActionCreator<ThunkAction<Action, any, void>> = () => {
+  return (dispatch: Dispatch<any>) => {
     dispatch(requestTrips());
     return fetch(ROOT_URL + '/trips')
-      .then((response: any) => response.json())
-      .then((json: any) => {
+      .then((response: Response) => response.json())
+      .then((json: TripsInterface) => {
         const trips = json.trips.map((item: TripInterface) => new Trip(item));
         dispatch(fetchTripsSuccess(trips));
       })
-      .catch((error: any) => {
+      .catch((error: Error) => {
         dispatch(fetchTripsFailure(error));
       });
   };
-}
+};

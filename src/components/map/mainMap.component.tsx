@@ -1,13 +1,13 @@
 import * as React from 'react';
-import { Trip } from '../../models/trip';
-import { Point } from '../../models/point';
-import './mainMap.component.css';
 import { GOOGLE_URL } from '../../actions/utils';
-import { LoaderComponent } from '../loader/loader.component';
+import { Point } from '../../models/point';
 import LatLng = google.maps.LatLng;
 import PlaceResult = google.maps.places.PlaceResult;
 import { Suggestion } from '../../models/suggestion';
-import { GoogleMapComponent } from './googleMap.component';
+import { Trip } from '../../models/trip';
+import { LoaderComponent } from '../loader/loader.component';
+import GoogleMapComponent from './googleMap.component';
+import './mainMap.component.css';
 
 interface TripsProps {
   trips: Trip[];
@@ -37,12 +37,18 @@ interface State {
 
 class MainMap extends React.Component<Props, State> {
 
-  componentWillMount() {
+  constructor(props: Props) {
+    super(props);
+    this.fetchArticleAndMedias = this.fetchArticleAndMedias.bind(this);
+    this.zoomOnPoint = this.zoomOnPoint.bind(this);
+  }
+
+  public componentWillMount() {
     this.props.fetchTrips();
     this.props.fetchSuggestions();
   }
 
-  render() {
+  public render() {
     const { trips, loading, error } = this.props.tripsList;
     if (loading) {
       return (
@@ -62,8 +68,8 @@ class MainMap extends React.Component<Props, State> {
           containerElement={<div className="map-container"/>}
           mapElement={<div style={{ height: `100%` }}/>}
           trips={trips}
-          onMarkerClick={(point: Point) => this.props.fetchArticleAndMedias(point)}
-          onMarkerDblClick={(point: Point) => this.props.zoomOnPoint(point)}
+          onMarkerClick={this.fetchArticleAndMedias}
+          onMarkerDblClick={this.zoomOnPoint}
           center={this.props.center}
           zoom={this.props.zoom}
           place={this.props.place}
@@ -71,6 +77,14 @@ class MainMap extends React.Component<Props, State> {
         />
       </div>
     );
+  }
+
+  private fetchArticleAndMedias(point: Point) {
+    this.props.fetchArticleAndMedias(point);
+  }
+
+  private zoomOnPoint(point: Point) {
+    this.props.zoomOnPoint(point);
   }
 
 }

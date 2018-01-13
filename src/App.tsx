@@ -1,25 +1,25 @@
+import { createBrowserHistory } from 'history';
 import * as React from 'react';
+import { Switch } from 'react-router';
+import { Route, Router } from 'react-router-dom';
+import { Alert, Container } from 'reactstrap';
+import { AuthGlobals } from 'redux-auth/bootstrap-theme';
+import './App.css';
+import { FooterComponent } from './components/footer/footer.component';
+import ArticleComponent from './containers/article.container';
+import CreateSuggestionComponent from './containers/createSuggestion.container';
+import HeaderComponent from './containers/header.container';
+import LoginComponent from './containers/login.container';
+import MainMapComponent from './containers/map.container';
+import NavBarComponent from './containers/navbar.container';
+import PhotosComponent from './containers/photos.container';
+import ProtectedRoute from './containers/protectedRoute.container';
+import RegisterComponent from './containers/register.container';
 import './fonts/Archive.eot';
 import './fonts/Archive.otf';
 import './fonts/Archive.svg';
 import './fonts/Archive.ttf';
 import './fonts/Archive.woff';
-import './App.css';
-import { Container, Alert } from 'reactstrap';
-import MainMapComponent from './containers/map.container';
-import ArticleComponent from './containers/article.container';
-import NavBarComponent from './containers/navbar.container';
-import HeaderComponent from './containers/header.container';
-import PhotosComponent from './containers/photos.container';
-import { FooterComponent } from './components/footer/footer.component';
-import RegisterComponent from './containers/register.container';
-import { Router, Route } from 'react-router-dom';
-import CreateSuggestionComponent from './containers/createSuggestion.container';
-import { Switch } from 'react-router';
-import { createBrowserHistory } from 'history';
-import LoginComponent from './containers/login.container';
-import { AuthGlobals } from 'redux-auth/bootstrap-theme';
-import ProtectedRoute from './containers/protectedRoute.container';
 
 interface Props {
   alertMessage: string;
@@ -32,7 +32,7 @@ const history = createBrowserHistory({});
 
 class App extends React.Component<Props> {
 
-  render() {
+  public render() {
     return (
       <div>
         <AuthGlobals/>
@@ -42,7 +42,8 @@ class App extends React.Component<Props> {
             <Alert
               color="success"
               isOpen={!!this.props.alertMessage}
-              toggle={() => this.onAlertDismiss()}>
+              toggle={this.onAlertDismiss}
+            >
               {this.props.alertMessage}
             </Alert>
             <MainMapComponent/>

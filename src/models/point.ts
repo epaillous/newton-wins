@@ -10,19 +10,19 @@ export interface PointInterface {
 }
 
 export class Point {
-  latitude: number;
-  longitude: number;
-  id: number;
-  articles: Article[];
-  city: City;
+  public latitude: number;
+  public longitude: number;
+  public id: number;
+  public articles: Article[];
+  public city: City;
 
   constructor(json: PointInterface) {
     this.latitude = +json.latitude;
     this.longitude = +json.longitude;
     this.id = json.id;
     this.articles = json.articles ? json.articles
-      .map(article => new Article(article)) : [];
-    this.articles.map(article => article.point = this);
+      .map((article) => new Article(article)) : [];
+    this.articles.map((article) => article.point = this);
     if (json.city) {
       this.city = new City(json.city);
     }

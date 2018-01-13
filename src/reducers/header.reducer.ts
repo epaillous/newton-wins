@@ -16,9 +16,10 @@ export default function header(state: StateInterface = INITIAL_STATE, action: an
   switch (action.type) {
     case SELECT_POINT:
       return {
-        ...state, title: action.payload.city.name,
-        subtitle: action.payload.city.country.name,
+        ...state,
         flagCode: action.payload.city.country.code,
+        subtitle: action.payload.city.country.name,
+        title: action.payload.city.name,
       };
     default:
       return state;

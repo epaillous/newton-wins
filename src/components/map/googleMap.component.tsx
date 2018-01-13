@@ -1,18 +1,18 @@
-import * as React from 'react';
-import { styles } from './styles';
 import * as moment from 'moment';
-import { Button } from 'reactstrap';
-import { RouteComponentProps, withRouter } from 'react-router';
+import * as React from 'react';
 import {
-  withScriptjs, withGoogleMap, GoogleMap, Marker, InfoWindow,
+  GoogleMap, InfoWindow, Marker, withGoogleMap, withScriptjs,
 } from 'react-google-maps';
-import { Trip } from '../../models/trip';
-import { Suggestion } from '../../models/suggestion';
+import { RouteComponentProps, withRouter } from 'react-router';
+import { Button } from 'reactstrap';
 import LatLng = google.maps.LatLng;
 import PlaceResult = google.maps.places.PlaceResult;
 import { Point } from '../../models/point';
+import { Suggestion } from '../../models/suggestion';
+import { Trip } from '../../models/trip';
 import { MarkerType, MarkerViewModel } from './marker.viewModel';
 import { MarkerForSuggestion } from './markerForSuggestion.component';
+import { styles } from './styles';
 import { TripMarkerAndPolyline } from './tripMarkerAndPolyline.component';
 
 interface GoogleMapProps {
@@ -27,48 +27,76 @@ interface GoogleMapProps {
   onMarkerDblClick(point: Point): void;
 }
 
-export const GoogleMapComponent = withRouter(withScriptjs(withGoogleMap(
-  (props: GoogleMapProps & RouteComponentProps<any>) => {
-    const trips = props.trips.filter(trip => trip.date.isSameOrBefore(moment()));
+class GoogleMapComponent extends React.Component<GoogleMapProps & RouteComponentProps<any>> {
+  private trips: Trip[];
+  private options = {
+    fullscreenControl: false,
+    mapTypeControl: false,
+    minZoom: 2,
+    streetViewControl: false,
+    styles,
+  };
+
+  constructor(props: GoogleMapProps & RouteComponentProps<any>) {
+    super(props);
+    this.renderPlaceSelected = this.renderPlaceSelected.bind(this);
+    this.renderSuggestion = this.renderSuggestion.bind(this);
+    this.renderTrip = this.renderTrip.bind(this);
+    this.createSuggestion = this.createSuggestion.bind(this);
+  }
+
+  public componentWillMount() {
+    this.trips = this.props.trips.filter((trip) => trip.date.isSameOrBefore(moment()));
+  }
+
+  public render() {
     return (
       <GoogleMap
-        zoom={props.zoom}
-        center={props.center}
-        defaultOptions={{
-          styles,
-          minZoom: 2,
-          mapTypeControl: false,
-          fullscreenControl: false,
-          streetViewControl: false,
-        }}
+        zoom={this.props.zoom}
+        center={this.props.center}
+        defaultOptions={this.options}
       >
-        {
-          trips.map((trip: Trip) =>
-            <TripMarkerAndPolyline key={trip.id} trip={trip} {...props}/>,
-          )
-        }
-        {
-          props.suggestions.map((suggestion: Suggestion) =>
-            <MarkerForSuggestion key={suggestion.id} suggestion={suggestion} {...props}/>,
-          )
-        }
-        {props.place &&
+        {this.trips.map(this.renderTrip)}
+        {this.props.suggestions.map(this.renderSuggestion)}
+        {this.renderPlaceSelected()}
+      </GoogleMap>
+    );
+  }
+
+  private createSuggestion() {
+    this.props.history.push('/suggestions/new');
+  }
+
+  private renderSuggestion(suggestion: Suggestion) {
+    return <MarkerForSuggestion key={suggestion.id} suggestion={suggestion} {...this.props}/>;
+  }
+
+  private renderTrip(trip: Trip) {
+    return <TripMarkerAndPolyline key={trip.id} trip={trip} {...this.props}/>;
+  }
+
+  private renderPlaceSelected() {
+    if (this.props.place) {
+      return (
         <Marker
-          position={props.place.geometry.location}
+          position={this.props.place.geometry.location}
           icon={new MarkerViewModel(MarkerType.Suggestion).icon}
-          title={props.place.name}
+          title={this.props.place.name}
         >
           <InfoWindow>
             <div className="info-window">
-              <h6>{props.place.name}</h6>
-              <p>{props.place.formatted_address}</p>
-              <Button color="danger" onClick={() => props.history.push('/suggestions/new')}>
+              <h6>{this.props.place.name}</h6>
+              <p>{this.props.place.formatted_address}</p>
+              <Button color="danger" onClick={this.createSuggestion}>
                 Suggérer ce lieu !
               </Button>
             </div>
           </InfoWindow>
         </Marker>
-        }
-      </GoogleMap>
-    );
-  })));
+      );
+    }
+    return null;
+  }
+}
+
+export default withRouter(withScriptjs(withGoogleMap(GoogleMapComponent)));

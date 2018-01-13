@@ -1,6 +1,6 @@
 import { FETCH_MENU, FETCH_MENU_SUCCESS } from '../actions/menu.actions';
-import { MenuItem } from '../models/menuItem';
 import { TOGGLE_NAVBAR } from '../actions/navbar.actions';
+import { MenuItem } from '../models/menuItem';
 
 interface MenuStateInterface {
   menuItems: MenuItem[];

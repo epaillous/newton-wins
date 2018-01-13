@@ -1,6 +1,6 @@
-import * as React from 'react';
-import { Row, Col, Card, CardBody, CardTitle, Container, CardSubtitle } from 'reactstrap';
 import 'flag-icon-css/css/flag-icon.css';
+import * as React from 'react';
+import { Card, CardBody, CardSubtitle, CardTitle, Col, Container, Row } from 'reactstrap';
 import './header.component.css';
 
 interface Props {
@@ -11,7 +11,7 @@ interface Props {
 
 class HeaderComponent extends React.Component<Props> {
 
-  render() {
+  public render() {
     if (!this.props.title) {
       return (
         <Container>
