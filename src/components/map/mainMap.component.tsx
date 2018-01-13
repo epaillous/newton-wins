@@ -14,9 +14,11 @@ import LatLng = google.maps.LatLng;
 import PlaceResult = google.maps.places.PlaceResult;
 import { Button } from 'reactstrap';
 import { RouteComponentProps, withRouter } from 'react-router';
+import { Suggestion } from '../../models/suggestion';
 
 interface GoogleMapProps {
   trips: Trip[];
+  suggestions: Suggestion[];
   center: LatLng;
   zoom: number;
   place: PlaceResult;
@@ -37,8 +39,11 @@ interface Props {
   center: LatLng;
   zoom: number;
   place: PlaceResult;
+  suggestions: Suggestion[];
 
   fetchTrips(): void;
+
+  fetchSuggestions(): void;
 
   fetchArticleAndMedias(point: Point): void;
 
@@ -57,6 +62,7 @@ enum MarkerType {
 
 class MarkerViewModel {
   icon: any;
+  infoWindowOpened = false;
 
   constructor(markerType: MarkerType) {
     this.icon = {
@@ -120,8 +126,9 @@ class PolylineViewModel {
 }
 
 const GoogleMapComponent = withRouter(withScriptjs(withGoogleMap(
-  (props: GoogleMapProps & RouteComponentProps<any>) =>
-    (
+  (props: GoogleMapProps & RouteComponentProps<any>) => {
+    const trips = props.trips.filter(trip => trip.date.isSameOrBefore(moment()));
+    return (
       <GoogleMap
         zoom={props.zoom}
         center={props.center}
@@ -225,25 +232,50 @@ const GoogleMapComponent = withRouter(withScriptjs(withGoogleMap(
         }}
       >
         {
-          props.trips.filter(trip => trip.date.isSameOrBefore(moment()))
-            .map((trip) => {
-                const viewModel = new PolylineViewModel(trip);
-                const markerViewModel =
-                  new MarkerViewModel(trip.arrival.articles.length > 0 ?
-                    MarkerType.WithArticles : MarkerType.Normal);
-                return (
-                  <div key={trip.id}>
-                    <Marker
-                      position={trip.arrival.googleMapPoint}
-                      onClick={() => props.onMarkerClick(trip.arrival)}
-                      onDblClick={() => props.onMarkerDblClick(trip.arrival)}
-                      icon={markerViewModel.icon}
-                    />
-                    <Polyline path={viewModel.path} options={viewModel.options}/>
-                  </div>
-                );
-              },
-            )
+          trips.map((trip) => {
+              const viewModel = new PolylineViewModel(trip);
+              const markerViewModel =
+                new MarkerViewModel(trip.arrival.articles.length > 0 ?
+                  MarkerType.WithArticles : MarkerType.Normal);
+              return (
+                <div key={trip.id}>
+                  <Marker
+                    position={trip.arrival.googleMapPoint}
+                    onClick={() => props.onMarkerClick(trip.arrival)}
+                    onDblClick={() => props.onMarkerDblClick(trip.arrival)}
+                    icon={markerViewModel.icon}
+                    animation={trip === trips[0] ? google.maps.Animation.BOUNCE : undefined}
+                  />
+                  <Polyline path={viewModel.path} options={viewModel.options}/>
+                </div>
+              );
+            },
+          )
+        }
+        {
+          props.suggestions.map((suggestion: Suggestion) => {
+              const markerViewModel =
+                new MarkerViewModel(MarkerType.Suggestion);
+              return (
+                <Marker
+                  position={suggestion.point.googleMapPoint}
+                  icon={markerViewModel.icon}
+                  key={suggestion.id}
+                  onClick={() => markerViewModel.infoWindowOpened = true}
+                  onDblClick={() => props.onMarkerDblClick(suggestion.point)}
+                >
+                  {markerViewModel.infoWindowOpened &&
+                  <InfoWindow onCloseClick={() => markerViewModel.infoWindowOpened = false}>
+                    <div className="info-window">
+                      <h6>{suggestion.name}</h6>
+                      <p>{suggestion.address}</p>
+                    </div>
+                  </InfoWindow>
+                  }
+                </Marker>
+              );
+            },
+          )
         }
         {props.place &&
         <Marker
@@ -263,13 +295,14 @@ const GoogleMapComponent = withRouter(withScriptjs(withGoogleMap(
         </Marker>
         }
       </GoogleMap>
-    ),
-)));
+    );
+  })));
 
 class MainMap extends React.Component<Props, State> {
 
   componentWillMount() {
     this.props.fetchTrips();
+    this.props.fetchSuggestions();
   }
 
   render() {
@@ -297,6 +330,7 @@ class MainMap extends React.Component<Props, State> {
           center={this.props.center}
           zoom={this.props.zoom}
           place={this.props.place}
+          suggestions={this.props.suggestions}
         />
       </div>
     );

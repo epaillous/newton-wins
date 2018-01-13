@@ -5,6 +5,7 @@ import { Point } from '../models/point';
 import { fetchArticle, resetArticle } from '../actions/articles.actions';
 import { selectPoint, zoomOnPoint } from '../actions/points.actions';
 import { fetchMedias } from '../actions/medias.actions';
+import { fetchSuggestions } from '../actions/suggestions.actions';
 
 const mapStateToProps = (state: any) => {
   return {
@@ -12,6 +13,7 @@ const mapStateToProps = (state: any) => {
     center: state.map.center,
     zoom: state.map.zoom,
     place: state.map.place,
+    suggestions: state.suggestions.suggestions,
   };
 };
 
@@ -19,6 +21,9 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     fetchTrips: () => {
       dispatch(fetchTrips());
+    },
+    fetchSuggestions: () => {
+      dispatch(fetchSuggestions());
     },
     fetchArticleAndMedias: (point: Point) => {
       dispatch(selectPoint(point));

@@ -7,6 +7,8 @@ export interface SuggestionInterface {
   suggestion_type: SuggestionTypeInterface;
   comment: string;
   point: PointInterface;
+  name: string;
+  address: string;
 }
 
 export class Suggestion {
@@ -15,6 +17,8 @@ export class Suggestion {
   comment: string;
   point: Point;
   place: PlaceResult;
+  name: string;
+  address: string;
 
   constructor(json: SuggestionInterface | null = null) {
     if (!json) {
@@ -24,5 +28,11 @@ export class Suggestion {
     this.suggestionType = new SuggestionType(json.suggestion_type);
     this.comment = json.comment;
     this.point = new Point(json.point);
+    this.address = json.address;
+    this.name = json.name;
+  }
+
+  get valid() {
+    return !!(this.suggestionType);
   }
 }

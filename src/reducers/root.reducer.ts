@@ -20,8 +20,8 @@ const rootReducer = combineReducers({
   medias,
   suggestions,
   app,
-  auth: authStateReducer,
   modal,
+  auth: authStateReducer,
 });
 
 export default rootReducer;

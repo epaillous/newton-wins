@@ -1,6 +1,6 @@
 import { Trip, TripInterface } from '../models/trip';
-import wretch from 'wretch';
 import { ROOT_URL } from './utils';
+import { fetch } from 'redux-auth';
 
 export const FETCH_TRIPS = 'FETCH_TRIPS';
 export const FETCH_TRIPS_SUCCESS = 'FETCH_TRIPS_SUCCESS';
@@ -30,8 +30,9 @@ function requestTrips() {
 export function fetchTrips() {
   return (dispatch: any) => {
     dispatch(requestTrips());
-    return wretch(ROOT_URL + '/trips').get()
-      .json((json: any) => {
+    return fetch(ROOT_URL + '/trips')
+      .then((response: any) => response.json())
+      .then((json: any) => {
         const trips = json.trips.map((item: TripInterface) => new Trip(item));
         dispatch(fetchTripsSuccess(trips));
       })

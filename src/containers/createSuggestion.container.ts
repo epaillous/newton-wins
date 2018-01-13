@@ -6,6 +6,7 @@ import { Suggestion } from '../models/suggestion';
 const mapStateToProps = (state: any) => {
   return {
     types: state.suggestions.types,
+    place: state.map.place,
   };
 };
 
@@ -15,7 +16,7 @@ const mapDispatchToProps = (dispatch: any) => {
       dispatch(fetchSuggestionTypes());
     },
     createSuggestion: (suggestion: Suggestion) => {
-      dispatch(createSuggestion(suggestion));
+      return dispatch(createSuggestion(suggestion));
     },
   };
 };

@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import loginComponent from '../components/login/login.component';
 import { emailSignIn } from 'redux-auth';
 import { closeModal } from '../actions/modal.actions';
+import { fetchSuggestions } from '../actions/suggestions.actions';
 
 const mapStateToProps = (state: any) => {
   return {};
@@ -15,6 +16,9 @@ const mapDispatchToProps = (dispatch: any, ownProps: any) => {
     },
     closeModal: () => {
       dispatch(closeModal());
+    },
+    fetchSuggestions: () => {
+      dispatch(fetchSuggestions());
     },
   };
 };

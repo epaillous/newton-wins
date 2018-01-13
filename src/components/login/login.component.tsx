@@ -9,6 +9,7 @@ import ModalWithFormComponent from '../../containers/modalWithForm.container';
 interface Props {
   login: (email: string, password: string) => Promise<any>;
   closeModal: () => void;
+  fetchSuggestions: () => void;
 }
 
 class LoginComponent extends React.Component<Props & RouteComponentProps<any>> {
@@ -28,7 +29,10 @@ class LoginComponent extends React.Component<Props & RouteComponentProps<any>> {
           <OAuthSignInButton
             provider={'facebook'}
             className="btn-primary facebook-button"
-            next={() => this.props.closeModal()
+            next={() => {
+              this.props.fetchSuggestions();
+              this.props.closeModal();
+            }
             }
           >
             Connectez-vous avec Facebook !
@@ -66,7 +70,8 @@ class LoginComponent extends React.Component<Props & RouteComponentProps<any>> {
   }
 
   private login() {
-    return this.props.login(this.email, this.password);
+    return this.props.login(this.email, this.password).then(() =>
+      this.props.fetchSuggestions());
   }
 
 }

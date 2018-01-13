@@ -28,11 +28,19 @@ nav.main-navbar > .navbar-brand {
     min-height: 40px;
 }
 
-a.account-info {
+.account-info, a.account-info {
     padding: 0;
     border-left: 1px solid var(--divider);
     margin-left: 16px;
     display: flex;
+}
+
+a.connect-link:hover {
+    text-decoration: none;
+}
+
+a.connect-link {
+    margin-left: 10px;
 }
 
 .dropdown-toggle::after {

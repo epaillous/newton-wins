@@ -1,27 +1,26 @@
 import { SuggestionType } from '../models/suggestionType';
 import {
-  FETCH_SUGGESTION_TYPES_SUCCESS,
-  INIT_SUGGESTION, RESET_ACTIVE_SUGGESTION,
+  FETCH_SUGGESTION_TYPES_SUCCESS, FETCH_SUGGESTIONS_SUCCESS,
 } from '../actions/suggestions.actions';
 import { Suggestion } from '../models/suggestion';
 
+
 interface StateInterface {
   types: SuggestionType[];
-  activeSuggestion: Suggestion | null;
+  suggestions: Suggestion[];
 }
 
-const INITIAL_STATE = { types: [], activeSuggestion: new Suggestion() };
+const INITIAL_STATE = { types: [], suggestions: [] };
 
 export default function suggestions(state: StateInterface = INITIAL_STATE, action: any) {
   switch (action.type) {
     case FETCH_SUGGESTION_TYPES_SUCCESS:
       return { ...state, types: action.payload };
-    case RESET_ACTIVE_SUGGESTION:
-      return { ...state, activeSuggestion: null };
-    case INIT_SUGGESTION:
-      const suggestion = new Suggestion();
-      suggestion.place = action.payload;
-      return { ...state, activeSuggestion: suggestion };
+    case FETCH_SUGGESTIONS_SUCCESS:
+      return { ...state, suggestions: action.payload };
+    case 'SIGN_OUT_COMPLETE': {
+      return { ...state, suggestions: [] };
+    }
     default:
       return state;
   }

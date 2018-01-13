@@ -1,7 +1,7 @@
-import wretch from 'wretch';
+import { fetch } from 'redux-auth';
 import { ROOT_URL } from './utils';
 import { SuggestionType, SuggestionTypeInterface } from '../models/suggestionType';
-import { Suggestion } from '../models/suggestion';
+import { Suggestion, SuggestionInterface } from '../models/suggestion';
 
 export const FETCH_SUGGESTION_TYPES = 'FETCH_SUGGESTION_TYPES';
 export const FETCH_SUGGESTION_TYPES_SUCCESS = 'FETCH_SUGGESTION_TYPES_SUCCESS';
@@ -10,7 +10,9 @@ export const CREATE_SUGGESTION = 'CREATE_SUGGESTION';
 export const CREATE_SUGGESTION_SUCCESS = 'CREATE_SUGGESTION_SUCCESS';
 export const CREATE_SUGGESTION_FAILURE = 'CREATE_SUGGESTION_FAILURE';
 export const RESET_ACTIVE_SUGGESTION = 'RESET_ACTIVE_SUGGESTION';
-export const INIT_SUGGESTION = 'INIT_SUGGESTION';
+export const FETCH_SUGGESTIONS = 'FETCH_SUGGESTIONS';
+export const FETCH_SUGGESTIONS_SUCCESS = 'FETCH_SUGGESTIONS_SUCCESS';
+export const FETCH_SUGGESTIONS_FAILURE = 'FETCH_SUGGESTIONS_FAILURE';
 
 function createSuggestionSuccess() {
   return {
@@ -59,11 +61,33 @@ function tryToCreateSuggestion() {
   };
 }
 
+function fetchSuggestionsSuccess(suggestions: Suggestion[]) {
+  return {
+    type: FETCH_SUGGESTIONS_SUCCESS,
+    payload: suggestions,
+  };
+}
+
+function fetchSuggestionsFailure(error: any) {
+  return {
+    type: FETCH_SUGGESTIONS_FAILURE,
+    payload: error,
+  };
+}
+
+function requestSuggestions() {
+  return {
+    type: FETCH_SUGGESTIONS,
+    payload: {},
+  };
+}
+
 export function fetchSuggestionTypes() {
   return (dispatch: any) => {
     dispatch(requestSuggestionTypes());
-    return wretch(ROOT_URL + '/suggestion_types').get()
-      .json((json: any) => {
+    return fetch(ROOT_URL + '/suggestion_types')
+      .then((response: Response) => response.json())
+      .then((json: any) => {
         const types = json.suggestion_types
           .map((item: SuggestionTypeInterface) => new SuggestionType(item));
         dispatch(fetchSuggestionTypesSuccess(types));
@@ -74,10 +98,26 @@ export function fetchSuggestionTypes() {
   };
 }
 
+export function fetchSuggestions() {
+  return (dispatch: any) => {
+    dispatch(requestSuggestions());
+    return fetch(ROOT_URL + '/suggestions')
+      .then((response: Response) => response.json())
+      .then((json: any) => {
+        const suggestions = json.suggestions
+          .map((item: SuggestionInterface) => new Suggestion(item));
+        dispatch(fetchSuggestionsSuccess(suggestions));
+      })
+      .catch((error: any) => {
+        dispatch(fetchSuggestionsFailure(error));
+      });
+  };
+}
+
 export function createSuggestion(suggestion: Suggestion) {
   return (dispatch: any) => {
     dispatch(tryToCreateSuggestion());
-    return wretch(ROOT_URL + '/suggestions').json({
+    const body = {
       suggestion: {
         name: suggestion.place.name,
         address: suggestion.place.formatted_address,
@@ -88,9 +128,15 @@ export function createSuggestion(suggestion: Suggestion) {
         },
         suggestion_type_id: suggestion.suggestionType ? suggestion.suggestionType.id : '',
       },
-    })
-      .post()
-      .json((json: any) => {
+    };
+    return fetch(
+      ROOT_URL + '/suggestions',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      }).then((response: Response) => response.json())
+      .then((json: any) => {
         dispatch(createSuggestionSuccess());
         dispatch(resetActiveSuggestion());
       })
