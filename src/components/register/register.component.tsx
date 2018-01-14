@@ -7,8 +7,7 @@ import { FormGroupInputComponent } from '../formGroupInput/formGroupInput.compon
 
 interface Props {
   register: (user: User) => Promise<any>;
-
-  changeFormValidStatus(status: boolean): void;
+  openRegister: () => void;
 }
 
 class RegisterComponent extends React.Component<Props & RouteComponentProps<any>> {
@@ -17,6 +16,10 @@ class RegisterComponent extends React.Component<Props & RouteComponentProps<any>
   constructor(props: Props & RouteComponentProps<any>) {
     super(props);
     this.onClick = this.onClick.bind(this);
+  }
+
+  public componentWillMount() {
+    this.props.openRegister();
   }
 
   public render() {

@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
 import { signOut } from 'redux-auth';
-import { showLogin } from '../actions/auth.actions';
 import { fetchMenu } from '../actions/menu.actions';
 import NavBarComponent from '../components/navBar/navBar.component';
 
@@ -26,9 +25,6 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     fetchMenu: () => {
       dispatch(fetchMenu());
-    },
-    goToLogin: () => {
-      dispatch(showLogin());
     },
     logout: () => {
       dispatch(signOut());

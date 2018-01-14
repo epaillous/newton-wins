@@ -18,8 +18,6 @@ interface Props {
   fetchMenu(): void;
 
   logout(): void;
-
-  goToLogin(): void;
 }
 
 const AuthStatusComponent = (props: Props) => {
@@ -48,7 +46,7 @@ const AuthStatusComponent = (props: Props) => {
     return (
       <div className="right-nav">
         <div className="account-info">
-          <Link to="/login" className="connect-link" onClick={props.goToLogin}>Se connecter</Link>
+          <Link to="/login" className="connect-link">Se connecter</Link>
         </div>
       </div>
     );
@@ -56,11 +54,6 @@ const AuthStatusComponent = (props: Props) => {
 };
 
 class NavBarComponent extends React.Component<Props> {
-
-  constructor(props: Props) {
-    super(props);
-    this.goToLogin = this.goToLogin.bind(this);
-  }
 
   public componentWillMount() {
     this.props.fetchMenu();
@@ -76,10 +69,6 @@ class NavBarComponent extends React.Component<Props> {
         </Nav>
       </Navbar>
     );
-  }
-
-  private goToLogin() {
-    this.props.goToLogin();
   }
 }
 

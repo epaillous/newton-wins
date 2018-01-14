@@ -8,10 +8,10 @@ import { FormGroupInputComponent } from '../formGroupInput/formGroupInput.compon
 import './login.component.css';
 
 interface Props {
+  openLogin: () => void;
   login: (email: string, password: string) => Promise<any>;
   closeModal: () => void;
   fetchSuggestions: () => void;
-  goToSignUp: () => void;
 }
 
 class LoginComponent extends React.Component<Props & RouteComponentProps<any>> {
@@ -22,6 +22,10 @@ class LoginComponent extends React.Component<Props & RouteComponentProps<any>> {
     this.fetchSuggestionsAndCloseModal = this.fetchSuggestionsAndCloseModal.bind(this);
     this.goToSignUp = this.goToSignUp.bind(this);
     this.login = this.login.bind(this);
+  }
+
+  public componentWillMount() {
+    this.props.openLogin();
   }
 
   public render() {
@@ -73,7 +77,6 @@ class LoginComponent extends React.Component<Props & RouteComponentProps<any>> {
   }
 
   private goToSignUp() {
-    this.props.goToSignUp();
     this.props.history.push('/signup');
   }
 

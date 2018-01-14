@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { emailSignIn } from 'redux-auth';
-import { showSignUp } from '../actions/auth.actions';
+import { showLogin } from '../actions/auth.actions';
 import { closeModal, formWasValidated } from '../actions/modal.actions';
 import { fetchSuggestions } from '../actions/suggestions.actions';
 import loginComponent from '../components/login/login.component';
@@ -17,9 +17,6 @@ const mapDispatchToProps = (dispatch: any, ownProps: any) => {
     fetchSuggestions: () => {
       dispatch(fetchSuggestions());
     },
-    goToSignUp: () => {
-      dispatch(showSignUp());
-    },
     login: (email: string, password: string) => {
       if (!email || !password) {
         dispatch(formWasValidated());
@@ -28,6 +25,9 @@ const mapDispatchToProps = (dispatch: any, ownProps: any) => {
       const response = dispatch(emailSignIn({ email, password }));
       return response.then(() => dispatch(closeModal()));
     },
+    openLogin: () => {
+      dispatch(showLogin());
+    }
   };
 };
 
