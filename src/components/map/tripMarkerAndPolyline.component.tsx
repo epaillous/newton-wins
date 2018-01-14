@@ -9,7 +9,7 @@ interface Props {
   trip: Trip;
   onMarkerClick: (point: Point) => void;
   onMarkerDblClick: (point: Point) => void;
-  trips: Trip[];
+  isCurrent: boolean;
 }
 
 export const TripMarkerAndPolyline = (props: Props) => {
@@ -26,7 +26,7 @@ export const TripMarkerAndPolyline = (props: Props) => {
         onClick={onMarkerClick}
         onDblClick={onMarkerDblClick}
         icon={markerViewModel.icon}
-        animation={props.trip === props.trips[0] ? google.maps.Animation.BOUNCE : undefined}
+        animation={props.isCurrent ? google.maps.Animation.BOUNCE : undefined}
       />
       <Polyline path={viewModel.path} options={viewModel.options}/>
     </div>

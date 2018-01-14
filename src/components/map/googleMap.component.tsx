@@ -75,7 +75,7 @@ class GoogleMapComponent extends React.Component<GoogleMapProps & RouteComponent
   }
 
   private renderTrip(trip: Trip) {
-    return <TripMarkerAndPolyline key={trip.id} trip={trip} {...this.props}/>;
+    return <TripMarkerAndPolyline key={trip.id} trip={trip} isCurrent={trip === this.trips[0]} {...this.props}/>;
   }
 
   private renderPlaceSelected() {
