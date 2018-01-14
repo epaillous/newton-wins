@@ -29,11 +29,13 @@ export default function suggestions(state: StateInterface = INITIAL_STATE, actio
     case NEW_SUGGESTION:
       return { ...state, suggestion: action.payload };
     case DELETE_SUGGESTION_SUCCESS: {
-      const newSuggestions = state.suggestions.filter((suggestion: Suggestion) => suggestion.id !== action.payload.id);
-      return { ...state, suggestions: newSuggestions, suggestion: null };
+      const newSuggestionsAfterDelete = state.suggestions.filter((suggestion: Suggestion) => suggestion.id !== action.payload.id);
+      return { ...state, suggestions: newSuggestionsAfterDelete, suggestion: null };
     }
     case UPDATE_SUGGESTION_SUCCESS:
-      return { ...state, editMode: false };
+      const newSuggestionsAfterUpdate = state.suggestions.filter((suggestion: Suggestion) => suggestion.id !== action.payload.id);
+      newSuggestionsAfterUpdate.push(action.payload);
+      return { ...state, editMode: false, suggestions: newSuggestionsAfterUpdate };
     case CREATE_SUGGESTION_SUCCESS: {
       const newSuggestions = state.suggestions;
       newSuggestions.push(action.payload);

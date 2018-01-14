@@ -3,8 +3,10 @@ import { InfoWindow, Marker } from 'react-google-maps';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { Point } from '../../models/point';
 import { Suggestion } from '../../models/suggestion';
+import { SuggestionType } from '../../models/suggestionType';
 import Delete from '../icons/delete.icon.component';
 import Edit from '../icons/edit.icon.component';
+import SuggestionTypeIcon from './../suggestionTypeIcon/suggestionTypeIcon.component';
 import { MarkerType, MarkerViewModel } from './marker.viewModel';
 import './markerForSuggestion.component.css';
 
@@ -12,6 +14,8 @@ interface InfoWindowSuggestionProps {
   name: string;
   address: string;
   isOpened: boolean;
+  iconType: SuggestionType | undefined;
+  type: string | undefined;
   onCloseClick: () => void;
   onEditClick: () => void;
   onDeleteClick: () => void;
@@ -35,8 +39,14 @@ const InfoWindowSuggestion = (props: InfoWindowSuggestionProps) => {
   return (
     <InfoWindow onCloseClick={props.onCloseClick}>
       <div className="info-window">
-        <h6>{props.name}</h6>
-        <p>{props.address}</p>
+        <h6>
+          <SuggestionTypeIcon type={props.iconType}/>
+          <p>{props.type}</p>
+        </h6>
+        <div className="suggestions-infos">
+          <div className="name">{props.name}</div>
+          <div>{props.address}</div>
+        </div>
         <div className="actions">
           <a onClick={props.onEditClick}><Edit/></a>
           <a onClick={props.onDeleteClick}><Delete/></a>
@@ -73,6 +83,8 @@ class MarkerForSuggestion extends React.Component<Props & RouteComponentProps<an
         <InfoWindowSuggestion
           name={this.props.suggestion.name}
           address={this.props.suggestion.address}
+          iconType={this.props.suggestion.suggestionType}
+          type={this.props.suggestion.suggestionType ? this.props.suggestion.suggestionType.title : undefined}
           isOpened={this.state.infoWindowOpened}
           onCloseClick={this.closeInfoWindow}
           onEditClick={this.editSuggestion}

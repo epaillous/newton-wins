@@ -8,10 +8,13 @@ import Scubbadiver from '../icons/scubbaDiver.icon.component';
 import './suggestionTypeIcon.component.css';
 
 interface SuggestionTypeIconProps {
-  type: SuggestionType;
+  type: SuggestionType | undefined;
 }
 
 const SuggestionTypeIcon = (props: SuggestionTypeIconProps) => {
+  if (!props.type) {
+    return null;
+  }
   switch (props.type.id) {
     case 1:
       return <Chair/>;

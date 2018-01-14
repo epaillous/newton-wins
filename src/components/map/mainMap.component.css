@@ -4,11 +4,3 @@
     border-bottom: 1px solid #887a7a;
 }
 
-h6 {
-    border-bottom: 1px solid var(--divider);
-    padding-bottom: 10px;
-}
-
-.info-window {
-    font-family: 'Avenir';
-}

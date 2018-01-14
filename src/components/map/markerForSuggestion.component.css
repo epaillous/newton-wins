@@ -8,7 +8,7 @@
     filter: brightness(0.5);
 }
 
-p {
+.suggestions-infos {
     margin-bottom: 40px;
 }
 
@@ -19,10 +19,26 @@ p {
     bottom: 0;
 }
 
-.actions > * {
+.actions > *, h6 > * {
     margin: auto;
 }
 
 .edit-icon {
     margin-right: 6px;
+}
+
+h6 {
+    display: flex;
+    padding-right: 40px;
+    border-bottom: 1px solid var(--divider);
+    padding-bottom: 10px;
+}
+
+.info-window {
+    font-family: 'Avenir';
+}
+
+.name {
+    font-size: 16px;
+    font-weight: bold;
 }
