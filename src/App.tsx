@@ -32,6 +32,11 @@ const history = createBrowserHistory({});
 
 class App extends React.Component<Props> {
 
+  constructor(props: Props) {
+    super(props);
+    this.onAlertDismiss = this.onAlertDismiss.bind(this);
+  }
+
   public render() {
     return (
       <div>
