@@ -6,7 +6,6 @@ export enum MarkerType {
 
 export class MarkerViewModel {
   public icon: any;
-  public infoWindowOpened = false;
 
   private static colorForType(type: MarkerType) {
     switch (type) {

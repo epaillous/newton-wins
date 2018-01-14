@@ -7,7 +7,6 @@ import { AuthGlobals } from 'redux-auth/bootstrap-theme';
 import './App.css';
 import { FooterComponent } from './components/footer/footer.component';
 import ArticleComponent from './containers/article.container';
-import CreateSuggestionComponent from './containers/createSuggestion.container';
 import HeaderComponent from './containers/header.container';
 import LoginComponent from './containers/login.container';
 import MainMapComponent from './containers/map.container';
@@ -15,6 +14,7 @@ import NavBarComponent from './containers/navbar.container';
 import PhotosComponent from './containers/photos.container';
 import ProtectedRoute from './containers/protectedRoute.container';
 import RegisterComponent from './containers/register.container';
+import FormSuggestionComponent from './containers/suggestionForm.container';
 import './fonts/Archive.eot';
 import './fonts/Archive.otf';
 import './fonts/Archive.svg';
@@ -55,7 +55,8 @@ class App extends React.Component<Props> {
             <Switch>
               <Route path="/signup" component={RegisterComponent}/>
               <Route path="/login" component={LoginComponent}/>
-              <ProtectedRoute path="/suggestions/new" component={CreateSuggestionComponent}/>
+              <ProtectedRoute path="/suggestions/new" component={FormSuggestionComponent}/>
+              <ProtectedRoute path="/suggestions/edit" component={FormSuggestionComponent}/>
             </Switch>
           </div>
         </Router>

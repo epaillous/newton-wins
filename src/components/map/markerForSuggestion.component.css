@@ -1,0 +1,28 @@
+.edit-icon, .delete-icon {
+    width: 20px;
+    height: 20px;
+    fill: var(--danger);
+}
+
+.edit-icon:hover, .delete-icon:hover {
+    filter: brightness(0.5);
+}
+
+p {
+    margin-bottom: 40px;
+}
+
+.actions {
+    display: flex;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+
+.actions > * {
+    margin: auto;
+}
+
+.edit-icon {
+    margin-right: 6px;
+}

@@ -11,10 +11,32 @@ export const FETCH_SUGGESTION_TYPES_FAILURE = 'FETCH_SUGGESTION_TYPES_FAILURE';
 export const CREATE_SUGGESTION = 'CREATE_SUGGESTION';
 export const CREATE_SUGGESTION_SUCCESS = 'CREATE_SUGGESTION_SUCCESS';
 export const CREATE_SUGGESTION_FAILURE = 'CREATE_SUGGESTION_FAILURE';
-export const RESET_ACTIVE_SUGGESTION = 'RESET_ACTIVE_SUGGESTION';
+export const UPDATE_SUGGESTION = 'UPDATE_SUGGESTION';
+export const UPDATE_SUGGESTION_SUCCESS = 'UPDATE_SUGGESTION_SUCCESS';
+export const UPDATE_SUGGESTION_FAILURE = 'UPDATE_SUGGESTION_FAILURE';
 export const FETCH_SUGGESTIONS = 'FETCH_SUGGESTIONS';
 export const FETCH_SUGGESTIONS_SUCCESS = 'FETCH_SUGGESTIONS_SUCCESS';
 export const FETCH_SUGGESTIONS_FAILURE = 'FETCH_SUGGESTIONS_FAILURE';
+export const EDIT_SUGGESTION = 'EDIT_SUGGESTION';
+
+const map = (suggestion: Suggestion) => {
+  const suggestionHash = {
+    comment: suggestion.comment,
+    suggestion_type_id: suggestion.suggestionType ? suggestion.suggestionType.id : '',
+  };
+  if (suggestion.place) {
+    return {
+      ...suggestionHash,
+      address: suggestion.place.formatted_address,
+      name: suggestion.place.name,
+      point_attributes: {
+        latitude: suggestion.place.geometry.location.lat(),
+        longitude: suggestion.place.geometry.location.lng(),
+      }
+    };
+  }
+  return suggestionHash;
+};
 
 interface SuggestionContainerInterface {
   suggestion: SuggestionInterface;
@@ -28,15 +50,35 @@ interface SuggestionsInterface {
   suggestions: SuggestionInterface[];
 }
 
-const createSuggestionSuccess: ActionCreator<Action> = () => {
+export const editSuggestion: ActionCreator<Action> = (suggestion: Suggestion) => {
   return {
-    type: CREATE_SUGGESTION_SUCCESS,
+    payload: suggestion,
+    type: EDIT_SUGGESTION,
   };
 };
 
-const resetActiveSuggestion: ActionCreator<Action> = () => {
+const tryToUpdateSuggestion: ActionCreator<Action> = () => {
   return {
-    type: RESET_ACTIVE_SUGGESTION,
+    type: UPDATE_SUGGESTION,
+  };
+};
+
+const updateSuggestionSuccess: ActionCreator<Action> = () => {
+  return {
+    type: UPDATE_SUGGESTION_SUCCESS,
+  };
+};
+
+const updateSuggestionFailure: ActionCreator<Action> = () => {
+  return {
+    type: UPDATE_SUGGESTION_FAILURE,
+  };
+};
+
+
+const createSuggestionSuccess: ActionCreator<Action> = () => {
+  return {
+    type: CREATE_SUGGESTION_SUCCESS,
   };
 };
 
@@ -130,18 +172,7 @@ export const createSuggestion: ActionCreator<ThunkAction<Promise<void>, any, voi
   (suggestion: Suggestion) => {
     return (dispatch: Dispatch<any>) => {
       dispatch(tryToCreateSuggestion());
-      const body = {
-        suggestion: {
-          address: suggestion.place.formatted_address,
-          comment: suggestion.comment,
-          name: suggestion.place.name,
-          point_attributes: {
-            latitude: suggestion.place.geometry.location.lat(),
-            longitude: suggestion.place.geometry.location.lng(),
-          },
-          suggestion_type_id: suggestion.suggestionType ? suggestion.suggestionType.id : '',
-        },
-      };
+      const body = map(suggestion);
       return fetch(
         ROOT_URL + '/suggestions',
         {
@@ -151,10 +182,31 @@ export const createSuggestion: ActionCreator<ThunkAction<Promise<void>, any, voi
         }).then((response: Response) => response.json())
         .then((json: SuggestionContainerInterface) => {
           dispatch(createSuggestionSuccess());
-          dispatch(resetActiveSuggestion());
         })
         .catch((error: Error) => {
           dispatch(createSuggestionFailure(error));
+        });
+    };
+  }
+;
+
+export const updateSuggestion: ActionCreator<ThunkAction<Promise<void>, any, void>> =
+  (suggestion: Suggestion) => {
+    return (dispatch: Dispatch<any>) => {
+      dispatch(tryToUpdateSuggestion());
+      const body = map(suggestion);
+      return fetch(
+        ROOT_URL + '/suggestions/' + suggestion.id,
+        {
+          body: JSON.stringify(body),
+          headers: { 'Content-Type': 'application/json' },
+          method: 'PUT',
+        }).then((response: Response) => response.json())
+        .then((json: SuggestionContainerInterface) => {
+          dispatch(updateSuggestionSuccess());
+        })
+        .catch((error: Error) => {
+          dispatch(updateSuggestionFailure(error));
         });
     };
   };

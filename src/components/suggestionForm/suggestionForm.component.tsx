@@ -9,21 +9,34 @@ import { FormGroupInputComponent } from '../formGroupInput/formGroupInput.compon
 import { FormButton } from '../modalWithForm/formButton';
 
 interface Props {
+  editMode: boolean;
   fetchSuggestionTypes: () => void;
-
   place: PlaceResult;
-
+  suggestion: Suggestion;
   types: SuggestionType[];
 
   createSuggestion(suggestion: Suggestion): Promise<any>;
+
+  updateSuggestion(suggestion: Suggestion): Promise<any>;
 }
 
 class CreateSuggestionComponent extends React.Component<Props & RouteComponentProps<any>> {
-  private suggestion: Suggestion = new Suggestion();
+  private title: string;
+  private button: FormButton;
 
   public componentWillMount() {
     this.props.fetchSuggestionTypes();
-    this.suggestion.place = this.props.place;
+    this.title = this.props.editMode ? 'Modifiez votre suggestion' : 'Suggérez-nous un lieu !';
+    this.button = this.props.editMode ? new FormButton(
+      'primary',
+      'submit',
+      () => this.props.updateSuggestion(this.props.suggestion),
+      'Modifier') :
+      new FormButton(
+        'primary',
+        'submit',
+        () => this.props.createSuggestion(this.props.suggestion),
+        'Suggérer');
   }
 
   constructor(props: Props & RouteComponentProps<any>) {
@@ -33,16 +46,11 @@ class CreateSuggestionComponent extends React.Component<Props & RouteComponentPr
   }
 
   public render() {
-    const buttons =
-      [new FormButton(
-        'primary',
-        'submit',
-        () => this.props.createSuggestion(this.suggestion),
-        'Suggérer')];
+    const buttons = [this.button];
     return (
       <ModalWithFormComponent
         buttons={buttons}
-        title="Suggérez-nous un lieu !"
+        title={this.title}
         formValid={true}
       >
         <FormGroup tag="fieldset" required={true}>
@@ -51,13 +59,13 @@ class CreateSuggestionComponent extends React.Component<Props & RouteComponentPr
           </div>
           {this.props.types.map(this.renderOption)}
         </FormGroup>
-        <FormGroupInputComponent property="comment" label="Commentaire" object={this.suggestion} errorMessage={''} type="textarea"/>
+        <FormGroupInputComponent property="comment" label="Commentaire" object={this.props.suggestion} errorMessage={''} type="textarea"/>
       </ModalWithFormComponent>
     );
   }
 
   private handleSelection(type: SuggestionType) {
-    this.suggestion.suggestionType = type;
+    this.props.suggestion.suggestionType = type;
   }
 
   private renderOption(type: SuggestionType) {
@@ -69,7 +77,7 @@ class CreateSuggestionComponent extends React.Component<Props & RouteComponentPr
             type="radio"
             name="radio"
             required={true}
-            checked={this.suggestion.suggestionType && this.suggestion.suggestionType === type}
+            defaultChecked={this.props.suggestion.suggestionType && this.props.suggestion.suggestionType.id === type.id}
             onClick={onClick}
           />{type.title}
         </Label>

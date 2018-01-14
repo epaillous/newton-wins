@@ -10,8 +10,8 @@ import PlaceResult = google.maps.places.PlaceResult;
 import { Point } from '../../models/point';
 import { Suggestion } from '../../models/suggestion';
 import { Trip } from '../../models/trip';
+import MarkerForSuggestion from './../../containers/markerForSuggestion.container';
 import { MarkerType, MarkerViewModel } from './marker.viewModel';
-import { MarkerForSuggestion } from './markerForSuggestion.component';
 import { styles } from './styles';
 import { TripMarkerAndPolyline } from './tripMarkerAndPolyline.component';
 
