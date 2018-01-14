@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { editSuggestion } from '../actions/suggestions.actions';
+import { deleteSuggestion, editSuggestion } from '../actions/suggestions.actions';
 import markerForSuggestion from '../components/map/markerForSuggestion.component';
 import { Suggestion } from '../models/suggestion';
 
@@ -10,7 +10,7 @@ const mapStateToProps = (state: any) => {
 const mapDispatchToProps = (dispatch: any) => {
   return {
     deleteSuggestion: (suggestion: Suggestion) => {
-      dispatch(editSuggestion(suggestion));
+      dispatch(deleteSuggestion(suggestion));
     },
     editSuggestion: (suggestion: Suggestion) => {
       dispatch(editSuggestion(suggestion));

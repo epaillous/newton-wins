@@ -6,6 +6,7 @@ import { FETCH_TRIPS_SUCCESS } from '../actions/trips.actions';
 import { Trip } from '../models/trip';
 import PlaceResult = google.maps.places.PlaceResult;
 import LatLng = google.maps.LatLng;
+import { CREATE_SUGGESTION_SUCCESS } from '../actions/suggestions.actions';
 
 interface StateInterface {
   center: LatLng | null;
@@ -33,8 +34,9 @@ export default function map(state: StateInterface = INITIAL_STATE, action: any) 
       const place: PlaceResult = action.payload;
       return {
         ...state, center: place.geometry.location.toJSON(), place, zoom: 17,
-      }
-        ;
+      };
+    case CREATE_SUGGESTION_SUCCESS:
+      return { ...state, place: null };
     default:
       return state;
   }

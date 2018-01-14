@@ -14,6 +14,9 @@ export const CREATE_SUGGESTION_FAILURE = 'CREATE_SUGGESTION_FAILURE';
 export const UPDATE_SUGGESTION = 'UPDATE_SUGGESTION';
 export const UPDATE_SUGGESTION_SUCCESS = 'UPDATE_SUGGESTION_SUCCESS';
 export const UPDATE_SUGGESTION_FAILURE = 'UPDATE_SUGGESTION_FAILURE';
+export const DELETE_SUGGESTION = 'DELETE_SUGGESTION';
+export const DELETE_SUGGESTION_SUCCESS = 'DELETE_SUGGESTION_SUCCESS';
+export const DELETE_SUGGESTION_FAILURE = 'DELETE_SUGGESTION_FAILURE';
 export const FETCH_SUGGESTIONS = 'FETCH_SUGGESTIONS';
 export const FETCH_SUGGESTIONS_SUCCESS = 'FETCH_SUGGESTIONS_SUCCESS';
 export const FETCH_SUGGESTIONS_FAILURE = 'FETCH_SUGGESTIONS_FAILURE';
@@ -26,16 +29,18 @@ const map = (suggestion: Suggestion) => {
   };
   if (suggestion.place) {
     return {
-      ...suggestionHash,
-      address: suggestion.place.formatted_address,
-      name: suggestion.place.name,
-      point_attributes: {
-        latitude: suggestion.place.geometry.location.lat(),
-        longitude: suggestion.place.geometry.location.lng(),
+      suggestion: {
+        ...suggestionHash,
+        address: suggestion.place.formatted_address,
+        name: suggestion.place.name,
+        point_attributes: {
+          latitude: suggestion.place.geometry.location.lat(),
+          longitude: suggestion.place.geometry.location.lng(),
+        }
       }
     };
   }
-  return suggestionHash;
+  return { suggestion: suggestionHash };
 };
 
 interface SuggestionContainerInterface {
@@ -57,14 +62,34 @@ export const editSuggestion: ActionCreator<Action> = (suggestion: Suggestion) =>
   };
 };
 
+const tryToDeleteSuggestion: ActionCreator<Action> = () => {
+  return {
+    type: DELETE_SUGGESTION,
+  };
+};
+
+const deleteSuggestionSuccess: ActionCreator<Action> = (suggestion: Suggestion) => {
+  return {
+    payload: suggestion,
+    type: DELETE_SUGGESTION_SUCCESS,
+  };
+};
+
+const deleteSuggestionFailure: ActionCreator<Action> = () => {
+  return {
+    type: DELETE_SUGGESTION_FAILURE,
+  };
+};
+
 const tryToUpdateSuggestion: ActionCreator<Action> = () => {
   return {
     type: UPDATE_SUGGESTION,
   };
 };
 
-const updateSuggestionSuccess: ActionCreator<Action> = () => {
+const updateSuggestionSuccess: ActionCreator<Action> = (suggestion: Suggestion) => {
   return {
+    payload: suggestion,
     type: UPDATE_SUGGESTION_SUCCESS,
   };
 };
@@ -75,9 +100,9 @@ const updateSuggestionFailure: ActionCreator<Action> = () => {
   };
 };
 
-
-const createSuggestionSuccess: ActionCreator<Action> = () => {
+const createSuggestionSuccess: ActionCreator<Action> = (suggestion: Suggestion) => {
   return {
+    payload: suggestion,
     type: CREATE_SUGGESTION_SUCCESS,
   };
 };
@@ -181,7 +206,8 @@ export const createSuggestion: ActionCreator<ThunkAction<Promise<void>, any, voi
           method: 'POST',
         }).then((response: Response) => response.json())
         .then((json: SuggestionContainerInterface) => {
-          dispatch(createSuggestionSuccess());
+          const suggestionObject = new Suggestion(json.suggestion);
+          dispatch(createSuggestionSuccess(suggestionObject));
         })
         .catch((error: Error) => {
           dispatch(createSuggestionFailure(error));
@@ -203,10 +229,30 @@ export const updateSuggestion: ActionCreator<ThunkAction<Promise<void>, any, voi
           method: 'PUT',
         }).then((response: Response) => response.json())
         .then((json: SuggestionContainerInterface) => {
-          dispatch(updateSuggestionSuccess());
+          const suggestionObject = new Suggestion(json.suggestion);
+          dispatch(updateSuggestionSuccess(suggestionObject));
         })
         .catch((error: Error) => {
           dispatch(updateSuggestionFailure(error));
+        });
+    };
+  };
+
+export const deleteSuggestion: ActionCreator<ThunkAction<Promise<void>, any, void>> =
+  (suggestion: Suggestion) => {
+    return (dispatch: Dispatch<any>) => {
+      dispatch(tryToDeleteSuggestion());
+      return fetch(
+        ROOT_URL + '/suggestions/' + suggestion.id,
+        {
+          headers: { 'Content-Type': 'application/json' },
+          method: 'DELETE',
+        })
+        .then(() => {
+          dispatch(deleteSuggestionSuccess(suggestion));
+        })
+        .catch((error: Error) => {
+          dispatch(deleteSuggestionFailure(error));
         });
     };
   };
