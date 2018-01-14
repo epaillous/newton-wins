@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import { emailSignIn } from 'redux-auth';
-import { changeFormValidStatus, closeModal } from '../actions/modal.actions';
+import { showSignUp } from '../actions/auth.actions';
+import { closeModal, formWasValidated } from '../actions/modal.actions';
 import { fetchSuggestions } from '../actions/suggestions.actions';
 import loginComponent from '../components/login/login.component';
 
@@ -10,18 +11,22 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = (dispatch: any, ownProps: any) => {
   return {
-    changeFormValidStatus: (status: boolean) => {
-      dispatch(changeFormValidStatus(status));
-    },
     closeModal: () => {
       dispatch(closeModal());
     },
     fetchSuggestions: () => {
       dispatch(fetchSuggestions());
     },
+    goToSignUp: () => {
+      dispatch(showSignUp());
+    },
     login: (email: string, password: string) => {
+      if (!email || !password) {
+        dispatch(formWasValidated());
+        return;
+      }
       const response = dispatch(emailSignIn({ email, password }));
-      return response;
+      return response.then(() => dispatch(closeModal()));
     },
   };
 };

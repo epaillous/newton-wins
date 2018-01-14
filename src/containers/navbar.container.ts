@@ -1,9 +1,8 @@
 import { connect } from 'react-redux';
 import { signOut } from 'redux-auth';
-import { fetchMenu, selectMenuItem } from '../actions/menu.actions';
-import { toggleNavbar } from '../actions/navbar.actions';
+import { showLogin } from '../actions/auth.actions';
+import { fetchMenu } from '../actions/menu.actions';
 import NavBarComponent from '../components/navBar/navBar.component';
-import { MenuItem } from '../models/menuItem';
 
 const mapStateToProps = (state: any) => {
   const isSignedIn = state.auth.getIn(['user', 'isSignedIn']);
@@ -28,14 +27,11 @@ const mapDispatchToProps = (dispatch: any) => {
     fetchMenu: () => {
       dispatch(fetchMenu());
     },
+    goToLogin: () => {
+      dispatch(showLogin());
+    },
     logout: () => {
       dispatch(signOut());
-    },
-    selectMenuItem: (item: MenuItem) => {
-      dispatch(selectMenuItem(item));
-    },
-    toggleNavbar: () => {
-      dispatch(toggleNavbar());
     },
   };
 };

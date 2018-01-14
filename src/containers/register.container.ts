@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
 import { emailSignUp } from 'redux-auth';
+import { formWasValidated } from '../actions/modal.actions';
 import registerComponent from '../components/register/register.component';
 import { User } from '../models/user';
-import { changeFormValidStatus } from '../actions/modal.actions';
 
 const mapStateToProps = (state: any) => {
   return {};
@@ -10,10 +10,11 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    changeFormValidStatus: (status: boolean) => {
-      dispatch(changeFormValidStatus(status));
-    },
     register: (user: User) => {
+      if (!user.valid) {
+        dispatch(formWasValidated());
+        return;
+      }
       const body = {
         email: user.email,
         first_name: user.firstName,

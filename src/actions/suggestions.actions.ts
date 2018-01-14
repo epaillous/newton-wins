@@ -3,6 +3,8 @@ import { fetch } from 'redux-auth';
 import { ThunkAction } from 'redux-thunk';
 import { Suggestion, SuggestionInterface } from '../models/suggestion';
 import { SuggestionType, SuggestionTypeInterface } from '../models/suggestionType';
+import PlaceResult = google.maps.places.PlaceResult;
+import { closeModal } from './modal.actions';
 import { ROOT_URL } from './utils';
 
 export const FETCH_SUGGESTION_TYPES = 'FETCH_SUGGESTION_TYPES';
@@ -21,6 +23,8 @@ export const FETCH_SUGGESTIONS = 'FETCH_SUGGESTIONS';
 export const FETCH_SUGGESTIONS_SUCCESS = 'FETCH_SUGGESTIONS_SUCCESS';
 export const FETCH_SUGGESTIONS_FAILURE = 'FETCH_SUGGESTIONS_FAILURE';
 export const EDIT_SUGGESTION = 'EDIT_SUGGESTION';
+export const NEW_SUGGESTION = 'NEW_SUGGESTION';
+export const RESET_SUGGESTION = 'RESET_SUGGESTION';
 
 const map = (suggestion: Suggestion) => {
   const suggestionHash = {
@@ -59,6 +63,21 @@ export const editSuggestion: ActionCreator<Action> = (suggestion: Suggestion) =>
   return {
     payload: suggestion,
     type: EDIT_SUGGESTION,
+  };
+};
+
+export const resetSuggestion: ActionCreator<Action> = () => {
+  return {
+    type: RESET_SUGGESTION,
+  };
+};
+
+export const newSuggestion: ActionCreator<Action> = (place: PlaceResult) => {
+  const suggestion = new Suggestion();
+  suggestion.place = place;
+  return {
+    payload: suggestion,
+    type: NEW_SUGGESTION,
   };
 };
 
@@ -207,6 +226,7 @@ export const createSuggestion: ActionCreator<ThunkAction<Promise<void>, any, voi
         }).then((response: Response) => response.json())
         .then((json: SuggestionContainerInterface) => {
           const suggestionObject = new Suggestion(json.suggestion);
+          dispatch(closeModal());
           dispatch(createSuggestionSuccess(suggestionObject));
         })
         .catch((error: Error) => {

@@ -1,18 +1,28 @@
-import { CLOSE_MODAL, FORM_VALID_STATUS_CHANGED } from '../actions/modal.actions';
+import { SHOW_LOGIN, SHOW_SIGN_UP } from '../actions/auth.actions';
+import { CLOSE_MODAL, WAS_VALIDATED } from '../actions/modal.actions';
+import { CREATE_SUGGESTION_SUCCESS, EDIT_SUGGESTION, NEW_SUGGESTION, UPDATE_SUGGESTION_SUCCESS } from '../actions/suggestions.actions';
 
 interface StateInterface {
-  closeModalNeeded: boolean;
-  formValid: boolean;
+  modalOpened: boolean;
+  wasValidated: boolean;
 }
 
-const INITIAL_STATE = { closeModalNeeded: false, formValid: false };
+const INITIAL_STATE = { modalOpened: false, wasValidated: false };
 
 export default function modal(state: StateInterface = INITIAL_STATE, action: any) {
   switch (action.type) {
     case CLOSE_MODAL:
-      return { ...state, closeModalNeeded: true };
-    case FORM_VALID_STATUS_CHANGED:
-      return { ...state, formValid: action.payload };
+    case UPDATE_SUGGESTION_SUCCESS:
+    case CREATE_SUGGESTION_SUCCESS:
+    case 'EMAIL_SIGN_UP_COMPLETE':
+      return { ...state, modalOpened: false };
+    case EDIT_SUGGESTION:
+    case NEW_SUGGESTION:
+    case SHOW_LOGIN:
+    case SHOW_SIGN_UP:
+      return { ...state, modalOpened: true };
+    case WAS_VALIDATED:
+      return { ...state, wasValidated: true };
     default:
       return state;
   }

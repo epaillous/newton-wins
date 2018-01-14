@@ -2,10 +2,11 @@ import { connect } from 'react-redux';
 import { fetchArticle, resetArticle } from '../actions/articles.actions';
 import { fetchMedias } from '../actions/medias.actions';
 import { selectPoint, zoomOnPoint } from '../actions/points.actions';
-import { fetchSuggestions } from '../actions/suggestions.actions';
+import { fetchSuggestions, newSuggestion } from '../actions/suggestions.actions';
 import { fetchTrips } from '../actions/trips.actions';
 import mainMapComponent from '../components/map/mainMap.component';
 import { Point } from '../models/point';
+import PlaceResult = google.maps.places.PlaceResult;
 
 const mapStateToProps = (state: any) => {
   return {
@@ -19,6 +20,9 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
+    createSuggestion: (place: PlaceResult) => {
+      dispatch(newSuggestion(place));
+    },
     fetchArticleAndMedias: (point: Point) => {
       dispatch(selectPoint(point));
       if (point.articles.length > 0) {

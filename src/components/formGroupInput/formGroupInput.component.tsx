@@ -26,6 +26,7 @@ export class FormGroupInputComponent extends React.Component<Props> {
           type={this.props.type}
           onChange={this.handleChange}
           required={this.props.required}
+          defaultValue={this.props.object[this.props.property]}
         />
         <div className="invalid-feedback">{this.props.errorMessage}</div>
       </FormGroup>

@@ -25,6 +25,8 @@ interface GoogleMapProps {
   onMarkerClick(point: Point): void;
 
   onMarkerDblClick(point: Point): void;
+
+  createSuggestion(place: PlaceResult): void;
 }
 
 class GoogleMapComponent extends React.Component<GoogleMapProps & RouteComponentProps<any>> {
@@ -64,6 +66,7 @@ class GoogleMapComponent extends React.Component<GoogleMapProps & RouteComponent
   }
 
   private createSuggestion() {
+    this.props.createSuggestion(this.props.place);
     this.props.history.push('/suggestions/new');
   }
 

@@ -1,15 +1,23 @@
 import { connect } from 'react-redux';
+import { closeModal, modalAnimationEnded } from '../actions/modal.actions';
 import { ModalWithFormComponent } from '../components/modalWithForm/modalWithForm.component';
 
 const mapStateToProps = (state: any) => {
   return {
-    closeModalNeeded: state.modal.closeModalNeeded,
-    formValid: state.modal.formValid
+    modalOpened: state.modal.modalOpened,
+    wasValidated: state.modal.wasValidated
   };
 };
 
-const mapDispatchToProps = () => {
-  return {};
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    closeModal: () => {
+      dispatch(closeModal());
+    },
+    modalAnimationEnded: () => {
+      dispatch(modalAnimationEnded());
+    }
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ModalWithFormComponent);

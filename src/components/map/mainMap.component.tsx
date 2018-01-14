@@ -29,6 +29,8 @@ interface Props {
   fetchArticleAndMedias(point: Point): void;
 
   zoomOnPoint(point: Point): void;
+
+  createSuggestion(place: PlaceResult): void;
 }
 
 interface State {
@@ -41,6 +43,7 @@ class MainMap extends React.Component<Props, State> {
     super(props);
     this.fetchArticleAndMedias = this.fetchArticleAndMedias.bind(this);
     this.zoomOnPoint = this.zoomOnPoint.bind(this);
+    this.createSuggestion = this.createSuggestion.bind(this);
   }
 
   public componentWillMount() {
@@ -70,10 +73,8 @@ class MainMap extends React.Component<Props, State> {
           trips={trips}
           onMarkerClick={this.fetchArticleAndMedias}
           onMarkerDblClick={this.zoomOnPoint}
-          center={this.props.center}
-          zoom={this.props.zoom}
-          place={this.props.place}
-          suggestions={this.props.suggestions}
+          createSuggestion={this.createSuggestion}
+          {...this.props}
         />
       </div>
     );
@@ -85,6 +86,10 @@ class MainMap extends React.Component<Props, State> {
 
   private zoomOnPoint(point: Point) {
     this.props.zoomOnPoint(point);
+  }
+
+  private createSuggestion(place: PlaceResult) {
+    this.props.createSuggestion(place);
   }
 
 }
