@@ -7,11 +7,11 @@ li:hover > a.menu-item.nav-link {
     fill: var(--secondary);
 }
 
-.signed-in-nav {
+.right-nav {
     display: flex;
 }
 
-.signed-in-nav > a {
+.right-nav > * {
     margin: auto;
 }
 

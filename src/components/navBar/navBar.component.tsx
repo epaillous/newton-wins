@@ -28,7 +28,7 @@ const AuthStatusComponent = (props: Props) => {
   const logout = () => props.logout();
   if (props.signedIn) {
     return (
-      <div className="signed-in-nav">
+      <div className="right-nav">
         <UncontrolledDropdown>
           <DropdownToggle nav={true} className="account-info">
             <span>Bienvenue {props.username} !</span>
@@ -48,7 +48,7 @@ const AuthStatusComponent = (props: Props) => {
     );
   } else {
     return (
-      <div className="signed-in-nav">
+      <div className="right-nav">
         <div className="account-info">
           <Link to="/login" className="connect-link">Se connecter</Link>
         </div>
