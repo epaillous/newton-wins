@@ -15,12 +15,12 @@ export default function modal(state: StateInterface = INITIAL_STATE, action: any
     case UPDATE_SUGGESTION_SUCCESS:
     case CREATE_SUGGESTION_SUCCESS:
     case 'EMAIL_SIGN_UP_COMPLETE':
-      return { ...state, modalOpened: false };
+      return { ...state, modalOpened: false, wasValidated: false };
     case EDIT_SUGGESTION:
     case NEW_SUGGESTION:
     case SHOW_LOGIN:
     case SHOW_SIGN_UP:
-      return { ...state, modalOpened: true };
+      return { ...state, modalOpened: true, wasValidated: false };
     case WAS_VALIDATED:
       return { ...state, wasValidated: true };
     default:
