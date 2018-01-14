@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { changeFormValidStatus } from '../actions/modal.actions';
 import { createSuggestion, fetchSuggestionTypes, updateSuggestion } from '../actions/suggestions.actions';
 import CreateSuggestionComponent from '../components/suggestionForm/suggestionForm.component';
 import { Suggestion } from '../models/suggestion';
@@ -21,6 +22,9 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
+    changeFormValidStatus: (status: boolean) => {
+      dispatch(changeFormValidStatus(status));
+    },
     createSuggestion: (suggestion: Suggestion) => {
       return dispatch(createSuggestion(suggestion));
     },

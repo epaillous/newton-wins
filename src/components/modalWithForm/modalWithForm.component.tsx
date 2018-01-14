@@ -11,8 +11,8 @@ interface State {
 interface Props {
   buttons: FormButton[];
   title: string;
-  formValid: boolean;
   closeModalNeeded: boolean;
+  formValid: boolean;
 }
 
 class NoRouterModalWithFormComponent

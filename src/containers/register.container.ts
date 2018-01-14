@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import { emailSignUp } from 'redux-auth';
 import registerComponent from '../components/register/register.component';
 import { User } from '../models/user';
+import { changeFormValidStatus } from '../actions/modal.actions';
 
 const mapStateToProps = (state: any) => {
   return {};
@@ -9,6 +10,9 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
+    changeFormValidStatus: (status: boolean) => {
+      dispatch(changeFormValidStatus(status));
+    },
     register: (user: User) => {
       const body = {
         email: user.email,

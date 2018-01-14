@@ -7,6 +7,8 @@ interface Props {
   object: any;
   errorMessage: string;
   type: 'text' | 'email' | 'password' | 'textarea';
+  required: boolean;
+  onChange?: () => void;
 }
 
 export class FormGroupInputComponent extends React.Component<Props> {
@@ -23,7 +25,7 @@ export class FormGroupInputComponent extends React.Component<Props> {
         <Input
           type={this.props.type}
           onChange={this.handleChange}
-          required={true}
+          required={this.props.required}
         />
         <div className="invalid-feedback">{this.props.errorMessage}</div>
       </FormGroup>
@@ -32,5 +34,8 @@ export class FormGroupInputComponent extends React.Component<Props> {
 
   private handleChange(event: any) {
     this.props.object[this.props.property] = event.target.value;
+    if (this.props.onChange) {
+      this.props.onChange();
+    }
   }
 }

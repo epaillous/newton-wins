@@ -4,6 +4,7 @@ import { ModalWithFormComponent } from '../components/modalWithForm/modalWithFor
 const mapStateToProps = (state: any) => {
   return {
     closeModalNeeded: state.modal.closeModalNeeded,
+    formValid: state.modal.formValid
   };
 };
 

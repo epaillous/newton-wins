@@ -18,6 +18,8 @@ interface Props {
   createSuggestion(suggestion: Suggestion): Promise<any>;
 
   updateSuggestion(suggestion: Suggestion): Promise<any>;
+
+  changeFormValidStatus(status: boolean): void;
 }
 
 class CreateSuggestionComponent extends React.Component<Props & RouteComponentProps<any>> {
@@ -51,7 +53,6 @@ class CreateSuggestionComponent extends React.Component<Props & RouteComponentPr
       <ModalWithFormComponent
         buttons={buttons}
         title={this.title}
-        formValid={true}
       >
         <FormGroup tag="fieldset" required={true}>
           <div className="invalid-feedback">
@@ -59,13 +60,21 @@ class CreateSuggestionComponent extends React.Component<Props & RouteComponentPr
           </div>
           {this.props.types.map(this.renderOption)}
         </FormGroup>
-        <FormGroupInputComponent property="comment" label="Commentaire" object={this.props.suggestion} errorMessage={''} type="textarea"/>
+        <FormGroupInputComponent
+          property="comment"
+          label="Commentaire"
+          object={this.props.suggestion}
+          errorMessage={''}
+          type="textarea"
+          required={false}
+        />
       </ModalWithFormComponent>
     );
   }
 
   private handleSelection(type: SuggestionType) {
     this.props.suggestion.suggestionType = type;
+    this.props.changeFormValidStatus(true);
   }
 
   private renderOption(type: SuggestionType) {
