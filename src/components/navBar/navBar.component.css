@@ -37,10 +37,12 @@ nav.main-navbar > .navbar-brand {
 
 a.connect-link:hover {
     text-decoration: none;
+    filter: brightness(0.5);
 }
 
 a.connect-link {
     margin-left: 10px;
+    color: var(--gray);
 }
 
 .dropdown-toggle::after {
