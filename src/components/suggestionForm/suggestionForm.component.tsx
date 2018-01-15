@@ -13,6 +13,7 @@ interface Props {
   fetchSuggestionTypes: () => void;
   suggestion: Suggestion;
   types: SuggestionType[];
+  loading: boolean;
 
   createSuggestion(suggestion: Suggestion): Promise<any>;
 
@@ -38,7 +39,7 @@ class CreateSuggestionComponent extends React.Component<Props & RouteComponentPr
 
   public render() {
     return (
-      <ModalWithFormComponent title={this.title}>
+      <ModalWithFormComponent title={this.title} loading={this.props.loading}>
         <div key="form-content">
           <FormGroup tag="fieldset">
             <div className="invalid-feedback">
@@ -55,7 +56,13 @@ class CreateSuggestionComponent extends React.Component<Props & RouteComponentPr
             required={false}
           />
         </div>
-        <Button type="submit" color="primary" key="footer" onClick={this.onClick}>{this.buttonTitle}</Button>
+        <Button
+          type="submit"
+          color="primary"
+          key="footer"
+          onClick={this.onClick}
+        >{this.buttonTitle}
+        </Button>
       </ModalWithFormComponent>
     );
   }
@@ -91,7 +98,6 @@ class CreateSuggestionComponent extends React.Component<Props & RouteComponentPr
       this.props.createSuggestion(this.props.suggestion);
     }
   }
-
 
 }
 

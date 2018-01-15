@@ -9,6 +9,7 @@ const mapStateToProps = (state: any) => {
     editMode: state.suggestions.editMode,
     suggestion: state.suggestions.suggestion,
     types: state.suggestions.types,
+    loading: state.suggestions.loading
   };
 };
 

@@ -1,11 +1,13 @@
 import * as React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { Form, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
+import { LoaderComponent } from '../loader/loader.component';
 
 interface Props {
   title: string;
   modalOpened: boolean;
   wasValidated: boolean;
+  loading?: boolean;
 
   closeModal(): void;
 
@@ -27,6 +29,16 @@ class NoRouterModalWithFormComponent
   }
 
   public render() {
+    if (this.props.loading) {
+      return (
+        <Modal
+          isOpen={this.props.modalOpened}
+          toggle={this.closeModal}
+        >
+          <LoaderComponent/>
+        </Modal>
+      );
+    }
     return (
       <Modal
         isOpen={this.props.modalOpened}

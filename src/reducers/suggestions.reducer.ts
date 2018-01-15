@@ -1,7 +1,7 @@
 import { MODAL_ANIMATION_ENDED } from '../actions/modal.actions';
 import {
   CREATE_SUGGESTION_SUCCESS, DELETE_SUGGESTION_SUCCESS,
-  EDIT_SUGGESTION,
+  EDIT_SUGGESTION, FETCH_SUGGESTION_TYPES,
   FETCH_SUGGESTION_TYPES_SUCCESS, FETCH_SUGGESTIONS_SUCCESS, NEW_SUGGESTION, RESET_SUGGESTION, UPDATE_SUGGESTION_SUCCESS,
 } from '../actions/suggestions.actions';
 import { Suggestion } from '../models/suggestion';
@@ -12,14 +12,17 @@ interface StateInterface {
   suggestions: Suggestion[];
   suggestion: Suggestion | null;
   editMode: boolean;
+  loading: boolean;
 }
 
-const INITIAL_STATE = { types: [], suggestions: [], suggestion: null, editMode: false };
+const INITIAL_STATE = { types: [], suggestions: [], suggestion: null, editMode: false, loading: false };
 
 export default function suggestions(state: StateInterface = INITIAL_STATE, action: any) {
   switch (action.type) {
+    case FETCH_SUGGESTION_TYPES:
+      return { ...state, loading: true };
     case FETCH_SUGGESTION_TYPES_SUCCESS:
-      return { ...state, types: action.payload };
+      return { ...state, types: action.payload, loading: false };
     case FETCH_SUGGESTIONS_SUCCESS:
       return { ...state, suggestions: action.payload };
     case 'SIGN_OUT_COMPLETE':
