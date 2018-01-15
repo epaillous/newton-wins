@@ -1,8 +1,10 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import {
-  DropdownItem, DropdownMenu, DropdownToggle,
-  Nav, Navbar, NavbarBrand, UncontrolledDropdown,
+  Collapse, DropdownItem, DropdownMenu,
+  DropdownToggle, Nav, Navbar, NavbarBrand,
+  NavbarToggler, NavItem,
+  UncontrolledDropdown
 } from 'reactstrap';
 import SearchBarComponent from '../../containers/searchBar.container';
 import { MenuItem } from '../../models/menuItem';
@@ -18,14 +20,16 @@ interface Props {
   fetchMenu(): void;
 
   logout(): void;
+
+  toggleNavBar(): void;
 }
 
 const AuthStatusComponent = (props: Props) => {
   const logout = () => props.logout();
   if (props.signedIn) {
     return (
-      <div className="right-nav">
-        <UncontrolledDropdown>
+      <div className="d-flex">
+        <UncontrolledDropdown className="d-none d-md-flex">
           <DropdownToggle nav={true} className="account-info">
             <span>Bienvenue {props.username} !</span>
             {props.userPicture && <img src={props.userPicture} className="img-responsive"/>}
@@ -40,20 +44,27 @@ const AuthStatusComponent = (props: Props) => {
             </DropdownItem>
           </DropdownMenu>
         </UncontrolledDropdown>
+        <NavItem className="d-sm-flex d-md-none">
+          <a onClick={logout} className="nav-link nav-link-item">Se déconnecter</a>
+        </NavItem>
       </div>
     );
   } else {
     return (
-      <div className="right-nav">
-        <div className="account-info">
-          <Link to="/login" className="connect-link">Se connecter</Link>
-        </div>
-      </div>
+      <NavItem>
+        <Link to="/login" className="nav-link nav-link-item">Se connecter</Link>
+      </NavItem>
     );
   }
 };
 
 class NavBarComponent extends React.Component<Props> {
+
+  constructor(props: Props) {
+    super(props);
+
+    this.toggleNavbar = this.toggleNavbar.bind(this);
+  }
 
   public componentWillMount() {
     this.props.fetchMenu();
@@ -63,13 +74,23 @@ class NavBarComponent extends React.Component<Props> {
     return (
       <Navbar color="faded" light={true} expand="md" className="main-navbar">
         <NavbarBrand href="/">Le tour du monde de Ludo et Emilie</NavbarBrand>
-        <Nav className="ml-auto right-nav" navbar={true}>
-          <SearchBarComponent/>
-          <AuthStatusComponent {...this.props}/>
-        </Nav>
+        <NavbarToggler onClick={this.toggleNavbar} className="mr-2"/>
+        <Collapse isOpen={!this.props.collapsed} navbar={true}>
+          <Nav className="ml-auto right-nav" navbar={true}>
+            <NavItem>
+              <SearchBarComponent/>
+            </NavItem>
+            <AuthStatusComponent {...this.props}/>
+          </Nav>
+        </Collapse>
       </Navbar>
     );
   }
+
+  private toggleNavbar() {
+    this.props.toggleNavBar();
+  }
+
 }
 
 export default NavBarComponent;

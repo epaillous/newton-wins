@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import { signOut } from 'redux-auth';
 import { fetchMenu } from '../actions/menu.actions';
+import { toggleNavbar } from '../actions/navbar.actions';
 import NavBarComponent from '../components/navBar/navBar.component';
 
 const mapStateToProps = (state: any) => {
@@ -29,6 +30,9 @@ const mapDispatchToProps = (dispatch: any) => {
     logout: () => {
       dispatch(signOut());
     },
+    toggleNavBar: () => {
+      dispatch(toggleNavbar());
+    }
   };
 };
 

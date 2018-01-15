@@ -23,6 +23,11 @@ export default function navbar(state: StateInterface = INITIAL_STATE, action: an
       return { ...state, menu: { menuItems: [], error: null, loading: true } };
     case FETCH_MENU_SUCCESS:
       return { ...state, menu: { menuItems: action.payload, error: null, loading: false } };
+    case 'EMAIL_SIGN_IN_COMPLETE':
+    case 'OAUTH_SIGN_IN_COMPLETE':
+    case 'SIGN_OUT_COMPLETE':
+    case 'EMAIL_SIGN_UP_COMPLETE':
+      return { ...state, collapsed: true };
     default:
       return state;
   }
