@@ -9,7 +9,7 @@ interface Props {
 
 const renderPhoto = (item: Media) =>
   (
-    <Col xs="3" key={item.id}>
+    <Col xs="12" md="3" key={item.id}>
       <Card>
         <CardImg top={true} width="300px" src={item.url} alt="Card image cap"/>
       </Card>
