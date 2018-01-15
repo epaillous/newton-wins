@@ -1,5 +1,6 @@
 import { Article, ArticleInterface } from './article';
 import { City, CityInterface } from './city';
+import LatLngLiteral = google.maps.LatLngLiteral;
 
 export interface PointInterface {
   latitude: string;
@@ -28,7 +29,7 @@ export class Point {
     }
   }
 
-  get googleMapPoint() {
+  get googleMapPoint(): LatLngLiteral {
     return { lat: this.latitude, lng: this.longitude };
   }
 }

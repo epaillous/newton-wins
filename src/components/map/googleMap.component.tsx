@@ -1,16 +1,17 @@
 import * as moment from 'moment';
 import * as React from 'react';
 import {
-  GoogleMap, InfoWindow, Marker, withGoogleMap, withScriptjs,
+  GoogleMap, withGoogleMap, withScriptjs,
 } from 'react-google-maps';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { Button } from 'reactstrap';
+import SuggestionMarker from '../../containers/suggestionMarker.container';
 import LatLng = google.maps.LatLng;
 import PlaceResult = google.maps.places.PlaceResult;
 import { Point } from '../../models/point';
 import { Suggestion } from '../../models/suggestion';
 import { Trip } from '../../models/trip';
-import MarkerForSuggestion from './../../containers/markerForSuggestion.container';
+import InfoWindowMarkerComponent from './infoWindowMarker/infoWindowMarker.component';
 import { MarkerType, MarkerViewModel } from './marker.viewModel';
 import { styles } from './styles';
 import { TripMarkerAndPolyline } from './tripMarkerAndPolyline.component';
@@ -71,7 +72,7 @@ class GoogleMapComponent extends React.Component<GoogleMapProps & RouteComponent
   }
 
   private renderSuggestion(suggestion: Suggestion) {
-    return <MarkerForSuggestion key={suggestion.id} suggestion={suggestion} {...this.props}/>;
+    return <SuggestionMarker key={suggestion.id} suggestion={suggestion} {...this.props}/>;
   }
 
   private renderTrip(trip: Trip) {
@@ -81,21 +82,19 @@ class GoogleMapComponent extends React.Component<GoogleMapProps & RouteComponent
   private renderPlaceSelected() {
     if (this.props.place) {
       return (
-        <Marker
-          position={this.props.place.geometry.location}
+        <InfoWindowMarkerComponent
+          position={this.props.place.geometry.location.toJSON()}
           icon={new MarkerViewModel(MarkerType.Suggestion).icon}
           title={this.props.place.name}
         >
-          <InfoWindow>
-            <div className="info-window">
-              <h6>{this.props.place.name}</h6>
-              <p>{this.props.place.formatted_address}</p>
-              <Button color="danger" onClick={this.createSuggestion}>
-                Suggérer ce lieu !
-              </Button>
-            </div>
-          </InfoWindow>
-        </Marker>
+          <div className="info-window">
+            <h6>{this.props.place.name}</h6>
+            <p>{this.props.place.formatted_address}</p>
+            <Button color="danger" onClick={this.createSuggestion}>
+              Suggérer ce lieu !
+            </Button>
+          </div>
+        </InfoWindowMarkerComponent>
       );
     }
     return null;

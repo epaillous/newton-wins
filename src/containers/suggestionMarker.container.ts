@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { deleteSuggestion, editSuggestion } from '../actions/suggestions.actions';
-import markerForSuggestion from '../components/map/markerForSuggestion.component';
+import markerForSuggestion from '../components/map/suggestionMarker.component';
 import { Suggestion } from '../models/suggestion';
 
 const mapStateToProps = (state: any) => {
