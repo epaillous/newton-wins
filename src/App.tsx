@@ -3,7 +3,6 @@ import * as React from 'react';
 import { Switch } from 'react-router';
 import { Route, Router } from 'react-router-dom';
 import { Alert, Container } from 'reactstrap';
-import { AuthGlobals } from 'redux-auth/bootstrap-theme';
 import './App.css';
 import { FooterComponent } from './components/footer/footer.component';
 import ArticleComponent from './containers/article.container';
@@ -40,7 +39,6 @@ class App extends React.Component<Props> {
   public render() {
     return (
       <div>
-        <AuthGlobals/>
         <Router history={history}>
           <div>
             <NavBarComponent/>
