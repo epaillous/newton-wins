@@ -1,10 +1,10 @@
+import App from './App';
 import 'bootstrap/dist/css/bootstrap.css';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { configure } from 'redux-auth';
 import { ROOT_URL } from './actions/utils';
-import App from './containers/app.container';
 import './index.css';
 import configureStore from './store/configureStore';
 

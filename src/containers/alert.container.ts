@@ -1,19 +1,21 @@
 import { connect } from 'react-redux';
 import { resetMainAlert } from '../actions/alerts.actions';
-import App from '../App';
+import Alert from '../components/alert/alert.component';
 
 const mapStateToProps = (state: any) => {
   return {
-    alertMessage: state.app.alertMessage,
+    alertMessage: state.alert.alertMessage,
   };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
     resetAlert: () => {
-      dispatch(resetMainAlert());
+      setTimeout(() =>
+        dispatch(resetMainAlert()), 4000);
+
     },
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(Alert);

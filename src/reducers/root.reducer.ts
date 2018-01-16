@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import { authStateReducer } from 'redux-auth';
-import app from './app.reducer';
+import alert from './alert.reducer';
 import articles from './articles.reducer';
 import header from './header.reducer';
 import map from './map.reducer';
@@ -12,7 +12,7 @@ import trips from './trips.reducer';
 
 const rootReducer = combineReducers({
   // short hand property names
-  app,
+  alert,
   articles,
   auth: authStateReducer,
   header,

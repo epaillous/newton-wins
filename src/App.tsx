@@ -2,9 +2,10 @@ import { createBrowserHistory } from 'history';
 import * as React from 'react';
 import { Switch } from 'react-router';
 import { Route, Router } from 'react-router-dom';
-import { Alert, Container } from 'reactstrap';
+import { Container } from 'reactstrap';
 import './App.css';
 import { FooterComponent } from './components/footer/footer.component';
+import Alert from './containers/alert.container';
 import ArticleComponent from './containers/article.container';
 import HeaderComponent from './containers/header.container';
 import LoginComponent from './containers/login.container';
@@ -20,21 +21,11 @@ import './fonts/Archive.svg';
 import './fonts/Archive.ttf';
 import './fonts/Archive.woff';
 
-interface Props {
-  alertMessage: string;
-  resetAlert: () => void;
-}
-
 const history = createBrowserHistory({});
 
 // bootstrap theme
 
-class App extends React.Component<Props> {
-
-  constructor(props: Props) {
-    super(props);
-    this.onAlertDismiss = this.onAlertDismiss.bind(this);
-  }
+class App extends React.Component<{}> {
 
   public render() {
     return (
@@ -42,14 +33,10 @@ class App extends React.Component<Props> {
         <Router history={history}>
           <div>
             <NavBarComponent/>
-            <Alert
-              color="success"
-              isOpen={!!this.props.alertMessage}
-              toggle={this.onAlertDismiss}
-            >
-              {this.props.alertMessage}
-            </Alert>
-            <MainMapComponent/>
+            <div className="app-container">
+              <Alert/>
+              <MainMapComponent/>
+            </div>
             <Container className="Container"/>
             <HeaderComponent/>
             <ArticleComponent/>
@@ -67,9 +54,6 @@ class App extends React.Component<Props> {
     );
   }
 
-  private onAlertDismiss() {
-    this.props.resetAlert();
-  }
 }
 
 export default App;
