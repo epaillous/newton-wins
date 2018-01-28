@@ -6,3 +6,7 @@
 .option-line {
     display: flex;
 }
+
+.form-check {
+    margin-bottom: 20px;
+}
