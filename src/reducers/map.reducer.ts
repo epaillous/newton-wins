@@ -7,6 +7,7 @@ import { Trip } from '../models/trip';
 import PlaceResult = google.maps.places.PlaceResult;
 import LatLng = google.maps.LatLng;
 import { CREATE_SUGGESTION_SUCCESS } from '../actions/suggestions.actions';
+import { ZOOM_CHANGED } from '../actions/map.actions';
 
 interface StateInterface {
   center: LatLng | null;
@@ -37,6 +38,8 @@ export default function map(state: StateInterface = INITIAL_STATE, action: any) 
       };
     case CREATE_SUGGESTION_SUCCESS:
       return { ...state, place: null };
+    case ZOOM_CHANGED:
+      return { ...state, zoom: action.payload };
     default:
       return state;
   }

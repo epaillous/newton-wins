@@ -1,12 +1,13 @@
 import { connect } from 'react-redux';
 import { fetchArticle, resetArticle } from '../actions/articles.actions';
+import PlaceResult = google.maps.places.PlaceResult;
+import { zoomChanged } from '../actions/map.actions';
 import { fetchMedias } from '../actions/medias.actions';
 import { selectPoint, zoomOnPoint } from '../actions/points.actions';
 import { fetchSuggestions, newSuggestion } from '../actions/suggestions.actions';
 import { fetchTrips } from '../actions/trips.actions';
 import mainMapComponent from '../components/map/mainMap.component';
 import { Point } from '../models/point';
-import PlaceResult = google.maps.places.PlaceResult;
 
 const mapStateToProps = (state: any) => {
   return {
@@ -37,6 +38,9 @@ const mapDispatchToProps = (dispatch: any) => {
     },
     fetchTrips: () => {
       dispatch(fetchTrips());
+    },
+    onZoomChanged: (zoom: number) => {
+      dispatch(zoomChanged(zoom));
     },
     zoomOnPoint: (point: Point) => {
       dispatch(zoomOnPoint(point));

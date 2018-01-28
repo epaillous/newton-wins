@@ -12,6 +12,7 @@ import { Point } from '../../models/point';
 import { Suggestion } from '../../models/suggestion';
 import { Trip } from '../../models/trip';
 import InfoWindowMarkerComponent from './infoWindowMarker/infoWindowMarker.component';
+import { lowLevelStyles } from './lowLevelStyles';
 import { MarkerType, MarkerViewModel } from './marker.viewModel';
 import { styles } from './styles';
 import { TripMarkerAndPolyline } from './tripMarkerAndPolyline.component';
@@ -28,6 +29,8 @@ interface GoogleMapProps {
   onMarkerDblClick(point: Point): void;
 
   createSuggestion(place: PlaceResult): void;
+
+  onZoomChanged(zoom: number): void;
 }
 
 class GoogleMapComponent extends React.Component<GoogleMapProps & RouteComponentProps<any>> {
@@ -36,9 +39,9 @@ class GoogleMapComponent extends React.Component<GoogleMapProps & RouteComponent
     fullscreenControl: false,
     mapTypeControl: false,
     minZoom: 2,
-    streetViewControl: false,
-    styles,
+    streetViewControl: false
   };
+  private map: GoogleMap;
 
   constructor(props: GoogleMapProps & RouteComponentProps<any>) {
     super(props);
@@ -46,6 +49,8 @@ class GoogleMapComponent extends React.Component<GoogleMapProps & RouteComponent
     this.renderSuggestion = this.renderSuggestion.bind(this);
     this.renderTrip = this.renderTrip.bind(this);
     this.createSuggestion = this.createSuggestion.bind(this);
+    this.onZoomChange = this.onZoomChange.bind(this);
+    this.onMapMounted = this.onMapMounted.bind(this);
   }
 
   public componentWillMount() {
@@ -58,12 +63,23 @@ class GoogleMapComponent extends React.Component<GoogleMapProps & RouteComponent
         zoom={this.props.zoom}
         center={this.props.center}
         defaultOptions={this.options}
+        onZoomChanged={this.onZoomChange}
+        ref={this.onMapMounted}
+        options={{ styles: this.styles }}
       >
         {this.trips.map(this.renderTrip)}
         {this.props.suggestions.map(this.renderSuggestion)}
         {this.renderPlaceSelected()}
       </GoogleMap>
     );
+  }
+
+  private onMapMounted(ref: any) {
+    this.map = ref;
+  }
+
+  private onZoomChange() {
+    this.props.onZoomChanged(this.map.getZoom());
   }
 
   private createSuggestion() {
@@ -98,6 +114,14 @@ class GoogleMapComponent extends React.Component<GoogleMapProps & RouteComponent
       );
     }
     return null;
+  }
+
+  private get styles() {
+    if (this.props.zoom <= 10) {
+      return styles;
+    } else {
+      return lowLevelStyles;
+    }
   }
 }
 
