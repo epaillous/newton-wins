@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
 import { emailSignUp } from 'redux-auth';
+import { showSignUp } from '../actions/auth.actions';
 import { formWasValidated } from '../actions/modal.actions';
 import registerComponent from '../components/register/register.component';
 import { User } from '../models/user';
-import { showSignUp } from '../actions/auth.actions';
 
 const mapStateToProps = (state: any) => {
   return {};

@@ -7,9 +7,9 @@ import { Suggestion } from '../models/suggestion';
 const mapStateToProps = (state: any) => {
   return {
     editMode: state.suggestions.editMode,
+    loading: state.suggestions.loading,
     suggestion: state.suggestions.suggestion,
     types: state.suggestions.types,
-    loading: state.suggestions.loading
   };
 };
 

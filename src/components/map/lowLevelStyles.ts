@@ -31,8 +31,8 @@ export const lowLevelStyles: MapTypeStyle[] = [
     ]
   },
   {
-    featureType: 'road',
     elementType: 'geometry',
+    featureType: 'road',
     stylers: [
       {
         color: '#ffffff'
@@ -46,8 +46,8 @@ export const lowLevelStyles: MapTypeStyle[] = [
     ]
   },
   {
-    featureType: 'administrative',
     elementType: 'labels',
+    featureType: 'administrative',
     stylers: [
       {
         visibility: 'on'
@@ -55,8 +55,8 @@ export const lowLevelStyles: MapTypeStyle[] = [
     ]
   },
   {
-    featureType: 'road.highway',
     elementType: 'labels',
+    featureType: 'road.highway',
     stylers: [
       {
         visibility: 'simplified'
@@ -70,8 +70,8 @@ export const lowLevelStyles: MapTypeStyle[] = [
     ]
   },
   {
-    featureType: 'road.highway.controlled_access',
     elementType: 'labels',
+    featureType: 'road.highway.controlled_access',
     stylers: [
       {
         saturation: 30
@@ -123,8 +123,8 @@ export const lowLevelStyles: MapTypeStyle[] = [
     ]
   },
   {
-    featureType: 'administrative.locality',
     elementType: 'labels.text.stroke',
+    featureType: 'administrative.locality',
     stylers: [
       {
         weight: 2.7
@@ -135,8 +135,8 @@ export const lowLevelStyles: MapTypeStyle[] = [
     ]
   },
   {
-    featureType: 'road.highway.controlled_access',
     elementType: 'geometry.stroke',
+    featureType: 'road.highway.controlled_access',
     stylers: [
       {
         weight: 1.5

@@ -64,9 +64,10 @@ class NoRouterModalWithFormComponent
   private redirectTo(path: string) {
     // FIXME : should use onClosed of Modal but not in types
     setTimeout(() => {
-      this.props.history.push(path);
-      this.props.modalAnimationEnded();
-    }, 200);
+        this.props.history.push(path);
+        this.props.modalAnimationEnded();
+      },
+               200);
   }
 
   private getComponent(key: string) {

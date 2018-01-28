@@ -8,6 +8,6 @@ const Polaroid = () => (
     <path d="M21 1h2v5.342h-2zM25 1h2v5.342h-2zM21 17.657h2V23h-2zM25 17.657h2V23h-2z" />
     <path d="M5 22h38v2H5zM1 29.062h46v2H1zM4 33h40v2H4zM8.141 42h31.474v2H8.141z" />
   </svg>
-)
+);
 
 export default Polaroid;

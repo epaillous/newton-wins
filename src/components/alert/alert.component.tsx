@@ -23,9 +23,7 @@ class AlertComponent extends React.Component<Props, State> {
   public componentWillReceiveProps(nextProps: Props) {
     if (nextProps.alertMessage) {
       this.setState({ isOpened: true });
-      setTimeout(() => {
-        this.dismissAlert();
-      }, 30000);
+      setTimeout(() => this.dismissAlert(), 30000);
     }
   }
 

@@ -11,8 +11,7 @@ const mapStateToProps = (state: any) => {
 const mapDispatchToProps = (dispatch: any) => {
   return {
     resetAlert: () => {
-      setTimeout(() =>
-        dispatch(resetMainAlert()), 4000);
+      setTimeout(() => dispatch(resetMainAlert()), 4000);
 
     },
   };

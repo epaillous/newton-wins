@@ -1,13 +1,13 @@
 import * as moment from 'moment';
+import { ZOOM_CHANGED } from '../actions/map.actions';
 import { SELECT_MENU_ITEM } from '../actions/menu.actions';
 import { ZOOM_ON_POINT } from '../actions/points.actions';
 import { SELECT_PLACE } from '../actions/search.actions';
-import { FETCH_TRIPS_SUCCESS } from '../actions/trips.actions';
-import { Trip } from '../models/trip';
 import PlaceResult = google.maps.places.PlaceResult;
 import LatLng = google.maps.LatLng;
 import { CREATE_SUGGESTION_SUCCESS } from '../actions/suggestions.actions';
-import { ZOOM_CHANGED } from '../actions/map.actions';
+import { FETCH_TRIPS_SUCCESS } from '../actions/trips.actions';
+import { Trip } from '../models/trip';
 
 interface StateInterface {
   center: LatLng | null;
