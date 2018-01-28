@@ -1,8 +1,9 @@
 import * as moment from 'moment';
 import * as React from 'react';
 import {
-  GoogleMap, withGoogleMap, withScriptjs,
+  GoogleMap, withGoogleMap, withScriptjs
 } from 'react-google-maps';
+import MarkerClusterer from 'react-google-maps/lib/components/addons/MarkerClusterer';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { Button } from 'reactstrap';
 import SuggestionMarker from '../../containers/suggestionMarker.container';
@@ -69,7 +70,9 @@ class GoogleMapComponent extends React.Component<GoogleMapProps & RouteComponent
         options={{ styles: this.styles, ...this.options }}
       >
         {this.trips.map((trip: Trip) => <TripPolyline key={trip.id} trip={trip}/>)}
-        {this.props.cities.map(this.renderCity)}
+        <MarkerClusterer gridSize={20}>
+          {this.props.cities.map(this.renderCity)}
+        </MarkerClusterer>
         {this.props.suggestions.map(this.renderSuggestion)}
         {this.renderPlaceSelected()}
       </GoogleMap>
