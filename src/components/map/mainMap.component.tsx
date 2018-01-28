@@ -66,6 +66,11 @@ class MainMap extends React.Component<Props, State> {
         <h1>Erreur</h1>
       );
     }
+    const citiesPoint = trips.map((trip: Trip) => trip.arrival)
+      .filter((obj, key, array) => array.map((obj2) => obj.id !== obj2.id));
+    if (trips.length > 0) {
+      citiesPoint.push(trips[trips.length - 1].departure);
+    }
     return (
       <div>
         <GoogleMapComponent
@@ -74,6 +79,7 @@ class MainMap extends React.Component<Props, State> {
           containerElement={<div className="map-container"/>}
           mapElement={<div style={{ height: `100%` }}/>}
           trips={trips}
+          cities={citiesPoint}
           onMarkerClick={this.fetchArticleAndMedias}
           onMarkerDblClick={this.zoomOnPoint}
           createSuggestion={this.createSuggestion}

@@ -11,13 +11,15 @@ import PlaceResult = google.maps.places.PlaceResult;
 import { Point } from '../../models/point';
 import { Suggestion } from '../../models/suggestion';
 import { Trip } from '../../models/trip';
+import { CityMarker } from './cityMarker/cityMarker.component';
 import InfoWindowMarkerComponent from './infoWindowMarker/infoWindowMarker.component';
 import { lowLevelStyles } from './lowLevelStyles';
 import { MarkerType, MarkerViewModel } from './marker.viewModel';
 import { styles } from './styles';
-import { TripMarkerAndPolyline } from './tripMarkerAndPolyline.component';
+import { TripPolyline } from './tripPolyline.component';
 
 interface GoogleMapProps {
+  cities: Point[];
   trips: Trip[];
   suggestions: Suggestion[];
   center: LatLng;
@@ -47,7 +49,7 @@ class GoogleMapComponent extends React.Component<GoogleMapProps & RouteComponent
     super(props);
     this.renderPlaceSelected = this.renderPlaceSelected.bind(this);
     this.renderSuggestion = this.renderSuggestion.bind(this);
-    this.renderTrip = this.renderTrip.bind(this);
+    this.renderCity = this.renderCity.bind(this);
     this.createSuggestion = this.createSuggestion.bind(this);
     this.onZoomChange = this.onZoomChange.bind(this);
     this.onMapMounted = this.onMapMounted.bind(this);
@@ -67,7 +69,8 @@ class GoogleMapComponent extends React.Component<GoogleMapProps & RouteComponent
         ref={this.onMapMounted}
         options={{ styles: this.styles }}
       >
-        {this.trips.map(this.renderTrip)}
+        {this.trips.map((trip: Trip) => <TripPolyline key={trip.id} trip={trip}/>)}
+        {this.props.cities.map(this.renderCity)}
         {this.props.suggestions.map(this.renderSuggestion)}
         {this.renderPlaceSelected()}
       </GoogleMap>
@@ -89,10 +92,6 @@ class GoogleMapComponent extends React.Component<GoogleMapProps & RouteComponent
 
   private renderSuggestion(suggestion: Suggestion) {
     return <SuggestionMarker key={suggestion.id} suggestion={suggestion} {...this.props}/>;
-  }
-
-  private renderTrip(trip: Trip) {
-    return <TripMarkerAndPolyline key={trip.id} trip={trip} isCurrent={trip === this.trips[0]} {...this.props}/>;
   }
 
   private renderPlaceSelected() {
@@ -122,6 +121,18 @@ class GoogleMapComponent extends React.Component<GoogleMapProps & RouteComponent
     } else {
       return lowLevelStyles;
     }
+  }
+
+  private renderCity(point: Point) {
+    return (
+      <CityMarker
+        point={point}
+        onMarkerClick={this.props.onMarkerClick}
+        onMarkerDblClick={this.props.onMarkerDblClick}
+        isCurrent={point === this.trips[0].arrival}
+        key={point.id}
+      />
+    );
   }
 }
 
