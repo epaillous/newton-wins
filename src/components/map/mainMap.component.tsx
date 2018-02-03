@@ -8,6 +8,7 @@ import { Trip } from '../../models/trip';
 import { LoaderComponent } from '../loader/loader.component';
 import GoogleMapComponent from './googleMap.component';
 import './mainMap.component.css';
+import LatLngBounds = google.maps.LatLngBounds;
 
 interface TripsProps {
   trips: Trip[];
@@ -21,6 +22,7 @@ interface Props {
   zoom: number;
   place: PlaceResult;
   suggestions: Suggestion[];
+  viewport: LatLngBounds;
 
   fetchTrips(): void;
 

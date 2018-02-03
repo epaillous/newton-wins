@@ -8,16 +8,19 @@ import LatLng = google.maps.LatLng;
 import { CREATE_SUGGESTION_SUCCESS } from '../actions/suggestions.actions';
 import { FETCH_TRIPS_SUCCESS } from '../actions/trips.actions';
 import { Trip } from '../models/trip';
+import LatLngBounds = google.maps.LatLngBounds;
 
 interface StateInterface {
   center: LatLng | null;
   place: PlaceResult | null;
   zoom: number;
+  viewport: LatLngBounds | null;
 }
 
 const INITIAL_STATE = {
   center: null,
   place: null,
+  viewport: null,
   zoom: 8,
 };
 
@@ -34,7 +37,7 @@ export default function map(state: StateInterface = INITIAL_STATE, action: any) 
     case SELECT_PLACE:
       const place: PlaceResult = action.payload;
       return {
-        ...state, center: place.geometry.location.toJSON(), place, zoom: 17,
+        ...state, center: place.geometry.location.toJSON(), place, viewport: place.geometry.viewport,
       };
     case CREATE_SUGGESTION_SUCCESS:
       return { ...state, place: null };

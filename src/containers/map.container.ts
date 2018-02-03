@@ -15,6 +15,7 @@ const mapStateToProps = (state: any) => {
     place: state.map.place,
     suggestions: state.suggestions.suggestions,
     tripsList: state.trips.tripsList,
+    viewport: state.map.viewport,
     zoom: state.map.zoom,
   };
 };

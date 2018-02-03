@@ -18,6 +18,7 @@ import { lowLevelStyles } from './lowLevelStyles';
 import { MarkerType, MarkerViewModel } from './marker.viewModel';
 import { styles } from './styles';
 import { TripPolyline } from './tripPolyline.component';
+import LatLngBounds = google.maps.LatLngBounds;
 
 interface GoogleMapProps {
   cities: Point[];
@@ -26,6 +27,7 @@ interface GoogleMapProps {
   center: LatLng;
   zoom: number;
   place: PlaceResult;
+  viewport: LatLngBounds;
 
   onMarkerClick(point: Point): void;
 
@@ -58,6 +60,12 @@ class GoogleMapComponent extends React.Component<GoogleMapProps & RouteComponent
 
   public componentWillMount() {
     this.trips = this.props.trips.filter((trip) => trip.date.isSameOrBefore(moment()));
+  }
+
+  public componentWillReceiveProps(nextProps: GoogleMapProps & RouteComponentProps<any>) {
+    if (this.props.viewport !== nextProps.viewport) {
+      this.map.fitBounds(nextProps.viewport);
+    }
   }
 
   public render() {
