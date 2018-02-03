@@ -66,10 +66,16 @@ class MainMap extends React.Component<Props, State> {
         <h1>Erreur</h1>
       );
     }
-    const citiesPoint = trips.map((trip: Trip) => trip.arrival)
-      .filter((obj, key, array) => array.map((obj2) => obj.id !== obj2.id));
+    const citiesPoint = trips.map((trip: Trip) => trip.arrival);
+    const uniqueCitiesPoint: Point[] = [];
+    citiesPoint.forEach((item: Point) => {
+      const i = uniqueCitiesPoint.findIndex((x: Point) => x.id === item.id);
+      if (i <= -1) {
+        uniqueCitiesPoint.push(item);
+      }
+    });
     if (trips.length > 0) {
-      citiesPoint.push(trips[trips.length - 1].departure);
+      uniqueCitiesPoint.push(trips[trips.length - 1].departure);
     }
     return (
       <div>
@@ -79,7 +85,7 @@ class MainMap extends React.Component<Props, State> {
           containerElement={<div className="map-container"/>}
           mapElement={<div style={{ height: `100%` }}/>}
           trips={trips}
-          cities={citiesPoint}
+          cities={uniqueCitiesPoint}
           onMarkerClick={this.fetchArticleAndMedias}
           onMarkerDblClick={this.zoomOnPoint}
           createSuggestion={this.createSuggestion}
