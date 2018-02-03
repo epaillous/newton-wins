@@ -28,11 +28,11 @@ class HeaderComponent extends React.Component<Props> {
             <Card>
               <CardBody>
                 <Row>
-                  <Col xs="10">
+                  <Col xs="8" md="10">
                     <CardTitle>{this.props.title}</CardTitle>
                     <CardSubtitle>{this.props.subtitle}</CardSubtitle>
                   </Col>
-                  <Col xs="2">
+                  <Col xs="4" md="2">
                     <div className={'flag-icon flag-icon-' + this.props.flagCode}/>
                   </Col>
                 </Row>
