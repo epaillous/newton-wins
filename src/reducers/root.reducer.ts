@@ -3,6 +3,7 @@ import { authStateReducer } from 'redux-auth';
 import alert from './alert.reducer';
 import articles from './articles.reducer';
 import header from './header.reducer';
+import login from './login.reducer';
 import map from './map.reducer';
 import medias from './medias.reducer';
 import modal from './modalWithForm.reducer';
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   articles,
   auth: authStateReducer,
   header,
+  login,
   map,
   medias,
   modal,

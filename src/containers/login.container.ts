@@ -1,12 +1,14 @@
 import { connect } from 'react-redux';
 import { emailSignIn } from 'redux-auth';
-import { showLogin } from '../actions/auth.actions';
+import { errorOnLogin, showLogin } from '../actions/auth.actions';
 import { closeModal, formWasValidated } from '../actions/modal.actions';
 import { fetchSuggestions } from '../actions/suggestions.actions';
 import loginComponent from '../components/login/login.component';
 
 const mapStateToProps = (state: any) => {
-  return {};
+  return {
+    errorMessage: state.login.errorMessage
+  };
 };
 
 const mapDispatchToProps = (dispatch: any, ownProps: any) => {
@@ -23,7 +25,9 @@ const mapDispatchToProps = (dispatch: any, ownProps: any) => {
         return;
       }
       const response = dispatch(emailSignIn({ email, password }));
-      return response.then(() => dispatch(closeModal()));
+      return response
+        .then(() => dispatch(closeModal()))
+        .catch((error: any) => dispatch(errorOnLogin(error)));
     },
     openLogin: () => {
       dispatch(showLogin());

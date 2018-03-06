@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
-import { Button } from 'reactstrap';
+import { Alert, Button } from 'reactstrap';
 import { OAuthSignInButton } from 'redux-auth/bootstrap-theme';
 import ModalWithFormComponent from '../../containers/modalWithForm.container';
 import { User } from '../../models/user';
@@ -8,6 +8,7 @@ import { FormGroupInputComponent } from '../formGroupInput/formGroupInput.compon
 import './login.component.css';
 
 interface Props {
+  errorMessage: string;
   openLogin: () => void;
   login: (email: string, password: string) => Promise<any>;
   closeModal: () => void;
@@ -44,6 +45,7 @@ class LoginComponent extends React.Component<Props & RouteComponentProps<any>> {
             </OAuthSignInButton>
             <p className="sentence-divider"> ou utilisez vos identifiants : </p>
           </div>
+          {this.props.errorMessage && <Alert color="danger">{this.props.errorMessage}</Alert>}
           <FormGroupInputComponent
             property="email"
             label="e-mail"
