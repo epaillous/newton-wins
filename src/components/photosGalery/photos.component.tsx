@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { Card, CardImg, Col, Container, Row } from 'reactstrap';
+import Gallery from 'react-grid-gallery';
+import { Container } from 'reactstrap';
 import { Media } from '../../models/media';
 import './photos.component.css';
 
@@ -7,14 +8,12 @@ interface Props {
   medias: Media[];
 }
 
-const renderPhoto = (item: Media) =>
-  (
-    <Col xs="12" md="3" key={item.id}>
-      <Card>
-        <CardImg top={true} width="300px" src={item.url} alt="Card image cap"/>
-      </Card>
-    </Col>
-  );
+const renderPhoto = (item: Media) => ({
+  src: item.url,
+  thumbnail: item.thumbnailUrl,
+  thumbnailHeight: item.thumbnailHeight,
+  thumbnailWidth: item.thumbnailWidth,
+});
 
 class PhotosComponent extends React.Component<Props> {
 
@@ -24,12 +23,11 @@ class PhotosComponent extends React.Component<Props> {
     }
     return (
       <Container>
-        <Row>
-          {this.props.medias.map(renderPhoto)}
-        </Row>
+        <Gallery images={this.props.medias.map(renderPhoto)} enableImageSelection={false}/>
       </Container>
     );
   }
+
 }
 
 export default PhotosComponent;

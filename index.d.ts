@@ -6,3 +6,4 @@ declare module '*.css' {
 }
 declare module 'redux-auth';
 declare module 'redux-auth/bootstrap-theme';
+declare module 'react-grid-gallery';
