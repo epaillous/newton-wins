@@ -8,6 +8,7 @@ import map from './map.reducer';
 import medias from './medias.reducer';
 import modal from './modalWithForm.reducer';
 import navbar from './navbar.reducer';
+import register from './register.reducer';
 import suggestions from './suggestions.reducer';
 import trips from './trips.reducer';
 
@@ -22,6 +23,7 @@ const rootReducer = combineReducers({
   medias,
   modal,
   navbar,
+  register,
   suggestions,
   trips,
 });

@@ -1,12 +1,14 @@
 import { connect } from 'react-redux';
 import { emailSignUp } from 'redux-auth';
-import { showSignUp } from '../actions/auth.actions';
+import { errorOnRegister, showSignUp } from '../actions/auth.actions';
 import { formWasValidated } from '../actions/modal.actions';
 import registerComponent from '../components/register/register.component';
 import { User } from '../models/user';
 
 const mapStateToProps = (state: any) => {
-  return {};
+  return {
+    errors: state.register.errors
+  };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
@@ -26,7 +28,8 @@ const mapDispatchToProps = (dispatch: any) => {
         password: user.password,
       };
       const response = dispatch(emailSignUp(body));
-      return response;
+      return response
+        .catch((jsonResponse: any) => dispatch(errorOnRegister(jsonResponse)));
     },
   };
 };

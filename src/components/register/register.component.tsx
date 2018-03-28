@@ -1,11 +1,12 @@
 import * as React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
-import { Button } from 'reactstrap';
+import { Alert, Button } from 'reactstrap';
 import ModalWithFormComponent from '../../containers/modalWithForm.container';
 import { User } from '../../models/user';
 import { FormGroupInputComponent } from '../formGroupInput/formGroupInput.component';
 
 interface Props {
+  errors: any;
   register: (user: User) => Promise<any>;
   openRegister: () => void;
 }
@@ -28,6 +29,7 @@ class RegisterComponent extends React.Component<Props & RouteComponentProps<any>
         title="Inscrivez-vous !"
       >
         <div key="form-content">
+          {this.renderError()}
           <FormGroupInputComponent
             type="text"
             label="Prénom"
@@ -68,6 +70,11 @@ class RegisterComponent extends React.Component<Props & RouteComponentProps<any>
 
   private onClick() {
     this.props.register(this.user);
+  }
+
+  private renderError() {
+    return this.props.errors && this.props.errors.full_messages
+      && (<Alert color="danger">{this.props.errors.full_messages.map((message: string) => <div key={message}>{message}</div>)}</Alert>);
   }
 
 }
