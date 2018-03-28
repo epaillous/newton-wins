@@ -34,3 +34,13 @@ footer.main-footer {
 .main-title {
     margin: auto;
 }
+
+.mentions, .mentions:hover {
+    position: absolute;
+    right: 20px;
+    margin-top: auto;
+    margin-bottom: auto;
+    color: var(--gray-dark);
+    text-decoration: none;
+}
+

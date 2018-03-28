@@ -5,6 +5,7 @@ import { Route, Router } from 'react-router-dom';
 import { Container } from 'reactstrap';
 import './App.css';
 import { FooterComponent } from './components/footer/footer.component';
+import MentionsComponent from './components/mentions/mentions.component';
 import Alert from './containers/alert.container';
 import ArticleComponent from './containers/article.container';
 import HeaderComponent from './containers/header.container';
@@ -35,7 +36,10 @@ class App extends React.Component<{}> {
             <NavBarComponent/>
             <div className="app-container">
               <Alert/>
-              <MainMapComponent/>
+              <Switch>
+                <Route path="/mentions" component={MentionsComponent}/>
+                <Route path="/" component={MainMapComponent}/>
+              </Switch>
             </div>
             <Container className="Container"/>
             <HeaderComponent/>
