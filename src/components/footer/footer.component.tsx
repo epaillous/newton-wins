@@ -17,7 +17,7 @@ export class FooterComponent extends React.Component {
           </svg>
           <span>by Emilie et Ludovic</span>
         </div>
-        <Link to="/mentions" className="mentions">Remerciements</Link>
+        <Link to="/mentions" className="mentions d-none d-md-block">Remerciements</Link>
       </footer>
     );
   }
