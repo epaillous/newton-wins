@@ -48,8 +48,8 @@ const PlacesWithStandaloneSearchBox =
           onPlacesChanged={props.onPlacesChanged}
         >
           <input
-            className={'search-bar'}
-            type="text"
+            className="search-bar"
+            type="search"
             placeholder="Suggérez nous un lieu !"
           />
         </StandaloneSearchBox>
