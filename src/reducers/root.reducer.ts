@@ -6,7 +6,7 @@ import header from './header.reducer';
 import login from './login.reducer';
 import map from './map.reducer';
 import medias from './medias.reducer';
-import modal from './modalWithForm.reducer';
+import modal from './modal.reducer';
 import navbar from './navbar.reducer';
 import register from './register.reducer';
 import suggestions from './suggestions.reducer';

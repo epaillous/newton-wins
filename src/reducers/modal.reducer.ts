@@ -1,6 +1,7 @@
 import { SHOW_LOGIN, SHOW_SIGN_UP } from '../actions/auth.actions';
 import { CLOSE_MODAL, WAS_VALIDATED } from '../actions/modal.actions';
 import { CREATE_SUGGESTION_SUCCESS, EDIT_SUGGESTION, NEW_SUGGESTION, UPDATE_SUGGESTION_SUCCESS } from '../actions/suggestions.actions';
+import { SHOW_MENTIONS } from '../actions/mentions.actions';
 
 interface StateInterface {
   modalOpened: boolean;
@@ -20,6 +21,7 @@ export default function modal(state: StateInterface = INITIAL_STATE, action: any
     case NEW_SUGGESTION:
     case SHOW_LOGIN:
     case SHOW_SIGN_UP:
+    case SHOW_MENTIONS:
       return { ...state, modalOpened: true, wasValidated: false };
     case WAS_VALIDATED:
       return { ...state, wasValidated: true };

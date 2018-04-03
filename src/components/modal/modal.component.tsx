@@ -8,14 +8,14 @@ interface Props {
   modalOpened: boolean;
   wasValidated: boolean;
   loading?: boolean;
+  withForm?: boolean;
 
   closeModal(): void;
 
   modalAnimationEnded(): void;
 }
 
-class NoRouterModalWithFormComponent
-  extends React.Component<Props & RouteComponentProps<any>> {
+class NoRouterModalComponent extends React.Component<Props & RouteComponentProps<any>> {
 
   constructor(props: Props & RouteComponentProps<any>) {
     super(props);
@@ -46,9 +46,8 @@ class NoRouterModalWithFormComponent
       >
         <ModalHeader toggle={this.closeModal}>{this.props.title}</ModalHeader>
         <ModalBody>
-          <Form className={this.props.wasValidated ? 'was-validated' : ''}>
-            {this.getComponent('form-content')}
-          </Form>
+          {this.props.withForm && this.renderForm()}
+          {!this.props.withForm && this.props.children}
         </ModalBody>
         <ModalFooter>
           {this.getComponent('footer')}
@@ -67,17 +66,25 @@ class NoRouterModalWithFormComponent
         this.props.history.push(path);
         this.props.modalAnimationEnded();
       },
-               200);
+      200);
   }
 
   private getComponent(key: string) {
-    if (!this.props.children) {
+    if (!this.props.children || !Array.isArray(this.props.children)) {
       return;
     }
     return (this.props.children as any[]).filter((comp) => {
       return comp.key === key;
     });
   }
+
+  private renderForm() {
+    return (
+      <Form className={this.props.wasValidated ? 'was-validated' : ''}>
+        {this.getComponent('form-content')}
+      </Form>
+    );
+  }
 }
 
-export const ModalWithFormComponent = withRouter(NoRouterModalWithFormComponent);
+export const ModalComponent = withRouter(NoRouterModalComponent);

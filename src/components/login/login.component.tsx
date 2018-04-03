@@ -2,7 +2,7 @@ import * as React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { Alert, Button } from 'reactstrap';
 import { OAuthSignInButton } from 'redux-auth/bootstrap-theme';
-import ModalWithFormComponent from '../../containers/modalWithForm.container';
+import ModalComponent from '../../containers/modal.container';
 import { User } from '../../models/user';
 import { FormGroupInputComponent } from '../formGroupInput/formGroupInput.component';
 import './login.component.css';
@@ -31,8 +31,9 @@ class LoginComponent extends React.Component<Props & RouteComponentProps<any>> {
 
   public render() {
     return (
-      <ModalWithFormComponent
+      <ModalComponent
         title="Connectez-vous"
+        withForm={true}
       >
         <div key="form-content">
           <div className="oauth-container">
@@ -68,7 +69,7 @@ class LoginComponent extends React.Component<Props & RouteComponentProps<any>> {
           {' '}
           <Button type="submit" color="primary" outline={true} onClick={this.goToSignUp}>S'inscrire</Button>
         </div>
-      </ModalWithFormComponent>
+      </ModalComponent>
     );
   }
 

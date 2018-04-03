@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { Button, FormGroup, FormText, Input, Label } from 'reactstrap';
-import ModalWithFormComponent from '../../containers/modalWithForm.container';
+import ModalComponent from '../../containers/modal.container';
 import { Suggestion } from '../../models/suggestion';
 import { SuggestionType } from '../../models/suggestionType';
 import { FormGroupInputComponent } from '../formGroupInput/formGroupInput.component';
@@ -39,7 +39,7 @@ class CreateSuggestionComponent extends React.Component<Props & RouteComponentPr
 
   public render() {
     return (
-      <ModalWithFormComponent title={this.title} loading={this.props.loading}>
+      <ModalComponent title={this.title} loading={this.props.loading} withForm={true}>
         <div key="form-content">
           <FormGroup tag="fieldset">
             <div className="invalid-feedback">
@@ -63,7 +63,7 @@ class CreateSuggestionComponent extends React.Component<Props & RouteComponentPr
           onClick={this.onClick}
         >{this.buttonTitle}
         </Button>
-      </ModalWithFormComponent>
+      </ModalComponent>
     );
   }
 

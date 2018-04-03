@@ -5,7 +5,7 @@ import { Route, Router } from 'react-router-dom';
 import { Container } from 'reactstrap';
 import './App.css';
 import { FooterComponent } from './components/footer/footer.component';
-import MentionsComponent from './components/mentions/mentions.component';
+import MentionsComponent from './containers/mentions.container';
 import Alert from './containers/alert.container';
 import ArticleComponent from './containers/article.container';
 import HeaderComponent from './containers/header.container';
@@ -36,10 +36,7 @@ class App extends React.Component<{}> {
             <NavBarComponent/>
             <div className="app-container">
               <Alert/>
-              <Switch>
-                <Route path="/mentions" component={MentionsComponent}/>
-                <Route path="/" component={MainMapComponent}/>
-              </Switch>
+              <MainMapComponent/>
             </div>
             <Container className="Container"/>
             <HeaderComponent/>
@@ -51,6 +48,7 @@ class App extends React.Component<{}> {
               <Route path="/login" component={LoginComponent}/>
               <ProtectedRoute path="/suggestions/new" component={FormSuggestionComponent}/>
               <ProtectedRoute path="/suggestions/edit" component={FormSuggestionComponent}/>
+              <Route path="/mentions" component={MentionsComponent}/>
             </Switch>
           </div>
         </Router>

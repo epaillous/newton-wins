@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { Alert, Button } from 'reactstrap';
-import ModalWithFormComponent from '../../containers/modalWithForm.container';
+import ModalComponent from '../../containers/modal.container';
 import { User } from '../../models/user';
 import { FormGroupInputComponent } from '../formGroupInput/formGroupInput.component';
 
@@ -25,8 +25,9 @@ class RegisterComponent extends React.Component<Props & RouteComponentProps<any>
 
   public render() {
     return (
-      <ModalWithFormComponent
+      <ModalComponent
         title="Inscrivez-vous !"
+        withForm={true}
       >
         <div key="form-content">
           {this.renderError()}
@@ -64,7 +65,7 @@ class RegisterComponent extends React.Component<Props & RouteComponentProps<any>
           />
         </div>
         <Button type="submit" color="primary" key="footer" onClick={this.onClick}>S'inscrire</Button>
-      </ModalWithFormComponent>
+      </ModalComponent>
     );
   }
 

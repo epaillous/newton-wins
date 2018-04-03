@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { closeModal, modalAnimationEnded } from '../actions/modal.actions';
-import { ModalWithFormComponent } from '../components/modalWithForm/modalWithForm.component';
+import { ModalComponent } from '../components/modal/modal.component';
 
 const mapStateToProps = (state: any) => {
   return {
@@ -20,4 +20,4 @@ const mapDispatchToProps = (dispatch: any) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ModalWithFormComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(ModalComponent);
