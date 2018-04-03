@@ -35,6 +35,8 @@ interface Props {
   createSuggestion(place: PlaceResult): void;
 
   onZoomChanged(zoom: number): void;
+
+  resetSuggestion(): void;
 }
 
 interface State {
@@ -92,6 +94,7 @@ class MainMap extends React.Component<Props, State> {
           onMarkerDblClick={this.zoomOnPoint}
           createSuggestion={this.createSuggestion}
           onZoomChanged={this.onZoomChanged}
+          resetSuggestion={this.resetSuggestion}
           {...this.props}
         />
       </div>
@@ -112,6 +115,10 @@ class MainMap extends React.Component<Props, State> {
 
   private createSuggestion(place: PlaceResult) {
     this.props.createSuggestion(place);
+  }
+
+  private resetSuggestion() {
+    this.props.resetSuggestion();
   }
 
 }

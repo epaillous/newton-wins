@@ -67,7 +67,7 @@ class MarkerForSuggestion extends React.Component<Props & RouteComponentProps<an
         position={this.props.suggestion.point.googleMapPoint}
         icon={this.markerViewModel.icon}
         title={this.props.suggestion.name}
-        isOpened={false}
+        isOpened={this.state.infoWindowOpened}
       >
         <InfoWindowSuggestion
           name={this.props.suggestion.name}

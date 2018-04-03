@@ -7,6 +7,7 @@ interface Props {
   icon: string;
   title: string;
   isOpened?: boolean;
+  onCloseClick?: () => void;
 }
 
 interface State {
@@ -37,6 +38,9 @@ class InfoWindowMarkerComponent extends React.Component<Props, State> {
 
   private onCloseClick() {
     this.setState({ isOpened: false });
+    if (this.props.onCloseClick) {
+      this.props.onCloseClick();
+    }
   }
 
   private onClick() {

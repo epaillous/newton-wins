@@ -4,7 +4,7 @@ import PlaceResult = google.maps.places.PlaceResult;
 import { zoomChanged } from '../actions/map.actions';
 import { fetchMedias } from '../actions/medias.actions';
 import { selectPoint, zoomOnPoint } from '../actions/points.actions';
-import { fetchSuggestions, newSuggestion } from '../actions/suggestions.actions';
+import { fetchSuggestions, newSuggestion, resetSuggestion } from '../actions/suggestions.actions';
 import { fetchTrips } from '../actions/trips.actions';
 import mainMapComponent from '../components/map/mainMap.component';
 import { Point } from '../models/point';
@@ -43,9 +43,12 @@ const mapDispatchToProps = (dispatch: any) => {
     onZoomChanged: (zoom: number) => {
       dispatch(zoomChanged(zoom));
     },
+    resetSuggestion: () => {
+      dispatch(resetSuggestion());
+    },
     zoomOnPoint: (point: Point) => {
       dispatch(zoomOnPoint(point));
-    },
+    }
   };
 };
 

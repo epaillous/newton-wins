@@ -5,7 +5,7 @@ import { ZOOM_ON_POINT } from '../actions/points.actions';
 import { SELECT_PLACE } from '../actions/search.actions';
 import PlaceResult = google.maps.places.PlaceResult;
 import LatLng = google.maps.LatLng;
-import { CREATE_SUGGESTION_SUCCESS } from '../actions/suggestions.actions';
+import { CREATE_SUGGESTION_SUCCESS, RESET_SUGGESTION } from '../actions/suggestions.actions';
 import { FETCH_TRIPS_SUCCESS } from '../actions/trips.actions';
 import { Trip } from '../models/trip';
 import LatLngBounds = google.maps.LatLngBounds;
@@ -40,6 +40,7 @@ export default function map(state: StateInterface = INITIAL_STATE, action: any) 
         ...state, center: place.geometry.location.toJSON(), place, viewport: place.geometry.viewport,
       };
     case CREATE_SUGGESTION_SUCCESS:
+    case RESET_SUGGESTION:
       return { ...state, place: null };
     case ZOOM_CHANGED:
       return { ...state, zoom: action.payload };

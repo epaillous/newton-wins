@@ -1,7 +1,7 @@
 import { SHOW_LOGIN, SHOW_SIGN_UP } from '../actions/auth.actions';
+import { SHOW_MENTIONS } from '../actions/mentions.actions';
 import { CLOSE_MODAL, WAS_VALIDATED } from '../actions/modal.actions';
 import { CREATE_SUGGESTION_SUCCESS, EDIT_SUGGESTION, NEW_SUGGESTION, UPDATE_SUGGESTION_SUCCESS } from '../actions/suggestions.actions';
-import { SHOW_MENTIONS } from '../actions/mentions.actions';
 
 interface StateInterface {
   modalOpened: boolean;

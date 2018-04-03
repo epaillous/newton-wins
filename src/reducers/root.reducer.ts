@@ -9,6 +9,7 @@ import medias from './medias.reducer';
 import modal from './modal.reducer';
 import navbar from './navbar.reducer';
 import register from './register.reducer';
+import searchBar from './searchBar.reducer';
 import suggestions from './suggestions.reducer';
 import trips from './trips.reducer';
 
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
   modal,
   navbar,
   register,
+  searchBar,
   suggestions,
   trips,
 });

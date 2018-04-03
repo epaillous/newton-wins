@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import mentionsComponent from '../components/mentions/mentions.component';
 import { showMentions } from '../actions/mentions.actions';
+import mentionsComponent from '../components/mentions/mentions.component';
 
 const mapStateToProps = (state: any) => {
   return {};

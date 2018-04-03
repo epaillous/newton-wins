@@ -8,10 +8,14 @@ import PlaceResult = google.maps.places.PlaceResult;
 
 interface Props {
   handlePlaceSelected: (place: PlaceResult) => void;
+  searchValue: string;
+  searchValueChanged: (eventChange: any) => void;
 }
 
 interface PlacesWithStandaloneSearchBoxProps {
   onSelectPlace: (place: PlaceResult) => void;
+  searchValue: string;
+  searchValueChanged: (eventChange: any) => void;
 }
 
 const PlacesWithStandaloneSearchBox =
@@ -51,6 +55,8 @@ const PlacesWithStandaloneSearchBox =
             className="search-bar"
             type="search"
             placeholder="Suggérez nous un lieu !"
+            value={props.searchValue}
+            onChange={props.searchValueChanged}
           />
         </StandaloneSearchBox>
       </div>
@@ -60,7 +66,12 @@ const PlacesWithStandaloneSearchBox =
 class SearchBarComponent extends React.Component<Props> {
 
   public render() {
-    return <PlacesWithStandaloneSearchBox onSelectPlace={this.props.handlePlaceSelected}/>;
+    return (
+      <PlacesWithStandaloneSearchBox
+        onSelectPlace={this.props.handlePlaceSelected}
+        searchValue={this.props.searchValue}
+        searchValueChanged={this.props.searchValueChanged}
+      />);
   }
 
 }

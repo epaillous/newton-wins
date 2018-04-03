@@ -36,6 +36,8 @@ interface GoogleMapProps {
   createSuggestion(place: PlaceResult): void;
 
   onZoomChanged(zoom: number): void;
+
+  resetSuggestion(): void;
 }
 
 class GoogleMapComponent extends React.Component<GoogleMapProps & RouteComponentProps<any>> {
@@ -56,6 +58,7 @@ class GoogleMapComponent extends React.Component<GoogleMapProps & RouteComponent
     this.createSuggestion = this.createSuggestion.bind(this);
     this.onZoomChange = this.onZoomChange.bind(this);
     this.onMapMounted = this.onMapMounted.bind(this);
+    this.resetSuggestion = this.resetSuggestion.bind(this);
   }
 
   public componentWillMount() {
@@ -111,6 +114,7 @@ class GoogleMapComponent extends React.Component<GoogleMapProps & RouteComponent
           position={this.props.place.geometry.location.toJSON()}
           icon={new MarkerViewModel(MarkerType.Suggestion).icon}
           title={this.props.place.name}
+          onCloseClick={this.resetSuggestion}
         >
           <div className="info-window">
             <h6>{this.props.place.name}</h6>
@@ -143,6 +147,10 @@ class GoogleMapComponent extends React.Component<GoogleMapProps & RouteComponent
         key={point.id}
       />
     );
+  }
+
+  private resetSuggestion() {
+    this.props.resetSuggestion();
   }
 }
 

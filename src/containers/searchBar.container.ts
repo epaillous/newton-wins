@@ -1,10 +1,12 @@
 import { connect } from 'react-redux';
 import PlaceResult = google.maps.places.PlaceResult;
-import { selectPlace } from '../actions/search.actions';
+import { searchValueChanged, selectPlace } from '../actions/search.actions';
 import SearchBarComponent from '../components/searchBar/searchBar.component';
 
 const mapStateToProps = (state: any) => {
-  return {};
+  return {
+    searchValue: state.searchBar.searchValue
+  };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
@@ -12,6 +14,9 @@ const mapDispatchToProps = (dispatch: any) => {
     handlePlaceSelected: (place: PlaceResult) => {
       dispatch(selectPlace(place));
     },
+    searchValueChanged: (eventChange: any) => {
+      dispatch(searchValueChanged(eventChange.target.value));
+    }
   };
 };
 
