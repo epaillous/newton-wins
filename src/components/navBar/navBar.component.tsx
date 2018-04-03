@@ -81,7 +81,7 @@ class NavBarComponent extends React.Component<Props> {
               <SearchBarComponent/>
             </NavItem>
             <AuthStatusComponent {...this.props}/>
-            <NavItem>
+            <NavItem className="d-sm-flex d-md-none">
               <Link to="/mentions" className="nav-link nav-link-item">Remerciements</Link>
             </NavItem>
           </Nav>
