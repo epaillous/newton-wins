@@ -14,7 +14,6 @@ class MentionsComponent extends React.Component<Props & RouteComponentProps<any>
     this.props.openMentions();
   }
 
-
   public render() {
     return (
       <ModalComponent title="Remerciements">

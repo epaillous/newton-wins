@@ -65,8 +65,7 @@ class NoRouterModalComponent extends React.Component<Props & RouteComponentProps
     setTimeout(() => {
         this.props.history.push(path);
         this.props.modalAnimationEnded();
-      },
-      200);
+      },       200);
   }
 
   private getComponent(key: string) {
