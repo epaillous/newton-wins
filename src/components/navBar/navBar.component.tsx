@@ -35,10 +35,6 @@ const AuthStatusComponent = (props: Props) => {
             {props.userPicture && <img src={props.userPicture} className="img-responsive"/>}
           </DropdownToggle>
           <DropdownMenu right={true}>
-            <DropdownItem>
-              Mon profil
-            </DropdownItem>
-            <DropdownItem divider={true}/>
             <DropdownItem onClick={logout}>
               Se déconnecter
             </DropdownItem>
